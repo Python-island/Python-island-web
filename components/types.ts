@@ -8,6 +8,5 @@ export interface Developer {
   email: string;
   bio: string;
   traits: { icon: string; label: string; desc: string }[];
-  skills: { label: string; color: string }[];
-  accent: string;
+  skills: { label: string }[];
 }

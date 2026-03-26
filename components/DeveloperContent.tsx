@@ -11,21 +11,20 @@ const developers: Developer[] = [
     email: 'starwindv.stv@gmail.com',
     bio: 'ISTP/INTP 社恐金牛 | 擅长使用 Py/Java/Rust/Ts | 喜欢花里胡哨的东西和更底层的原理 | 热衷于自己造轮子来进行学习',
     traits: [
-      { icon: '🧩', label: 'ISTP / INTP', desc: '理性工匠 · 逻辑思考' },
-      { icon: '🔇', label: '社恐金牛', desc: '沉稳内敛 · 专注细节' },
-      { icon: '⚙️', label: '热衷造轮子', desc: '自己动手 · 深度学习' },
-      { icon: '🔬', label: '追求底层原理', desc: '知其然 · 更知其所以然' },
+      { icon: '/', label: 'ISTP / INTP', desc: '理性工匠 · 逻辑思考' },
+      { icon: '/', label: '社恐金牛', desc: '沉稳内敛 · 专注细节' },
+      { icon: '/', label: '热衷造轮子', desc: '自己动手 · 深度学习' },
+      { icon: '/', label: '追求底层原理', desc: '知其然 · 更知其所以然' },
     ],
     skills: [
-      { label: 'Python', color: '#2563EB' },
-      { label: 'Java', color: '#DC2626' },
-      { label: 'Rust', color: '#D97706' },
-      { label: 'TypeScript', color: '#7C3AED' },
-      { label: 'PySide6', color: '#059669' },
-      { label: 'Qt', color: '#059669' },
-      { label: 'Tauri', color: '#D97706' },
+      { label: 'Python' },
+      { label: 'Java' },
+      { label: 'Rust' },
+      { label: 'TypeScript' },
+      { label: 'PySide6' },
+      { label: 'Qt' },
+      { label: 'Tauri' },
     ],
-    accent: '#FF9500',
   },
   {
     id: 'Code',
@@ -34,18 +33,17 @@ const developers: Developer[] = [
     email: '2064878930@qq.com',
     bio: 'INTP 水瓶 | 擅长使用 Py/Java/Vue | 激进维新派 VibeCoding 中乐此不疲 | 樱花只开一季 真爱只有一次',
     traits: [
-      { icon: '💡', label: 'INTP', desc: '逻辑学家 · 创新驱动' },
-      { icon: '🌸', label: '浪漫水瓶', desc: '理想主义 · 追求真爱' },
-      { icon: '⚡', label: 'VibeCoding', desc: '激进维新 · 乐此不疲' },
-      { icon: '🎨', label: '多语言开发', desc: 'Py / Java / Vue' },
+      { icon: '/', label: 'INTP', desc: '逻辑学家 · 创新驱动' },
+      { icon: '/', label: '浪漫水瓶', desc: '理想主义 · 追求真爱' },
+      { icon: '/', label: 'VibeCoding', desc: '激进维新 · 乐此不疲' },
+      { icon: '/', label: '多语言开发', desc: 'Py / Java / Vue' },
     ],
     skills: [
-      { label: 'Python', color: '#2563EB' },
-      { label: 'Java', color: '#DC2626' },
-      { label: 'Vue', color: '#059669' },
-      { label: 'VibeCoding', color: '#7C3AED' },
+      { label: 'Python' },
+      { label: 'Java' },
+      { label: 'Vue' },
+      { label: 'VibeCoding' },
     ],
-    accent: '#3B82F6',
   },
   {
     id: 'silenthim',
@@ -54,18 +52,17 @@ const developers: Developer[] = [
     email: '2066889432@qq.com',
     bio: '在校大学瘤子，鸡窝山软工の耻辱，精通 Python，C++，C，Java 各种语言输出 Hello World，一生只爱东北雨姐',
     traits: [
-      { icon: '🎓', label: '在校大学生', desc: '鸡窝山软工' },
-      { icon: '💻', label: '多语言选手', desc: 'Python / C++ / C / Java' },
-      { icon: '😂', label: 'Hello World', desc: '精通各种语言入门' },
-      { icon: '💕', label: '一生真爱', desc: '东北雨姐' },
+      { icon: '/', label: '在校大学生', desc: '鸡窝山软工' },
+      { icon: '/', label: '多语言选手', desc: 'Python / C++ / C / Java' },
+      { icon: '/', label: 'Hello World', desc: '精通各种语言入门' },
+      { icon: '/', label: '一生真爱', desc: '东北雨姐' },
     ],
     skills: [
-      { label: 'Python', color: '#2563EB' },
-      { label: 'C++', color: '#00599C' },
-      { label: 'C', color: '#A8B9CC' },
-      { label: 'Java', color: '#DC2626' },
+      { label: 'Python' },
+      { label: 'C++' },
+      { label: 'C' },
+      { label: 'Java' },
     ],
-    accent: '#10B981',
   },
   {
     id: 'GeminiMortal',
@@ -74,18 +71,17 @@ const developers: Developer[] = [
     email: '1468098941@qq.com',
     bio: '社恐双子 · 多语言开发者 · 视觉系代码爱好者 · 希望从零手搓独立作品',
     traits: [
-      { icon: '👤', label: 'INFJ / INFP / INTP', desc: '三重人格切换' },
-      { icon: '🔇', label: '社恐双子', desc: 'SUT 在校生' },
-      { icon: '🌈', label: '视觉系代码', desc: '花里胡哨的视觉效果' },
-      { icon: '🚀', label: '手搓独立作品', desc: '从零开始的创造者' },
+      { icon: '/', label: 'INFJ / INFP / INTP', desc: '三重人格切换' },
+      { icon: '/', label: '社恐双子', desc: 'SUT 在校生' },
+      { icon: '/', label: '视觉系代码', desc: '花里胡哨的视觉效果' },
+      { icon: '/', label: '手搓独立作品', desc: '从零开始的创造者' },
     ],
     skills: [
-      { label: 'C++', color: '#00599C' },
-      { label: 'Python', color: '#2563EB' },
-      { label: 'Java', color: '#DC2626' },
-      { label: 'JavaScript', color: '#D97706' },
+      { label: 'C++' },
+      { label: 'Python' },
+      { label: 'Java' },
+      { label: 'JavaScript' },
     ],
-    accent: '#8B5CF6',
   },
   {
     id: 'cXp1r',
@@ -94,28 +90,20 @@ const developers: Developer[] = [
     email: 'admin@cxp1r.com',
     bio: '社恐小男孩，擅长摸鱼和提建议，喜欢将流程自动化，喜欢 C++ 和 Python',
     traits: [
-      { icon: '😶', label: '社恐小男孩', desc: '安静但有想法' },
-      { icon: '🐟', label: '摸鱼达人', desc: '擅长摸鱼和提建议' },
-      { icon: '🤖', label: '流程自动化', desc: '将重复流程自动化' },
-      { icon: '⚡', label: 'C++ / Python', desc: '喜欢的两门语言' },
+      { icon: '/', label: '社恐小男孩', desc: '安静但有想法' },
+      { icon: '/', label: '摸鱼达人', desc: '擅长摸鱼和提建议' },
+      { icon: '/', label: '流程自动化', desc: '将重复流程自动化' },
+      { icon: '/', label: 'C++ / Python', desc: '喜欢的两门语言' },
     ],
     skills: [
-      { label: 'C++', color: '#00599C' },
-      { label: 'Python', color: '#2563EB' },
-      { label: '自动化', color: '#D97706' },
+      { label: 'C++' },
+      { label: 'Python' },
+      { label: '自动化' },
     ],
-    accent: '#EF4444',
   },
 ];
 
 const dockAvatars = developers.map(dev => {
-  const colors: Record<string, string> = {
-    StarWindv: 'linear-gradient(135deg, #FF9500, #FF6B00)',
-    Code: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
-    silenthim: 'linear-gradient(135deg, #10B981, #059669)',
-    GeminiMortal: 'linear-gradient(135deg, #8B5CF6, #6D28D9)',
-    cXp1r: 'linear-gradient(135deg, #EF4444, #B91C1C)',
-  };
   const avatarMap: Record<string, string> = {
     StarWindv: '/avatar/StarWindv.png',
     Code: '/avatar/code.png',
@@ -125,7 +113,6 @@ const dockAvatars = developers.map(dev => {
   };
   return {
     ...dev,
-    gradient: colors[dev.id] ?? '#86868B',
     avatar: avatarMap[dev.id] ?? '',
   };
 });
@@ -314,10 +301,9 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
                   width: '72px',
                   height: '72px',
                   borderRadius: '50%',
-                  background: dockDev.gradient,
                   flexShrink: 0,
                   overflow: 'hidden',
-                  boxShadow: `0 4px 16px ${dev.accent}40`,
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
                   border: '3px solid rgba(255,255,255,0.9)',
                 }}
               >
@@ -349,13 +335,13 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
                   href={`mailto:${dev.email}`}
                   style={{
                     fontSize: '12px',
-                    color: dev.accent,
+                    color: '#555',
                     textDecoration: 'none',
                     fontWeight: '500',
                     letterSpacing: '0.01em',
                     transition: 'opacity 0.2s ease',
                   }}
-                  onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
+                  onMouseEnter={e => (e.currentTarget.style.opacity = '0.6')}
                   onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
                 >
                   {dev.email}
@@ -387,7 +373,22 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
                     gap: '10px',
                   }}
                 >
-                  <span style={{ fontSize: '20px', flexShrink: 0 }}>{trait.icon}</span>
+                  <span style={{
+                    fontSize: '10px',
+                    fontWeight: '700',
+                    color: '#fff',
+                    background: '#1D1D1F',
+                    width: '18px',
+                    height: '18px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    fontFamily: 'ui-monospace, monospace',
+                  }}>
+                    {i + 1}
+                  </span>
                   <div>
                     <div style={{ fontSize: '12px', fontWeight: '600', color: '#1D1D1F', marginBottom: '2px' }}>
                       {trait.label}
@@ -405,7 +406,7 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
                 background: 'rgba(0, 0, 0, 0.025)',
                 borderRadius: '10px',
                 border: '1px solid rgba(0, 0, 0, 0.04)',
-                borderLeft: `3px solid ${dev.accent}`,
+                borderLeft: '3px solid #555',
                 transform: `translateY(${(1 - slideInFactor) * 16}px)`,
                 opacity: slideInFactor,
                 transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.16s, opacity 0.6s ease 0.16s',
@@ -451,12 +452,12 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
                       key={skill.label}
                       style={{
                         padding: '5px 12px',
-                        background: `${skill.color}15`,
-                        border: `1px solid ${skill.color}30`,
+                        background: 'rgba(0,0,0,0.06)',
+                        border: '1px solid rgba(0,0,0,0.10)',
                         borderRadius: '20px',
                         fontSize: '12px',
                         fontWeight: '600',
-                        color: skill.color,
+                        color: '#555',
                         letterSpacing: '0.02em',
                       }}
                     >
