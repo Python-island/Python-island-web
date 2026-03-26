@@ -58,7 +58,7 @@ const branches = [
 ];
 
 function BranchCard({ branch, slideIn }: { branch: typeof branches[number]; slideIn: number }) {
-  const isTop = branch.position.startsWith('top');
+  const isLeft = branch.position.includes('left');
 
   return (
     <a
@@ -70,9 +70,9 @@ function BranchCard({ branch, slideIn }: { branch: typeof branches[number]; slid
       <div
         className={`${stylesGlass.glassCard} ${stylesGlass.glassCardHover}`}
         style={{
-          padding: '20px 22px',
-          width: '240px',
-          transform: `translateY(${(1 - slideIn) * (isTop ? -40 : 40)}px)`,
+          padding: '18px 20px',
+          width: '230px',
+          transform: `translateX(${(1 - slideIn) * (isLeft ? -30 : 30)}px)`,
           opacity: slideIn,
           transition: 'transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.7s ease, background 0.3s ease, border-color 0.3s ease',
           borderColor: 'rgba(0, 0, 0, 0.06)',
@@ -208,7 +208,7 @@ export default function BranchesContent({ progress, activeView, phase }: Branche
         <div
           style={{
             position: 'absolute',
-            top: '12vh',
+            top: '24vh',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -226,61 +226,37 @@ export default function BranchesContent({ progress, activeView, phase }: Branche
           </p>
         </div>
 
-        {/* Top cards */}
+        {/* Left column — two cards stacked */}
         <div
           style={{
             position: 'absolute',
-            top: '22vh',
+            left: '50%',
+            transform: `translateX(calc(-150% - clamp(160px, 22vw, 260px))) translateY(0%) translateX(${(1 - slideInFactor) * -50}px)`,
             display: 'flex',
-            gap: 'clamp(60px, 8vw, 120px)',
-            alignItems: 'flex-end',
-            transform: `translateY(${(1 - slideInFactor) * -30}px)`,
+            flexDirection: 'column',
+            gap: '20px',
+            opacity: slideInFactor,
+            transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.05s, opacity 0.8s ease 0.05s',
+          }}
+        >
+          <BranchCard branch={branches[0]} slideIn={slideInFactor} />
+          <BranchCard branch={branches[2]} slideIn={slideInFactor} />
+        </div>
+
+        {/* Right column — two cards stacked */}
+        <div
+          style={{
+            position: 'absolute',
+            right: '50%',
+            transform: `translateX(calc(150% + clamp(160px, 22vw, 260px))) translateY(0%) translateX(${(1 - slideInFactor) * 50}px)`,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
             opacity: slideInFactor,
             transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, opacity 0.8s ease 0.1s',
           }}
         >
-          <BranchCard branch={branches[0]} slideIn={slideInFactor} />
           <BranchCard branch={branches[1]} slideIn={slideInFactor} />
-        </div>
-
-        {/* Center indicator */}
-        <div
-          style={{
-            position: 'absolute',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <div
-            style={{
-              width: '60px',
-              height: '60px',
-              borderRadius: '50%',
-              background: 'rgba(29, 29, 31, 0.03)',
-              border: '1px solid rgba(29, 29, 31, 0.06)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          />
-        </div>
-
-        {/* Bottom cards */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '18vh',
-            display: 'flex',
-            gap: 'clamp(60px, 8vw, 120px)',
-            alignItems: 'flex-start',
-            transform: `translateY(${(1 - slideInFactor) * 30}px)`,
-            opacity: slideInFactor,
-            transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s, opacity 0.8s ease 0.2s',
-          }}
-        >
-          <BranchCard branch={branches[2]} slideIn={slideInFactor} />
           <BranchCard branch={branches[3]} slideIn={slideInFactor} />
         </div>
 
