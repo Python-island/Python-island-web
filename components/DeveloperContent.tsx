@@ -246,9 +246,7 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
           borderBottom: '1px solid rgba(255,255,255,0.06)',
         }}
       >
-        <svg width="12" height="14" viewBox="0 0 12 14" fill="white" style={{ opacity: 0.9 }}>
-          <path d="M9.5 10.5c0-1.5 1.2-2.2 1.2-3.1 0-.5-.4-.8-1-.8-.7 0-1.4.4-1.8 1l-.5-.6c.5-.7 1.3-1.1 2.3-1.1 1.4 0 2.3.8 2.3 2.1 0 1.4-1 2.4-1 3.5 0 .7.4 1.4 1.1 1.4.6 0 1-.4 1-.4l.4.5c-.1.1-.5.5-1.4.5-1.1 0-1.9-.8-1.9-2l.3-.1zm-4.5-.4c-.5-.6-1.3-.9-2-.9-.8 0-1.5.3-2 .9l.5.6c.4-.4.9-.6 1.5-.6.6 0 1.2.2 1.6.7l.4-.7zM8 0c2.2 0 4 1.8 4 4s-1.8 4-4 4-4-1.8-4-4S5.8 0 8 0zm0 7c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3z" />
-        </svg>
+        <img src="/island_w.svg" alt="" style={{ width: '14px', height: '14px', flexShrink: 0, opacity: 0.95 }} />
         <span style={{ fontSize: '12px', fontWeight: '600', color: 'white', letterSpacing: '0.01em' }}>
           Finder
         </span>
