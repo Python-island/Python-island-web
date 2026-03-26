@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useRef, ComponentType } from 'react';
+import { useRef, useEffect, ComponentType } from 'react';
 import { Download, Github } from 'lucide-react';
 import Link from 'next/link';
 import { ThreeSceneInner } from './ThreeScene';
@@ -17,9 +17,28 @@ const ThreeScene = dynamic(
 
 export default function Hero() {
   const threeRef = useRef<ThreeSceneHandle>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Sync hue from ThreeScene animation loop to a CSS variable on the section element
+  useEffect(() => {
+    let rafId: number;
+
+    const syncHue = () => {
+      const hue = threeRef.current?.hueRef.current;
+      if (sectionRef.current && hue !== undefined) {
+        sectionRef.current.style.setProperty('--hero-hue', `${hue.toFixed(1)}`);
+      }
+      rafId = requestAnimationFrame(syncHue);
+    };
+
+    rafId = requestAnimationFrame(syncHue);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
+
   return (
     <section
       id="hero"
+      ref={sectionRef}
       style={{
         position: 'relative',
         minHeight: '100vh',
@@ -90,11 +109,16 @@ export default function Hero() {
           <h1
             className={stylesTypography.textHero}
             style={{ color: '#fafafa', letterSpacing: '-0.02em' }}
-          >Pyisland</h1>
+          >
+            Pyisland
+          </h1>
         </div>
 
         {/* Sub-headline */}
-        <div className={`${styles.animateFadeInUp} ${styles.animationDelay100}`} style={{ opacity: 0 }}>
+        <div
+          className={`${styles.animateFadeInUp} ${styles.animationDelay100}`}
+          style={{ opacity: 0 }}
+        >
           <p
             style={{
               fontSize: 'clamp(15px, 2vw, 18px)',
@@ -121,7 +145,6 @@ export default function Hero() {
           <Link
             href="/download"
             className={stylesButton.btnPrimary}
-            style={{ cursor: 'pointer' }}
             onMouseEnter={() => threeRef.current?.setHover(true)}
             onMouseLeave={() => threeRef.current?.setHover(false)}
           >
@@ -131,7 +154,6 @@ export default function Hero() {
           <Link
             href="/developers"
             className={stylesButton.btnSecondary}
-            style={{ cursor: 'pointer' }}
             onMouseEnter={() => threeRef.current?.setHover(true)}
             onMouseLeave={() => threeRef.current?.setHover(false)}
           >

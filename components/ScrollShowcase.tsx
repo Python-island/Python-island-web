@@ -34,37 +34,37 @@ const features = [
     icon: MousePointerClick,
     title: '智能展开/收起',
     description: '点击展开显示控制面板，失去焦点自动收缩 — 优雅的交互体验，无需额外操作。',
-    accent: '#71717A',
+    accent: '#1D1D1F',
   },
   {
     icon: Sun,
     title: '亮度调节',
     description: '滑动条调节系统亮度，支持防抖机制 — 平滑调节，精准控制屏幕亮度。',
-    accent: '#A1A1AA',
+    accent: '#1D1D1F',
   },
   {
     icon: Volume2,
     title: '音量控制',
     description: '实时调节系统音量 — 一触即达，告别传统托盘图标点击。',
-    accent: '#D4D4D8',
+    accent: '#1D1D1F',
   },
   {
     icon: Activity,
     title: '系统状态监控',
     description: '实时显示 WiFi、蓝牙、电池状态 — 所有重要信息一目了然。',
-    accent: '#71717A',
+    accent: '#1D1D1F',
   },
   {
     icon: Clipboard,
     title: '剪贴板监控',
     description: '自动检测剪贴板中的 URL 并提供快捷打开选项 — 智能识别，高效流转。',
-    accent: '#A1A1AA',
+    accent: '#1D1D1F',
   },
   {
     icon: Move,
     title: '鼠标拖动',
     description: '支持鼠标拖动调整灵动岛位置 — 自由摆放，随心所欲。',
-    accent: '#D4D4D8',
+    accent: '#1D1D1F',
   },
 ];
 
@@ -72,9 +72,8 @@ function FeatureCard({
   icon: Icon,
   title,
   description,
-  accent,
   index,
-}: (typeof features)[0] & { index: number }) {
+}: Omit<(typeof features)[0], 'accent'> & { index: number }) {
   return (
     <div
       className={`${stylesGlass.glassCard} ${stylesGlass.glassCardHover}`}
@@ -93,8 +92,8 @@ function FeatureCard({
           transform: 'translateX(-50%)',
           width: '80px',
           height: '1px',
-          background: `linear-gradient(90deg, transparent, ${accent}, transparent)`,
-          opacity: 0.6,
+          background: 'linear-gradient(90deg, transparent, #86868B, transparent)',
+          opacity: 0.4,
           transition: 'opacity 0.3s ease, width 0.3s ease',
         }}
         className="card-accent-line"
@@ -104,8 +103,8 @@ function FeatureCard({
           width: '40px',
           height: '40px',
           borderRadius: 'var(--radius-md)',
-          background: 'rgba(161, 161, 170, 0.12)',
-          border: '1px solid rgba(161, 161, 170, 0.2)',
+          background: 'rgba(29, 29, 31, 0.06)',
+          border: '1px solid rgba(29, 29, 31, 0.1)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -114,13 +113,13 @@ function FeatureCard({
         }}
         className="card-icon"
       >
-        <Icon size={18} color="#A1A1AA" />
+        <Icon size={18} color="#1D1D1F" />
       </div>
       <h3
         style={{
           fontSize: '16px',
           fontWeight: '600',
-          color: '#fff',
+          color: '#1D1D1F',
           marginBottom: '8px',
           letterSpacing: '-0.01em',
         }}
@@ -130,7 +129,7 @@ function FeatureCard({
       <p
         style={{
           fontSize: '13px',
-          color: 'rgba(255,255,255,0.6)',
+          color: '#86868B',
           lineHeight: 1.6,
         }}
       >
@@ -242,17 +241,16 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
         height: '100vh',
         overflow: 'hidden',
         position: 'relative',
-        background: '#09090B',
+        background: '#FFFFFF',
       }}
     >
-      {/* Layer 1: Background gradient */}
+      {/* Layer 1: Subtle gradient background */}
       <div
         aria-hidden="true"
         style={{
           position: 'absolute',
           inset: 0,
-          background:
-            'radial-gradient(ellipse 70% 60% at 50% 45%, rgba(9,9,11,0.3) 0%, rgba(9,9,11,0.7) 50%, #09090B 100%)',
+          background: 'radial-gradient(ellipse 80% 50% at 50% 40%, rgba(245, 245, 247, 0.8) 0%, rgba(255, 255, 255, 0) 70%)',
           zIndex: 1,
           pointerEvents: 'none',
         }}
@@ -289,28 +287,41 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
             position: 'relative',
             zIndex: 2,
             width: '100%',
-            maxWidth: '720px',
+            maxWidth: '680px',
             padding: '0 clamp(20px, 5vw, 60px)',
             textAlign: 'center',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: '24px',
+            gap: '20px',
           }}
         >
+          <span
+            style={{
+              fontSize: '12px',
+              fontWeight: '600',
+              color: '#86868B',
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+            }}
+          >
+            Introducing
+          </span>
+
           <h1
             className={stylesTypography.textHero}
-            style={{ color: '#fafafa', letterSpacing: '-0.02em' }}
+            style={{ color: '#1D1D1F', letterSpacing: '-0.03em' }}
           >
             Pyisland
           </h1>
 
           <p
             style={{
-              fontSize: 'clamp(15px, 2vw, 18px)',
-              color: 'rgba(255,255,255,0.65)',
-              lineHeight: 1.7,
-              maxWidth: '480px',
+              fontSize: 'clamp(15px, 2vw, 19px)',
+              color: '#86868B',
+              lineHeight: 1.6,
+              maxWidth: '440px',
+              fontWeight: '400',
             }}
           >
             Windows 灵动岛新时代 — 用 Python 开发，为 Windows 打造现代控制中心
@@ -322,6 +333,7 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
               flexWrap: 'wrap',
               gap: '12px',
               justifyContent: 'center',
+              marginTop: '8px',
             }}
           >
             <a
@@ -351,7 +363,7 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
         aria-hidden="true"
         style={{
           position: 'absolute',
-          bottom: '32px',
+          bottom: '40px',
           left: '50%',
           transform: `translateX(-50%) translateY(${Math.min(transitionProgress * 2, 1) * 100}px)`,
           zIndex: 3,
@@ -359,7 +371,7 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
           flexDirection: 'column',
           alignItems: 'center',
           gap: '8px',
-          opacity: Math.max(0, 1 - transitionProgress * 4), // Disappear very early
+          opacity: Math.max(0, 1 - transitionProgress * 4),
           transition: 'opacity 0.4s ease, transform 0.6s ease',
           pointerEvents: 'none',
         }}
@@ -368,7 +380,7 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
           style={{
             fontSize: '11px',
             fontWeight: '500',
-            color: 'rgba(255,255,255,0.25)',
+            color: '#A1A1A6',
             letterSpacing: '0.1em',
             textTransform: 'uppercase',
           }}
@@ -378,8 +390,8 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
         <div
           style={{
             width: '1px',
-            height: '40px',
-            background: 'linear-gradient(to bottom, rgba(161,161,170,0.3), transparent)',
+            height: '48px',
+            background: 'linear-gradient(to bottom, rgba(29, 29, 31, 0.2), transparent)',
           }}
         />
       </div>
@@ -392,7 +404,7 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          opacity: Math.min(1, Math.max(0, (transitionProgress - 0.65) * 3.5)), // Only show when rotation is nearly complete
+          opacity: Math.min(1, Math.max(0, (transitionProgress - 0.65) * 3.5)),
           pointerEvents: transitionProgress > 0.88 ? 'auto' : 'none',
           transition: 'opacity 0.5s ease 0.1s',
           zIndex: 4,
@@ -434,29 +446,29 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-              transform: `translateY(${(1 - Math.min(1, Math.max(0, (transitionProgress - 0.7) * 3.5))) * 100}px)`,
-              opacity: Math.min(1, Math.max(0, (transitionProgress - 0.65) * 3.5)),
+                transform: `translateY(${(1 - Math.min(1, Math.max(0, (transitionProgress - 0.7) * 3.5))) * 100}px)`,
+                opacity: Math.min(1, Math.max(0, (transitionProgress - 0.65) * 3.5)),
                 transition: 'transform 0.8s ease, opacity 0.8s ease',
               }}
             >
               <span
                 className={stylesEffect.gradientText}
                 style={{
-                  fontSize: '32px',
-                  fontWeight: '700',
+                  fontSize: '28px',
+                  fontWeight: '600',
                   letterSpacing: '-0.02em',
-                  marginBottom: '16px',
+                  marginBottom: '12px',
                 }}
               >
                 核心功能
               </span>
               <p
                 style={{
-                  fontSize: '15px',
-                  color: 'rgba(255,255,255,0.5)',
+                  fontSize: '14px',
+                  color: '#86868B',
                   textAlign: 'center',
                   lineHeight: 1.6,
-                  maxWidth: '220px',
+                  maxWidth: '200px',
                 }}
               >
                 每一个细节都为 Windows 用户精心打造
@@ -486,25 +498,26 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
         <div
           style={{
             position: 'fixed',
-            bottom: '24px',
-            right: '24px',
+            bottom: '32px',
+            right: '32px',
             zIndex: 20,
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            padding: '10px 16px',
-            background: 'rgba(161,161,170,0.1)',
-            border: '1px solid rgba(161,161,170,0.2)',
+            padding: '12px 20px',
+            background: '#FFFFFF',
+            border: '1px solid rgba(0, 0, 0, 0.08)',
             borderRadius: '8px',
             cursor: 'pointer',
-            transition: 'opacity 0.3s ease',
+            transition: 'opacity 0.3s ease, box-shadow 0.3s ease',
+            boxShadow: '0 2px 12px rgba(0, 0, 0, 0.04)',
           }}
           onClick={() => handleTransition('up')}
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D1D1F" strokeWidth="2">
             <path d="M12 19V5M5 12l7-7 7 7" />
           </svg>
-          <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>返回</span>
+          <span style={{ fontSize: '13px', color: '#1D1D1F', fontWeight: '500' }}>返回</span>
         </div>
       )}
     </div>

@@ -12,19 +12,19 @@
 }
 
 .badgeAccent {
-  background: rgba(161, 161, 170, 0.12);
-  border: 1px solid rgba(161, 161, 170, 0.25);
-  color: #A1A1AA;
+  background: rgba(29, 29, 31, 0.06);
+  border: 1px solid rgba(29, 29, 31, 0.15);
+  color: #1D1D1F;
 }
 
 .badgeGreen {
-  background: rgba(52, 211, 153, 0.12);
-  border: 1px solid rgba(52, 211, 153, 0.3);
-  color: #6EE7B7;
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  color: #059669;
 }
 
 .badgeAmber {
-  background: rgba(251, 191, 36, 0.12);
-  border: 1px solid rgba(251, 191, 36, 0.3);
-  color: #FCD34D;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  color: #D97706;
 }

@@ -2,8 +2,7 @@
 
 import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import * as THREE from 'three';
-import { SCENE_CONFIG } from '@/lib/three/sceneConfig';
-import { createScene, addLights, createIslandGroup, createOuterGlowLayers, createOrbitRings, createFloatingDots, createCoreGlow, createParticles, createMouseTracker, createAnimationState, GlowLayer } from '@/lib/three/createElements';
+import { createScene, addLights, createIslandGroup, createOuterGlowLayers, createCoreGlow, createParticles, createMouseTracker, createAnimationState, GlowLayer } from '@/lib/three/createElements';
 import { createAnimationLoop, AnimationState, SceneElements, SceneRefs, TransitionState } from '@/lib/three/animate';
 import type { ThreeSceneHandle } from '@/lib/three/types';
 export type { ThreeSceneHandle } from '@/lib/three/types';
@@ -12,6 +11,7 @@ export const ThreeSceneInner = forwardRef<ThreeSceneHandle>(function ThreeSceneI
   const containerRef = useRef<HTMLDivElement>(null);
   const hoverRef = useRef(false);
   const transitionRef = useRef(0);
+  const hueRef = useRef(0);
 
   useImperativeHandle(ref, () => ({
     setHover: (active: boolean) => {
@@ -20,6 +20,7 @@ export const ThreeSceneInner = forwardRef<ThreeSceneHandle>(function ThreeSceneI
     setTransition: (progress: number) => {
       transitionRef.current = progress;
     },
+    hueRef,
   }));
 
   useEffect(() => {
@@ -42,12 +43,6 @@ export const ThreeSceneInner = forwardRef<ThreeSceneHandle>(function ThreeSceneI
     // Create outer glow layers
     const outerGlowLayers: GlowLayer[] = createOuterGlowLayers(islandGroup);
 
-    // Create orbit rings
-    const rings: THREE.Mesh[] = createOrbitRings(islandGroup);
-
-    // Create floating dots
-    createFloatingDots(islandGroup);
-
     // Create core glow
     const coreMat: THREE.MeshBasicMaterial = createCoreGlow(islandGroup);
 
@@ -69,14 +64,13 @@ export const ThreeSceneInner = forwardRef<ThreeSceneHandle>(function ThreeSceneI
       glow,
       glowMat,
       outerGlowLayers,
-      rings,
       coreMat,
       particles,
       particleMat,
     };
 
     // Bundle refs
-    const refs: SceneRefs = { mouse, hoverRef, transitionRef, transitionState };
+    const refs: SceneRefs = { mouse, hoverRef, transitionRef, transitionState, hueRef };
 
     // Start animation loop
     const cleanup = createAnimationLoop(renderer, scene, camera, elements, refs, animationState);

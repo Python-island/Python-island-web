@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import DynamicIsland from '@/components/DynamicIsland';
-import { RainbowProvider } from '@/hooks/RainbowProvider';
 
 export const metadata: Metadata = {
   title: 'Pyisland - Windows 灵动岛 | 用 Python 开发，运行在 Windows 上的现代灵动岛控制中心',
@@ -32,7 +31,6 @@ export default function RootLayout({
         />
       </head>
       <body className="noiseOverlay">
-        <RainbowProvider />
         <DynamicIsland />
         {children}
       </body>

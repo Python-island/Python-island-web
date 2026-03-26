@@ -6,23 +6,23 @@
 
 @layer base {
   :root {
-    --bg-primary: #09090B;
-    --bg-secondary: #18181B;
-    --bg-card: rgba(255, 255, 255, 0.04);
-    --text-primary: #FAFAFA;
-    --text-muted: #A1A1AA;
-    --text-subtle: #71717A;
-    --accent: #52525B;
-    --accent-glow: rgba(161, 161, 170, 0.3);
-    --accent-secondary: #A1A1AA;
-    --border-subtle: rgba(255, 255, 255, 0.07);
-    --border-accent: rgba(161, 161, 170, 0.25);
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F5F5F7;
+    --bg-card: rgba(0, 0, 0, 0.03);
+    --text-primary: #1D1D1F;
+    --text-muted: #86868B;
+    --text-subtle: #A1A1A6;
+    --accent: #1D1D1F;
+    --accent-glow: rgba(29, 29, 31, 0.12);
+    --accent-secondary: #86868B;
+    --border-subtle: rgba(0, 0, 0, 0.06);
+    --border-accent: rgba(29, 29, 31, 0.25);
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 16px;
     --radius-full: 999px;
-    --glow-gray: 0 0 60px rgba(161, 161, 170, 0.1);
-    --glow-gray-strong: 0 0 80px rgba(161, 161, 170, 0.2);
+    --glow-gray: 0 0 60px rgba(0, 0, 0, 0.04);
+    --glow-gray-strong: 0 0 80px rgba(0, 0, 0, 0.08);
   }
 
   * {
@@ -46,8 +46,8 @@
 
   /* Selection */
   ::selection {
-    background: rgba(161, 161, 170, 0.25);
-    color: #FAFAFA;
+    background: rgba(29, 29, 31, 0.15);
+    color: #1D1D1F;
   }
 
   /* Focus styles */
@@ -65,11 +65,11 @@
     background: var(--bg-primary);
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(161, 161, 170, 0.3);
+    background: rgba(0, 0, 0, 0.15);
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(161, 161, 170, 0.5);
+    background: rgba(0, 0, 0, 0.25);
   }
 
   /* Noise overlay (keeps z-index: 9999, must stay global) */
@@ -80,6 +80,6 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 9999;
-    opacity: 0.4;
+    opacity: 0.3;
   }
 }

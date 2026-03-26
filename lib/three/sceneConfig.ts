@@ -19,10 +19,10 @@ export const SCENE_CONFIG = {
 
   // Lights
   lights: {
-    ambient: { color: 0x71717a, intensity: 0.3 },
-    point1: { color: 0xa1a1aa, intensity: 1.0, distance: 50, position: [8, 8, 8] },
-    point2: { color: 0x71717a, intensity: 0.5, distance: 50, position: [-8, -8, -8] },
-    point3: { color: 0xd4d4d8, intensity: 0.4, distance: 30, position: [0, 0, 6] },
+    ambient: { color: 0x86868B, intensity: 0.4 },
+    point1: { color: 0x1D1D1F, intensity: 0.8, distance: 50, position: [8, 8, 8] },
+    point2: { color: 0x86868B, intensity: 0.3, distance: 50, position: [-8, -8, -8] },
+    point3: { color: 0x71717a, intensity: 0.3, distance: 30, position: [0, 0, 6] },
   },
 
   // Island group
@@ -38,7 +38,7 @@ export const SCENE_CONFIG = {
     tubeSegments: 16,
     radialSegments: 48,
     material: {
-      color: 0x0d0e1a,
+      color: 0x1D1D1F,
       metalness: 0.9,
       roughness: 0.08,
     },
@@ -48,15 +48,15 @@ export const SCENE_CONFIG = {
   innerGlow: {
     radius: 0.28,
     length: 1.23,
-    baseColor: 0x71717a,
-    baseOpacity: 0.12,
+    baseColor: 0x86868B,
+    baseOpacity: 0.15,
   },
 
   // Outer glow layers
   outerGlow: {
-    colors: [0x71717a, 0xa1a1aa, 0xd4d4d8, 0xa1a1aa, 0x71717a, 0xa1a1aa],
+    colors: [0x71717a, 0x86868B, 0xA1A1AA, 0x71717a, 0x86868B, 0x71717a],
     radii: [0.012, 0.025, 0.04, 0.06, 0.08, 0.12],
-    opacities: [0.18, 0.14, 0.10, 0.07, 0.05, 0.03],
+    opacities: [0.15, 0.12, 0.08, 0.06, 0.04, 0.025],
     speeds: [0.5, 0.4, 0.35, 0.3, 0.25, 0.2],
   },
 
@@ -105,8 +105,8 @@ export const SCENE_CONFIG = {
     minRadius: 2,
     maxRadius: 5,
     size: 0.01,
-    baseColor: 0x71717a,
-    baseOpacity: 0.45,
+    baseColor: 0x86868B,
+    baseOpacity: 0.35,
     rotationSpeed: 0.012,
   },
 

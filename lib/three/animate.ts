@@ -8,7 +8,6 @@ import {
   getBreathFactor,
   getNeutralGlowColor,
   getRainbowGlowColor,
-  getRainbowRingColor,
   lerp,
   lerpColor,
 } from './effects';
@@ -28,7 +27,6 @@ export interface SceneElements {
   glow: THREE.Mesh;
   glowMat: THREE.MeshBasicMaterial;
   outerGlowLayers: GlowLayer[];
-  rings: THREE.Mesh[];
   coreMat: THREE.MeshBasicMaterial;
   particles: THREE.Points;
   particleMat: THREE.PointsMaterial;
@@ -39,6 +37,7 @@ export interface SceneRefs {
   hoverRef: React.MutableRefObject<boolean>;
   transitionRef: React.MutableRefObject<number>;
   transitionState: TransitionState;
+  hueRef: React.MutableRefObject<number>;
 }
 
 /**
@@ -57,7 +56,6 @@ export function createAnimationLoop(
   
   // Initial camera position
   const initialCameraZ = SCENE_CONFIG.camera.positionZ;
-  const initialCameraY = 0;
 
   const animate = () => {
     if (!isRunning) return;
@@ -81,13 +79,14 @@ export function createAnimationLoop(
     animateIslandGroup(elements, refs, state, t, transition);
 
     // Animate glow effects
-    animateGlowEffects(elements, state, t);
+    const baseHue = getBaseHue(t);
+    animateGlowEffects(elements, state, t, baseHue);
 
-    // Animate orbit rings
-    animateOrbitRings(elements, state, t);
+    // Expose current hue to CSS via refs (used by useRainbowSync and Hero buttons)
+    refs.hueRef.current = baseHue;
 
     // Animate particles
-    animateParticles(elements, state, t);
+    animateParticles(elements, state, t, baseHue);
 
     // Camera animation - move closer during transition
     const targetCameraZ = lerp(initialCameraZ, initialCameraZ * 0.85, transition);
@@ -121,7 +120,7 @@ function animateIslandGroup(
   transition: number
 ): void {
   const { islandGroup, pill, glow, outerGlowLayers } = elements;
-  const { mouse, hoverRef, transitionRef } = refs;
+  const { mouse, hoverRef } = refs;
   const { animation } = SCENE_CONFIG;
 
   // Reduce floating during transition
@@ -165,11 +164,11 @@ function animateIslandGroup(
 function animateGlowEffects(
   elements: SceneElements,
   state: AnimationState,
-  time: number
+  time: number,
+  baseHue: number
 ): void {
   const { glowMat, outerGlowLayers, coreMat } = elements;
   const { rainbow } = SCENE_CONFIG;
-  const baseHue = getBaseHue(time);
   const transition = state.rainbowState.current;
 
   // Inner glow
@@ -214,48 +213,16 @@ function animateGlowEffects(
 }
 
 /**
- * Animate orbit rings
- */
-function animateOrbitRings(
-  elements: SceneElements,
-  state: AnimationState,
-  time: number
-): void {
-  const { rings } = elements;
-  const { rainbow, orbitRings } = SCENE_CONFIG;
-  const baseHue = getBaseHue(time);
-  const transition = state.rainbowState.current;
-
-  rings.forEach((ring, i) => {
-    // Color transition
-    const neutralColor = new THREE.Color(orbitRings.colors[i]);
-    const { color: rainbowColor } = getRainbowRingColor(baseHue, i, time);
-    const targetColor = lerpColor(neutralColor, rainbowColor, transition);
-    (ring.material as THREE.MeshBasicMaterial).color.copy(targetColor);
-
-    // Opacity transition
-    const neutralOpacity = orbitRings.opacities[i];
-    const breath = Math.sin(time * 1.2 + i) * rainbow.rings.opacityVariance;
-    const rainbowOpacity = orbitRings.opacities[i] * (rainbow.rings.opacityMultiplier + breath);
-    (ring.material as THREE.MeshBasicMaterial).opacity = lerp(neutralOpacity, rainbowOpacity, transition);
-
-    // Rotation
-    ring.rotation.y = time * orbitRings.orbitSpeeds[i];
-    ring.rotation.z = time * orbitRings.orbitZSpeeds[i];
-  });
-}
-
-/**
  * Animate particles
  */
 function animateParticles(
   elements: SceneElements,
   state: AnimationState,
-  time: number
+  time: number,
+  baseHue: number
 ): void {
   const { particles, particleMat } = elements;
   const { rainbow, particles: particleConfig } = SCENE_CONFIG;
-  const baseHue = getBaseHue(time);
   const transition = state.rainbowState.current;
 
   // Particles color

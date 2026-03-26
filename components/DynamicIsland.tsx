@@ -28,7 +28,7 @@ export default function DynamicIsland() {
     <div
       style={{
         position: 'fixed',
-        top: '30px',
+        top: '24px',
         left: '50%',
         transform: `translateX(-50%) translateY(${isScrolled ? '-100px' : '0'})`,
         zIndex: 200,
@@ -49,14 +49,14 @@ export default function DynamicIsland() {
         <div
           style={{
             position: 'absolute',
-            inset: '-3px',
+            inset: '-2px',
             borderRadius: '32px',
             background: 'transparent',
-            boxShadow: '0 0 16px rgba(161,161,170,0.25), 0 0 48px rgba(161,161,170,0.10)',
-            transform: isHovered ? 'scaleX(1.03)' : 'scaleX(1)',
+            boxShadow: '0 4px 24px rgba(0, 0, 0, 0.06)',
+            transform: isHovered ? 'scaleX(1.02)' : 'scaleX(1)',
             transition: 'box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
             ...(isHovered && {
-              boxShadow: '0 0 24px rgba(161,161,170,0.4), 0 0 64px rgba(161,161,170,0.2)',
+              boxShadow: '0 6px 32px rgba(0, 0, 0, 0.1)',
             }),
           }}
         />
@@ -66,17 +66,17 @@ export default function DynamicIsland() {
           style={{
             position: 'relative',
             borderRadius: '28px',
-            background: 'rgba(5, 6, 15, 0.85)',
+            background: 'rgba(255, 255, 255, 0.92)',
             backdropFilter: 'blur(24px)',
             WebkitBackdropFilter: 'blur(24px)',
-            border: '1px solid rgba(255,255,255,0.08)',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
             overflow: 'hidden',
             display: 'flex',
             alignItems: 'center',
             gap: '4px',
             padding: '6px 10px',
-            minWidth: '260px',
-            transform: isHovered ? 'scaleX(1.03)' : 'scaleX(1)',
+            minWidth: '240px',
+            transform: isHovered ? 'scaleX(1.02)' : 'scaleX(1)',
             transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
           }}
         >
@@ -97,8 +97,8 @@ export default function DynamicIsland() {
             <span
               style={{
                 fontSize: '14px',
-                fontWeight: '700',
-                color: '#FAFAFA',
+                fontWeight: '600',
+                color: '#1D1D1F',
                 letterSpacing: '-0.02em',
               }}
             >
@@ -111,7 +111,7 @@ export default function DynamicIsland() {
             style={{
               width: '1px',
               height: '16px',
-              background: 'rgba(255,255,255,0.1)',
+              background: 'rgba(0, 0, 0, 0.08)',
               margin: '0 4px',
               flexShrink: 0,
             }}
@@ -132,17 +132,17 @@ export default function DynamicIsland() {
                   borderRadius: '8px',
                   fontSize: '13px',
                   fontWeight: '500',
-                  color: '#A1A1AA',
+                  color: '#86868B',
                   textDecoration: 'none',
                   transition: 'color 0.2s ease, background 0.2s ease',
                   cursor: 'pointer',
                 }}
                 onMouseEnter={(e) => {
-                  (e.target as HTMLElement).style.color = '#FAFAFA';
-                  (e.target as HTMLElement).style.background = 'rgba(255,255,255,0.07)';
+                  (e.target as HTMLElement).style.color = '#1D1D1F';
+                  (e.target as HTMLElement).style.background = 'rgba(29, 29, 31, 0.06)';
                 }}
                 onMouseLeave={(e) => {
-                  (e.target as HTMLElement).style.color = '#A1A1AA';
+                  (e.target as HTMLElement).style.color = '#86868B';
                   (e.target as HTMLElement).style.background = 'transparent';
                 }}
               >
@@ -156,7 +156,7 @@ export default function DynamicIsland() {
             style={{
               width: '1px',
               height: '16px',
-              background: 'rgba(255,255,255,0.1)',
+              background: 'rgba(0, 0, 0, 0.08)',
               margin: '0 4px',
               flexShrink: 0,
             }}
@@ -175,7 +175,7 @@ export default function DynamicIsland() {
               width: '28px',
               height: '28px',
               borderRadius: '8px',
-              color: '#71717A',
+              color: '#86868B',
               textDecoration: 'none',
               transition: 'color 0.2s ease, background 0.2s ease',
               cursor: 'pointer',
@@ -183,12 +183,12 @@ export default function DynamicIsland() {
             }}
             onMouseEnter={(e) => {
               const el = e.currentTarget as HTMLElement;
-              el.style.color = '#A1A1AA';
-              el.style.background = 'rgba(255,255,255,0.07)';
+              el.style.color = '#1D1D1F';
+              el.style.background = 'rgba(29, 29, 31, 0.06)';
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLElement;
-              el.style.color = '#71717A';
+              el.style.color = '#86868B';
               el.style.background = 'transparent';
             }}
           >
