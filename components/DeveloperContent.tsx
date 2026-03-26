@@ -144,6 +144,23 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
   const dev = developers[currentDev];
   const dockDev = dockAvatars[currentDev];
 
+  const getMacTime = () => {
+    const now = new Date();
+    const h = now.getHours();
+    const m = now.getMinutes().toString().padStart(2, '0');
+    const period = h < 12 ? '上午' : h < 13 ? '下午' : '晚上';
+    const hour = h === 0 ? 12 : h > 12 ? h - 12 : h;
+    return `${period} ${hour}:${m}`;
+  };
+
+  const [macTime, setMacTime] = useState(getMacTime);
+
+  useEffect(() => {
+    const tick = () => setMacTime(getMacTime());
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
   // ── Dock magnify effect ──────────────────────────────────────────────────
   const dockContainerRef = useRef<HTMLDivElement>(null);
   const dockScales = useRef<number[]>(dockAvatars.map((_, i) => (i === currentDev ? 1.25 : 1.0)));
@@ -248,7 +265,7 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
         <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.85)', letterSpacing: '0.01em' }}>▼</span>
         <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.85)' }}>100%</span>
         <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.9)', letterSpacing: '0.02em' }}>
-          下午 3:42
+          {macTime}
         </span>
       </div>
 
