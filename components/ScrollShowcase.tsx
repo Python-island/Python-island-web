@@ -46,6 +46,7 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
   const threeRef = useRef<ThreeSceneHandle>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isTransitioning = useRef(false);
+  const transitionRafRef = useRef<number | null>(null);
 
   /** Computed: active view during or after animation */
   const activeView = phaseState.phase === 'idle' ? view : phaseState.targetView;
@@ -62,6 +63,10 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
     const nextView = nextViewMap[view];
     if (!nextView) return;
 
+    if (transitionRafRef.current !== null) {
+      cancelAnimationFrame(transitionRafRef.current);
+      transitionRafRef.current = null;
+    }
     isTransitioning.current = true;
     const fromTarget = VIEW_TARGET[view];
     const toTarget = VIEW_TARGET[nextView];
@@ -87,7 +92,7 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
       setProgress(eased);
 
       if (t < 1) {
-        requestAnimationFrame(animate);
+        transitionRafRef.current = requestAnimationFrame(animate);
       } else {
         // Animation complete — settle into the new view
         setView(nextView);
@@ -95,9 +100,10 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
         setProgress(1);
         threeRef.current?.setTransition(toTarget);
         isTransitioning.current = false;
+        transitionRafRef.current = null;
       }
     };
-    requestAnimationFrame(animate);
+    transitionRafRef.current = requestAnimationFrame(animate);
   }, [view]);
 
   // URL hash sync
@@ -113,9 +119,9 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
   const navigateTo = useCallback((target: ViewState) => {
     if (VIEW_TARGET[target] === undefined) return;
 
-    // Always allow navigation to a different page; cancel any in-progress frame first
-    if (isTransitioning.current) {
-      isTransitioning.current = false;
+    if (transitionRafRef.current !== null) {
+      cancelAnimationFrame(transitionRafRef.current);
+      transitionRafRef.current = null;
     }
     isTransitioning.current = true;
 
@@ -127,7 +133,6 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
     setProgress(0);
 
     let start: number | null = null;
-    let rafId: number | null = null;
 
     const animate = (timestamp: number) => {
       if (!start) start = timestamp;
@@ -144,7 +149,7 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
       }));
 
       if (t < 1) {
-        rafId = requestAnimationFrame(animate);
+        transitionRafRef.current = requestAnimationFrame(animate);
       } else {
         setView(target);
         setPhaseState({ phase: 'idle', targetView: target });
@@ -154,9 +159,10 @@ export default function ScrollShowcase({ children }: ScrollShowcaseProps) {
           detail: { progress: 1, target },
         }));
         isTransitioning.current = false;
+        transitionRafRef.current = null;
       }
     };
-    rafId = requestAnimationFrame(animate);
+    transitionRafRef.current = requestAnimationFrame(animate);
   }, [view]);
 
   // Navigation events from DynamicIsland nav
