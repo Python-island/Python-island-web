@@ -54,7 +54,7 @@ export default function HeroContent({ threeRef, transitionProgress, view }: Hero
 
         <h1
           className={stylesTypography.textHero}
-          style={{ color: '#1D1D1F', letterSpacing: '-0.03em' }}
+          style={{ color: '#86868B', letterSpacing: '-0.03em' }}
         >
           Pyisland
         </h1>
@@ -62,7 +62,7 @@ export default function HeroContent({ threeRef, transitionProgress, view }: Hero
         <p
           style={{
             fontSize: 'clamp(15px, 2vw, 19px)',
-            color: '#86868B',
+            color: 'rgb(89, 89, 92)',
             lineHeight: 1.6,
             maxWidth: '440px',
             fontWeight: '400',
