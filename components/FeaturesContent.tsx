@@ -163,12 +163,12 @@ export default function FeaturesContent({ progress, activeView, phase }: Feature
     >
       <div
         style={{
-          width: '100%',
-          maxWidth: '1200px',
+          width: '110%',
+          maxWidth: '1500px',
           padding: '0 clamp(20px, 5vw, 60px)',
           display: 'grid',
           gridTemplateColumns: '1fr 320px 1fr',
-          gap: '24px',
+          gap: '240px',
           alignItems: 'center',
         }}
       >
