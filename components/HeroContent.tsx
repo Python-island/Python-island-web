@@ -3,6 +3,7 @@
 import { Download, Github } from 'lucide-react';
 import stylesButton from '@/styles/button.module.css';
 import stylesTypography from '@/styles/typography.module.css';
+import stylesEffect from '@/styles/effect.module.css';
 
 interface HeroContentProps {
   threeRef: { current: { setHover: (val: boolean) => void } | null };
@@ -44,7 +45,7 @@ export default function HeroContent({ threeRef, transitionProgress, view }: Hero
           style={{
             fontSize: '12px',
             fontWeight: '600',
-            color: '#86868B',
+            color: ' #86868B',
             letterSpacing: '0.05em',
             textTransform: 'uppercase',
           }}
@@ -53,8 +54,8 @@ export default function HeroContent({ threeRef, transitionProgress, view }: Hero
         </span>
 
         <h1
-          className={stylesTypography.textHero}
-          style={{ color: '#86868B', letterSpacing: '-0.03em' }}
+          className={`${stylesTypography.textHero} ${stylesEffect.gradientText}`}
+          style={{ letterSpacing: '-0.02em' }}
         >
           Pyisland
         </h1>
@@ -68,7 +69,7 @@ export default function HeroContent({ threeRef, transitionProgress, view }: Hero
             fontWeight: '400',
           }}
         >
-          Windows 灵动岛新时代 — 用 Python 开发，为 Windows 打造现代控制中心
+          Windows 灵动岛新时代 — 打造现代控制中心
         </p>
 
         <div
