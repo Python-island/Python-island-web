@@ -206,14 +206,14 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
         style={{
           position: 'relative',
           width: '100%',
-          maxWidth: '820px',
+          maxWidth: '1060px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           transform: `translateY(${(1 - slideInFactor) * 80}px)`,
           opacity: slideInFactor,
           transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease',
-          marginTop: '28px',
+          marginTop: '0px',
         }}
       >
         {/* Title */}
@@ -259,7 +259,7 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
               padding: '16px 16px',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
+              position: 'relative',
               borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
               background: 'rgba(245, 245, 247, 0.7)',
             }}
@@ -269,8 +269,9 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
             ))}
             <span
               style={{
-                marginLeft: 'auto',
-                marginRight: 'auto',
+                position: 'absolute',
+                left: '50%',
+                transform: 'translateX(-50%)',
                 fontSize: '13px',
                 color: '#86868B',
                 fontWeight: '500',
@@ -284,7 +285,7 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
           {/* Profile content */}
           <div
             style={{
-              padding: 'clamp(24px, 4vw, 44px)',
+              padding: 'clamp(28px, 5vw, 56px)',
               display: 'flex',
               flexDirection: 'column',
               gap: '28px',
