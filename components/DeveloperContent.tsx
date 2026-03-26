@@ -8,6 +8,7 @@ const developers: Developer[] = [
     id: 'StarWindv',
     name: '星灿长风v',
     nameEn: 'StarWindv',
+    dockLabel: '星灿长风v',
     email: 'starwindv.stv@gmail.com',
     bio: 'ISTP/INTP 社恐金牛 | 擅长使用 Py/Java/Rust/Ts | 喜欢花里胡哨的东西和更底层的原理 | 热衷于自己造轮子来进行学习',
     traits: [
@@ -29,7 +30,8 @@ const developers: Developer[] = [
   {
     id: 'Code',
     name: 'Code',
-    nameEn: 'Code',
+    nameEn: 'CODE',
+    dockLabel: 'Code',
     email: '2064878930@qq.com',
     bio: 'INTP 水瓶 | 擅长使用 Py/Java/Vue | 激进维新派 VibeCoding 中乐此不疲 | 樱花只开一季 真爱只有一次',
     traits: [
@@ -48,7 +50,8 @@ const developers: Developer[] = [
   {
     id: 'silenthim',
     name: 'silenthim',
-    nameEn: 'silenthim',
+    nameEn: 'SILENTHIM',
+    dockLabel: 'silenthim',
     email: '2066889432@qq.com',
     bio: '在校大学瘤子，鸡窝山软工の耻辱，精通 Python，C++，C，Java 各种语言输出 Hello World，一生只爱东北雨姐',
     traits: [
@@ -68,6 +71,7 @@ const developers: Developer[] = [
     id: 'GeminiMortal',
     name: '双子座·凡尘',
     nameEn: 'GeminiMortal',
+    dockLabel: '双子座·凡尘',
     email: '1468098941@qq.com',
     bio: '社恐双子 · 多语言开发者 · 视觉系代码爱好者 · 希望从零手搓独立作品',
     traits: [
@@ -86,7 +90,8 @@ const developers: Developer[] = [
   {
     id: 'cXp1r',
     name: 'cXp1r',
-    nameEn: 'cXp1r',
+    nameEn: 'CXP1R',
+    dockLabel: 'cXp1r',
     email: 'admin@cxp1r.com',
     bio: '社恐小男孩，擅长摸鱼和提建议，喜欢将流程自动化，喜欢 C++ 和 Python',
     traits: [
@@ -114,6 +119,7 @@ const dockAvatars = developers.map(dev => {
   return {
     ...dev,
     avatar: avatarMap[dev.id] ?? '',
+    dockLabel: dev.dockLabel,
   };
 });
 
@@ -496,33 +502,58 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
         {dockAvatars.map((dock, i) => (
           <div
             key={dock.id}
-            title={dock.name}
-            onClick={() => onSwitchDev(i)}
             style={{
-              width: '52px',
-              height: '52px',
-              borderRadius: '12px',
-              overflow: 'hidden',
-              cursor: 'pointer',
-              border: i === currentDev ? '2px solid white' : '2px solid transparent',
-              boxShadow: i === currentDev
-                ? '0 0 0 2px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.3)'
-                : '0 2px 8px rgba(0,0,0,0.2)',
-              transform: i === currentDev ? 'scale(1.15) translateY(-4px)' : 'scale(1)',
-              transition: 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border 0.2s ease, box-shadow 0.2s ease',
-            }}
-            onMouseEnter={e => {
-              if (i !== currentDev) e.currentTarget.style.transform = 'translateY(-8px) scale(1.1)';
-            }}
-            onMouseLeave={e => {
-              if (i !== currentDev) e.currentTarget.style.transform = 'scale(1)';
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '4px',
             }}
           >
-            <img
-              src={dock.avatar}
-              alt={dock.name}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
+            <div
+              title={dock.name}
+              onClick={() => onSwitchDev(i)}
+              style={{
+                width: '52px',
+                height: '52px',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                cursor: 'pointer',
+                border: i === currentDev ? '2px solid white' : '2px solid transparent',
+                boxShadow: i === currentDev
+                  ? '0 0 0 2px rgba(255,255,255,0.4), 0 4px 12px rgba(0,0,0,0.3)'
+                  : '0 2px 8px rgba(0,0,0,0.2)',
+                transform: i === currentDev ? 'scale(1.15) translateY(-4px)' : 'scale(1)',
+                transition: 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border 0.2s ease, box-shadow 0.2s ease',
+              }}
+              onMouseEnter={e => {
+                if (i !== currentDev) e.currentTarget.style.transform = 'translateY(-8px) scale(1.1)';
+              }}
+              onMouseLeave={e => {
+                if (i !== currentDev) e.currentTarget.style.transform = 'scale(1)';
+              }}
+            >
+              <img
+                src={dock.avatar}
+                alt={dock.name}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </div>
+            <span
+              style={{
+                fontSize: '9px',
+                color: i === currentDev ? '#fff' : 'rgba(255,255,255,0.6)',
+                fontWeight: i === currentDev ? '700' : '400',
+                letterSpacing: '0.02em',
+                whiteSpace: 'nowrap',
+                maxWidth: '52px',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                textAlign: 'center',
+                transition: 'color 0.2s ease, font-weight 0.2s ease',
+              }}
+            >
+              {dock.dockLabel}
+            </span>
           </div>
         ))}
       </div>
