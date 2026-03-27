@@ -621,6 +621,52 @@ export default function DownloadsContent({
           </div>
         </div>
 
+        {/* Navigation dots */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            marginTop: '20px',
+            opacity: slideInFactor,
+            transform: `translateY(${(1 - slideInFactor) * 10}px)`,
+            transition: 'transform 0.7s ease 0.15s, opacity 0.7s ease 0.15s',
+          }}
+        >
+          {downloadData.map((item, i) => (
+            <button
+              key={item.id}
+              onClick={() => setSelectedBranch(i)}
+              title={item.name}
+              style={{
+                width: i === displayBranch ? '24px' : '8px',
+                height: '8px',
+                borderRadius: '4px',
+                background: i === displayBranch
+                  ? 'rgba(255,255,255,0.9)'
+                  : 'rgba(255,255,255,0.25)',
+                boxShadow: i === displayBranch ? '0 0 6px rgba(255,255,255,0.4)' : 'none',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                padding: 0,
+              }}
+              onMouseEnter={e => {
+                if (i !== displayBranch) {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.5)';
+                  e.currentTarget.style.width = '12px';
+                }
+              }}
+              onMouseLeave={e => {
+                if (i !== displayBranch) {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.25)';
+                  e.currentTarget.style.width = '8px';
+                }
+              }}
+            />
+          ))}
+        </div>
+
         {/* Navigation hint */}
         <div
           style={{
