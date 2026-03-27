@@ -181,9 +181,24 @@ export default function DownloadsContent({
   const slideInFactor = isDownloads ? 1 : 0;
 
   const [selectedBranch, setSelectedBranch] = useState(0);
+  const [displayBranch, setDisplayBranch] = useState(0);
+  const [branchVisible, setBranchVisible] = useState(true);
   const [copiedLine, setCopiedLine] = useState<number | null>(null);
 
-  const currentData = downloadData[selectedBranch];
+  const currentData = downloadData[displayBranch];
+
+  // Animate content on branch switch
+  useEffect(() => {
+    if (selectedBranch !== displayBranch) {
+      setBranchVisible(false);
+      const t1 = setTimeout(() => {
+        setDisplayBranch(selectedBranch);
+        setBranchVisible(true);
+        setCopiedLine(null);
+      }, 180);
+      return () => clearTimeout(t1);
+    }
+  }, [selectedBranch, displayBranch]);
 
   const copyCommand = (cmd: string, lineNum: number) => {
     navigator.clipboard.writeText(cmd).then(() => {
@@ -348,10 +363,10 @@ export default function DownloadsContent({
                 cursor: 'pointer',
                 border: 'none',
                 transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                background: selectedBranch === i ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.10)',
-                color: selectedBranch === i ? '#1D1D1F' : 'rgba(255,255,255,0.7)',
-                boxShadow: selectedBranch === i ? '0 4px 16px rgba(0,0,0,0.3)' : 'none',
-                transform: selectedBranch === i ? 'translateY(-2px) scale(1.02)' : 'translateY(0) scale(1)',
+                background: displayBranch === i ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.10)',
+                color: displayBranch === i ? '#1D1D1F' : 'rgba(255,255,255,0.7)',
+                boxShadow: displayBranch === i ? '0 4px 16px rgba(0,0,0,0.3)' : 'none',
+                transform: displayBranch === i ? 'translateY(-2px) scale(1.02)' : 'translateY(0) scale(1)',
               }}
             >
               {item.name}
@@ -401,8 +416,21 @@ export default function DownloadsContent({
             </span>
           </div>
 
-          {/* Terminal content */}
-          <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Terminal content — animated on branch switch */}
+          <div
+            key={`terminal-content-${displayBranch}`}
+            style={{
+              padding: '20px 24px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '20px',
+              opacity: branchVisible ? 1 : 0,
+              transform: branchVisible ? 'translateY(0) scale(1)' : 'translateY(-8px) scale(0.98)',
+              transition: branchVisible
+                ? 'opacity 0.2s ease, transform 0.2s ease'
+                : 'opacity 0.15s ease, transform 0.15s ease',
+            }}
+          >
             {/* Branch info */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
               <div
