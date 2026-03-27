@@ -1,0 +1,12 @@
+# https://www.robotstxt.org/robotstxt.html
+# Pyisland website robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://pyisland.com/sitemap.xml
+
+# Disallow Next.js build artifacts (covered by output: 'export')
+Disallow: /.next/
+Disallow: /_next/
