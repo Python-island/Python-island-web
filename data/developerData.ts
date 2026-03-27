@@ -1,0 +1,123 @@
+import type { Developer } from '../components/types';
+
+export const developers: Developer[] = [
+  {
+    id: 'silenthim',
+    name: 'silenthim',
+    nameEn: 'SILENTHIM',
+    dockLabel: 'silenthim',
+    email: '2066889432@qq.com',
+    bio: '在校大学瘤子，鸡窝山软工の耻辱，精通 Python，C++，C，Java 各种语言输出 Hello World，一生只爱东北雨姐',
+    traits: [
+      { icon: '/', label: '在校大学生', desc: '鸡窝山软工' },
+      { icon: '/', label: '多语言选手', desc: 'Python / C++ / C / Java' },
+      { icon: '/', label: 'Hello World', desc: '精通各种语言入门' },
+      { icon: '/', label: '一生真爱', desc: '东北雨姐' },
+    ],
+    skills: [
+      { label: 'Python' },
+      { label: 'C++' },
+      { label: 'C' },
+      { label: 'Java' },
+    ],
+  },
+  {
+    id: 'StarWindv',
+    name: '星灿长风v',
+    nameEn: 'StarWindv',
+    dockLabel: '星灿长风v',
+    email: 'starwindv.stv@gmail.com',
+    bio: 'ISTP/INTP 社恐金牛 | 擅长使用 Py/Java/Rust/Ts | 喜欢花里胡哨的东西和更底层的原理 | 热衷于自己造轮子来进行学习',
+    traits: [
+      { icon: '/', label: 'ISTP / INTP', desc: '理性工匠 · 逻辑思考' },
+      { icon: '/', label: '社恐金牛', desc: '沉稳内敛 · 专注细节' },
+      { icon: '/', label: '热衷造轮子', desc: '自己动手 · 深度学习' },
+      { icon: '/', label: '追求底层原理', desc: '知其然 · 更知其所以然' },
+    ],
+    skills: [
+      { label: 'Python' },
+      { label: 'Java' },
+      { label: 'Rust' },
+      { label: 'TypeScript' },
+      { label: 'PySide6' },
+      { label: 'Qt' },
+      { label: 'Tauri' },
+    ],
+  },
+  {
+    id: 'Code',
+    name: 'Code',
+    nameEn: 'CODE',
+    dockLabel: 'Code',
+    email: '2064878930@qq.com',
+    bio: 'INTP 水瓶 | 擅长使用 Py/Java/Vue | 激进维新派 VibeCoding 中乐此不疲 | 樱花只开一季 真爱只有一次',
+    traits: [
+      { icon: '/', label: 'INTP', desc: '逻辑学家 · 创新驱动' },
+      { icon: '/', label: '浪漫水瓶', desc: '理想主义 · 追求真爱' },
+      { icon: '/', label: 'VibeCoding', desc: '激进维新 · 乐此不疲' },
+      { icon: '/', label: '多语言开发', desc: 'Py / Java / Vue' },
+    ],
+    skills: [
+      { label: 'Python' },
+      { label: 'Java' },
+      { label: 'Vue' },
+      { label: 'VibeCoding' },
+    ],
+  },
+  {
+    id: 'GeminiMortal',
+    name: '双子座·凡尘',
+    nameEn: 'GeminiMortal',
+    dockLabel: '双子座·凡尘',
+    email: '1468098941@qq.com',
+    bio: '社恐双子 · 多语言开发者 · 视觉系代码爱好者 · 希望从零手搓独立作品',
+    traits: [
+      { icon: '/', label: 'INFJ / INFP / INTP', desc: '三重人格切换' },
+      { icon: '/', label: '社恐双子', desc: 'SUT 在校生' },
+      { icon: '/', label: '视觉系代码', desc: '花里胡哨的视觉效果' },
+      { icon: '/', label: '手搓独立作品', desc: '从零开始的创造者' },
+    ],
+    skills: [
+      { label: 'C++' },
+      { label: 'Python' },
+      { label: 'Java' },
+      { label: 'JavaScript' },
+    ],
+  },
+  {
+    id: 'cXp1r',
+    name: 'cXp1r',
+    nameEn: 'CXP1R',
+    dockLabel: 'cXp1r',
+    email: 'admin@cxp1r.com',
+    bio: '社恐小男孩，擅长摸鱼和提建议，喜欢将流程自动化，喜欢 C++ 和 Python',
+    traits: [
+      { icon: '/', label: '社恐小男孩', desc: '安静但有想法' },
+      { icon: '/', label: '摸鱼达人', desc: '擅长摸鱼和提建议' },
+      { icon: '/', label: '流程自动化', desc: '将重复流程自动化' },
+      { icon: '/', label: 'C++ / Python', desc: '喜欢的两门语言' },
+    ],
+    skills: [
+      { label: 'C++' },
+      { label: 'Python' },
+      { label: '自动化' },
+    ],
+  },
+  {
+    id: 'JNTMTMTM',
+    name: '鸡哥',
+    nameEn: 'JNTMTMTM',
+    dockLabel: '鸡哥',
+    email: 'JNTMTMTM@nailong.com',
+    bio: '南京最后的全栈工程师',
+    traits: [
+      { icon: '/', label: '保持神秘_0', desc: '404 NOT FOUND' },
+      { icon: '/', label: '保持神秘_1', desc: '404 NOT FOUND' },
+      { icon: '/', label: '保持神秘_2', desc: '404 NOT FOUND' },
+      { icon: '/', label: '保持神秘_3', desc: '404 NOT FOUND' },
+    ],
+    skills: [
+      { label: '404 NOT FOUND' }
+    ],
+  },
+];
