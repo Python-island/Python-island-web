@@ -115,22 +115,24 @@ export default function DynamicIsland() {
   const isHero = activePage === '#hero';
   const pageInfo = !isHero ? PAGE_TITLES[activePage] : null;
   const showTitle = !isHero;
+  const isDownloadsDev = activePage === '#downloads' || activePage === '#developers';
+  const islandTop = isDownloadsDev ? '52px' : '24px';
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        top: '24px',
-        left: '50%',
-        transform: `translateX(-50%)`,
-        zIndex: 200,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        opacity: 1,
-        transition: 'opacity 0.3s ease',
-      }}
-    >
+      <div
+        style={{
+          position: 'fixed',
+          top: islandTop,
+          left: '50%',
+          transform: `translateX(-50%)`,
+          zIndex: 200,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          opacity: 1,
+          transition: 'top 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease',
+        }}
+      >
       <div
         style={{ position: 'relative', pointerEvents: 'auto' }}
         onMouseEnter={() => setIsHovered(true)}
