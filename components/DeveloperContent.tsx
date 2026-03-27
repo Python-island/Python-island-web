@@ -127,6 +127,10 @@ const developers: Developer[] = [
   },
 ];
 
+const MAX_SCALE = 1.25;
+const NEIGHBOR_SCALE_STEPS = [1.12, 1.06, 1.0];
+const ITEM_W = 62; // icon width (52) + gap (10)
+
 const dockAvatars = developers.map(dev => {
   const avatarMap: Record<string, string> = {
     StarWindv: '/avatar/StarWindv.png',
@@ -210,18 +214,23 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
 
   // ── Dock magnify effect ──────────────────────────────────────────────────
   const dockContainerRef = useRef<HTMLDivElement>(null);
-  const dockScales = useRef<number[]>(dockAvatars.map((_, i) => (i === currentDev ? 1.25 : 1.0)));
+  const dockScales = useRef<number[]>(dockAvatars.map((_, i) => (i === currentDev ? MAX_SCALE : 1.0)));
   const dockBounce = useRef<boolean[]>(dockAvatars.map(() => false));
   const [, forceUpdate] = useState(0);
   const lastMouseX = useRef<number | null>(null);
   /** Index of the item the mouse is directly over */
   const hoveredIdx = useRef<number | null>(null);
 
-  const ITEM_W = 62; // icon width (52) + gap (10)
-  const MAX_SCALE = 1.25;
-  const NEIGHBOR_SCALE_STEPS = [1.12, 1.06, 1.0];
+  // ── Sync dock selection highlight when currentDev changes ───────────────────
+  useEffect(() => {
+    if (hoveredIdx.current === null) {
+      dockScales.current = dockAvatars.map((_, i) => (i === currentDev ? MAX_SCALE : 1.0));
+      forceUpdate(n => n + 1);
+    }
+  }, [currentDev]);
 
-  /** Tracks hover state for the back-to-branches button, separate from avatar magnify */
+  /**
+   * Tracks hover state for the back-to-branches button, separate from avatar magnify */
   const backBtnHovered = useRef(false);
 
   const handleDockMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -618,7 +627,7 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
         }}
       >
         {dockAvatars.map((dock, i) => {
-          const scale = dockScales.current[i] ?? (i === currentDev ? 1.25 : 1.0);
+          const scale = dockScales.current[i] ?? (i === currentDev ? MAX_SCALE : 1.0);
           const lift = i === currentDev ? -6 : (scale > 1 ? -Math.round((scale - 1) * 40) : 0);
           return (
             <div
