@@ -43,7 +43,7 @@ export default function ScrollShowcase({ children, initialView = 'hero' }: Scrol
   /** Local progress 0→1 for CSS animations */
   const [progress, setProgress] = useState(initialView === 'hero' ? 1 : 1);
   /** Current developer index in the dock (0-4) */
-  const [currentDev, setCurrentDev] = useState(2);
+  const [currentDev, setCurrentDev] = useState(0);
 
   const threeRef = useRef<ThreeSceneHandle>(null);
   const containerRef = useRef<HTMLDivElement>(null);

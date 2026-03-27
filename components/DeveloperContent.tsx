@@ -7,6 +7,26 @@ import type { ViewState, Phase, Developer } from './types';
 
 const developers: Developer[] = [
   {
+    id: 'silenthim',
+    name: 'silenthim',
+    nameEn: 'SILENTHIM',
+    dockLabel: 'silenthim',
+    email: '2066889432@qq.com',
+    bio: '在校大学瘤子，鸡窝山软工の耻辱，精通 Python，C++，C，Java 各种语言输出 Hello World，一生只爱东北雨姐',
+    traits: [
+      { icon: '/', label: '在校大学生', desc: '鸡窝山软工' },
+      { icon: '/', label: '多语言选手', desc: 'Python / C++ / C / Java' },
+      { icon: '/', label: 'Hello World', desc: '精通各种语言入门' },
+      { icon: '/', label: '一生真爱', desc: '东北雨姐' },
+    ],
+    skills: [
+      { label: 'Python' },
+      { label: 'C++' },
+      { label: 'C' },
+      { label: 'Java' },
+    ],
+  },
+  {
     id: 'StarWindv',
     name: '星灿长风v',
     nameEn: 'StarWindv',
@@ -47,26 +67,6 @@ const developers: Developer[] = [
       { label: 'Java' },
       { label: 'Vue' },
       { label: 'VibeCoding' },
-    ],
-  },
-  {
-    id: 'silenthim',
-    name: 'silenthim',
-    nameEn: 'SILENTHIM',
-    dockLabel: 'silenthim',
-    email: '2066889432@qq.com',
-    bio: '在校大学瘤子，鸡窝山软工の耻辱，精通 Python，C++，C，Java 各种语言输出 Hello World，一生只爱东北雨姐',
-    traits: [
-      { icon: '/', label: '在校大学生', desc: '鸡窝山软工' },
-      { icon: '/', label: '多语言选手', desc: 'Python / C++ / C / Java' },
-      { icon: '/', label: 'Hello World', desc: '精通各种语言入门' },
-      { icon: '/', label: '一生真爱', desc: '东北雨姐' },
-    ],
-    skills: [
-      { label: 'Python' },
-      { label: 'C++' },
-      { label: 'C' },
-      { label: 'Java' },
     ],
   },
   {
