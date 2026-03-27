@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import stylesEffect from '@/styles/effect.module.css';
 import type { ViewState, Phase } from './types';
 
 interface DownloadItem {
@@ -360,30 +359,6 @@ export default function DownloadsContent({
           padding: '40px 24px',
         }}
       >
-        {/* Title */}
-        <div
-          style={{
-            marginBottom: 'clamp(20px, 4vh, 32px)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '10px',
-            transform: `translateY(${(1 - slideInFactor) * -20}px)`,
-            opacity: slideInFactor,
-            transition: 'transform 0.7s ease, opacity 0.7s ease',
-          }}
-        >
-          <span
-            className={stylesEffect.gradientText}
-            style={{ fontSize: 'clamp(22px, 3.5vw, 32px)', fontWeight: '600', letterSpacing: '-0.02em' }}
-          >
-            快速安装
-          </span>
-          <p style={{ fontSize: '14px', color: '#86868B', textAlign: 'center', lineHeight: 1.6 }}>
-            选择版本，获取安装命令
-          </p>
-        </div>
-
         {/* Version tabs */}
         <div
           style={{

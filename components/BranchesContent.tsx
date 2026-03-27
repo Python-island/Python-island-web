@@ -1,7 +1,6 @@
 'use client';
 
 import stylesGlass from '@/styles/glass.module.css';
-import stylesEffect from '@/styles/effect.module.css';
 import type { ViewState, Phase } from './types';
 
 const branches = [
@@ -212,28 +211,6 @@ export default function BranchesContent({ progress, activeView, phase }: Branche
           justifyContent: 'center',
         }}
       >
-        {/* Title above the island */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '24vh',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '8px',
-            transform: `translateY(${(1 - slideInFactor) * -20}px)`,
-            opacity: slideInFactor,
-            transition: 'transform 0.7s ease, opacity 0.7s ease',
-          }}
-        >
-          <span className={stylesEffect.gradientText} style={{ fontSize: 'clamp(22px, 3vw, 30px)', fontWeight: '600', letterSpacing: '-0.02em' }}>
-            分支总览
-          </span>
-          <p style={{ fontSize: '13px', color: '#86868B', textAlign: 'center', lineHeight: 1.6 }}>
-            探索 Pyisland 项目的多个分支版本
-          </p>
-        </div>
-
         {/* Left column — two cards stacked */}
         <div
           style={{

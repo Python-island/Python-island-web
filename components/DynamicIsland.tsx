@@ -7,6 +7,13 @@ type NavPage = '#hero' | '#features' | '#branches' | '#downloads' | '#developers
 
 const NAV_ORDER: NavPage[] = ['#hero', '#features', '#branches', '#downloads', '#developers'];
 
+const PAGE_TITLES: Record<Exclude<NavPage, '#hero'>, { title: string; subtitle: string }> = {
+  '#features': { title: '核心功能', subtitle: '每一个细节都为 Windows 用户精心打造' },
+  '#branches': { title: '分支总览', subtitle: '探索 Pyisland 项目的多个分支版本' },
+  '#downloads': { title: '快速安装', subtitle: '选择版本，获取安装命令' },
+  '#developers': { title: '关于开发者', subtitle: 'Python-island 项目团队' },
+};
+
 export default function DynamicIsland() {
   const [isHovered, setIsHovered] = useState(false);
   const [activePage, setActivePage] = useState<NavPage>('#hero');
@@ -41,7 +48,6 @@ export default function DynamicIsland() {
     };
   }, []);
 
-  // Animate indicator through intermediate steps during cross-page transitions
   useEffect(() => {
     let rafId: number | null = null;
 
@@ -106,19 +112,23 @@ export default function DynamicIsland() {
     updateIndicator();
   }, [activePage]);
 
+  const isHero = activePage === '#hero';
+  const pageInfo = !isHero ? PAGE_TITLES[activePage] : null;
+  const showTitle = !isHero;
+
   return (
     <div
       style={{
         position: 'fixed',
         top: '24px',
         left: '50%',
-        transform: `translateX(-50%) translateY(${activePage === '#developers' || activePage === '#downloads' ? '30px' : '0'})`,
+        transform: `translateX(-50%)`,
         zIndex: 200,
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
         opacity: 1,
-        transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease',
+        transition: 'opacity 0.3s ease',
       }}
     >
       <div
@@ -131,205 +141,255 @@ export default function DynamicIsland() {
           style={{
             position: 'absolute',
             inset: '-2px',
-            borderRadius: '32px',
+            borderRadius: showTitle ? '36px' : '32px',
             background: 'transparent',
             boxShadow: '0 0 0 1px rgba(113, 113, 122, 0.12), 0 8px 32px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(0, 0, 0, 0.15)',
-            transform: isHovered ? 'scaleX(1.02)' : 'scaleX(1)',
-            transition: 'box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+            transform: isHovered ? 'scaleX(1.015)' : 'scaleX(1)',
+            transition: 'box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-radius 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
             ...(isHovered && {
               boxShadow: '0 0 0 1px rgba(113, 113, 122, 0.18), 0 12px 48px rgba(0, 0, 0, 0.35), 0 4px 16px rgba(0, 0, 0, 0.2)',
             }),
           }}
         />
 
-        {/* Main island body */}
+        {/* Island body — height transitions smoothly between compact and expanded */}
         <div
           style={{
             position: 'relative',
-            borderRadius: '28px',
+            borderRadius: showTitle ? '32px' : '28px',
             background: '#000000',
             backdropFilter: 'blur(24px)',
             WebkitBackdropFilter: 'blur(24px)',
             border: '1px solid rgba(255, 255, 255, 0.08)',
             overflow: 'hidden',
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            gap: '4px',
-            padding: '6px 10px',
-            minWidth: '240px',
-            transform: isHovered ? 'scaleX(1.02)' : 'scaleX(1)',
-            transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+            transform: isHovered ? 'scaleX(1.015)' : 'scaleX(1)',
+            transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-radius 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
         >
-          {/* Left logo */}
-          <button
-            onClick={() => navigate('#hero')}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              textDecoration: 'none',
-              cursor: 'pointer',
-              flexShrink: 0,
-              background: 'none',
-              border: 'none',
-              padding: 0,
-            }}
-            aria-label="Pyisland 首页"
-          >
-            <img src="/island_w.svg" alt="" style={{ width: '20px', height: '20px', flexShrink: 0 }} />
-            <span
-              style={{
-                fontSize: '14px',
-                fontWeight: '600',
-                color: '#fafafa',
-                letterSpacing: '-0.02em',
-              }}
-            >
-              Pyisland
-            </span>
-          </button>
-
-          {/* Divider */}
+          {/* Nav row */}
           <div
-            style={{
-              width: '1px',
-              height: '16px',
-              background: 'rgba(255, 255, 255, 0.12)',
-              margin: '0 4px',
-              flexShrink: 0,
-            }}
-          />
-
-          {/* Nav links */}
-          <div
-            onMouseEnter={(e) => e.stopPropagation()}
-            onMouseLeave={(e) => e.stopPropagation()}
-            style={{ display: 'flex', alignItems: 'center', gap: '2px', position: 'relative' }}
-          >
-            <button
-              ref={featuresBtnRef}
-              onClick={() => navigate('#features')}
-              style={{
-                padding: '4px 10px',
-                borderRadius: '8px',
-                fontSize: '13px',
-                fontWeight: '500',
-                color: activePage === '#features' ? '#ffffff' : '#71717a',
-                transition: 'color 0.2s ease',
-                cursor: 'pointer',
-                background: 'none',
-                border: 'none',
-              }}
-              className="diNavBtn"
-            >
-              功能
-            </button>
-            <button
-              ref={branchesBtnRef}
-              onClick={() => navigate('#branches')}
-              style={{
-                padding: '4px 10px',
-                borderRadius: '8px',
-                fontSize: '13px',
-                fontWeight: '500',
-                color: activePage === '#branches' ? '#ffffff' : '#71717a',
-                transition: 'color 0.2s ease',
-                cursor: 'pointer',
-                background: 'none',
-                border: 'none',
-              }}
-              className="diNavBtn"
-            >
-              分支
-            </button>
-            <button
-              ref={downloadsBtnRef}
-              onClick={() => navigate('#downloads')}
-              style={{
-                padding: '4px 10px',
-                borderRadius: '8px',
-                fontSize: '13px',
-                fontWeight: '500',
-                color: activePage === '#downloads' ? '#ffffff' : '#71717a',
-                transition: 'color 0.2s ease',
-                cursor: 'pointer',
-                background: 'none',
-                border: 'none',
-              }}
-              className="diNavBtn"
-            >
-              下载
-            </button>
-            <button
-              ref={developersBtnRef}
-              onClick={() => navigate('#developers')}
-              style={{
-                padding: '4px 10px',
-                borderRadius: '8px',
-                fontSize: '13px',
-                fontWeight: '500',
-                color: activePage === '#developers' ? '#ffffff' : '#71717a',
-                transition: 'color 0.2s ease',
-                cursor: 'pointer',
-                background: 'none',
-                border: 'none',
-              }}
-              className="diNavBtn"
-            >
-              开发者
-            </button>
-            {/* Active indicator underline — lives between both buttons so it can animate between them */}
-            <div
-              style={{
-                position: 'absolute',
-                bottom: '2px',
-                left: indicatorStyle.left,
-                width: indicatorStyle.width,
-                height: '1.5px',
-                borderRadius: '1px',
-                background: 'rgba(255, 255, 255, 0.6)',
-                transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1), left 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease',
-                opacity: indicatorStyle.opacity,
-                pointerEvents: 'none',
-              }}
-            />
-          </div>
-
-          {/* Divider */}
-          <div
-            style={{
-              width: '1px',
-              height: '16px',
-              background: 'rgba(255, 255, 255, 0.12)',
-              margin: '0 4px',
-              flexShrink: 0,
-            }}
-          />
-
-          {/* GitHub icon */}
-          <a
-            href="https://github.com/Python-island/Python-island"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '28px',
-              height: '28px',
-              borderRadius: '8px',
-              color: '#71717a',
-              textDecoration: 'none',
-              transition: 'color 0.2s ease, background 0.2s ease',
-              cursor: 'pointer',
-              flexShrink: 0,
+              gap: '4px',
+              padding: '6px 10px',
+              minWidth: '240px',
             }}
-            className="diNavBtn"
           >
-            <Github size={16} />
-          </a>
+            {/* Left logo */}
+            <button
+              onClick={() => navigate('#hero')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                textDecoration: 'none',
+                cursor: 'pointer',
+                flexShrink: 0,
+                background: 'none',
+                border: 'none',
+                padding: 0,
+              }}
+              aria-label="Pyisland 首页"
+            >
+              <img src="/island_w.svg" alt="" style={{ width: '20px', height: '20px', flexShrink: 0 }} />
+              <span
+                style={{
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  color: '#fafafa',
+                  letterSpacing: '-0.02em',
+                }}
+              >
+                Pyisland
+              </span>
+            </button>
+
+            {/* Divider */}
+            <div
+              style={{
+                width: '1px',
+                height: '16px',
+                background: 'rgba(255, 255, 255, 0.12)',
+                margin: '0 4px',
+                flexShrink: 0,
+              }}
+            />
+
+            {/* Nav links */}
+            <div
+              onMouseEnter={(e) => e.stopPropagation()}
+              onMouseLeave={(e) => e.stopPropagation()}
+              style={{ display: 'flex', alignItems: 'center', gap: '2px', position: 'relative' }}
+            >
+              <button
+                ref={featuresBtnRef}
+                onClick={() => navigate('#features')}
+                style={{
+                  padding: '4px 10px',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  fontWeight: '500',
+                  color: activePage === '#features' ? '#ffffff' : '#71717a',
+                  transition: 'color 0.2s ease',
+                  cursor: 'pointer',
+                  background: 'none',
+                  border: 'none',
+                }}
+                className="diNavBtn"
+              >
+                功能
+              </button>
+              <button
+                ref={branchesBtnRef}
+                onClick={() => navigate('#branches')}
+                style={{
+                  padding: '4px 10px',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  fontWeight: '500',
+                  color: activePage === '#branches' ? '#ffffff' : '#71717a',
+                  transition: 'color 0.2s ease',
+                  cursor: 'pointer',
+                  background: 'none',
+                  border: 'none',
+                }}
+                className="diNavBtn"
+              >
+                分支
+              </button>
+              <button
+                ref={downloadsBtnRef}
+                onClick={() => navigate('#downloads')}
+                style={{
+                  padding: '4px 10px',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  fontWeight: '500',
+                  color: activePage === '#downloads' ? '#ffffff' : '#71717a',
+                  transition: 'color 0.2s ease',
+                  cursor: 'pointer',
+                  background: 'none',
+                  border: 'none',
+                }}
+                className="diNavBtn"
+              >
+                下载
+              </button>
+              <button
+                ref={developersBtnRef}
+                onClick={() => navigate('#developers')}
+                style={{
+                  padding: '4px 10px',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  fontWeight: '500',
+                  color: activePage === '#developers' ? '#ffffff' : '#71717a',
+                  transition: 'color 0.2s ease',
+                  cursor: 'pointer',
+                  background: 'none',
+                  border: 'none',
+                }}
+                className="diNavBtn"
+              >
+                开发者
+              </button>
+              {/* Active indicator underline */}
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '2px',
+                  left: indicatorStyle.left,
+                  width: indicatorStyle.width,
+                  height: '1.5px',
+                  borderRadius: '1px',
+                  background: 'rgba(255, 255, 255, 0.6)',
+                  transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1), left 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease',
+                  opacity: indicatorStyle.opacity,
+                  pointerEvents: 'none',
+                }}
+              />
+            </div>
+
+            {/* Divider */}
+            <div
+              style={{
+                width: '1px',
+                height: '16px',
+                background: 'rgba(255, 255, 255, 0.12)',
+                margin: '0 4px',
+                flexShrink: 0,
+              }}
+            />
+
+            {/* GitHub icon */}
+            <a
+              href="https://github.com/Python-island/Python-island"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '28px',
+                height: '28px',
+                borderRadius: '8px',
+                color: '#71717a',
+                textDecoration: 'none',
+                transition: 'color 0.2s ease, background 0.2s ease',
+                cursor: 'pointer',
+                flexShrink: 0,
+              }}
+              className="diNavBtn"
+            >
+              <Github size={16} />
+            </a>
+          </div>
+
+          {/* Title section — slides in when not on hero */}
+          {pageInfo && (
+            <div
+              style={{
+                padding: showTitle ? '10px 16px 12px' : '0 16px',
+                maxHeight: showTitle ? '80px' : '0px',
+                overflow: 'hidden',
+                opacity: showTitle ? 1 : 0,
+                transition: 'max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, padding 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '4px',
+                borderTop: '1px solid rgba(255,255,255,0.06)',
+              }}
+            >
+              <span
+                style={{
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  color: '#ffffff',
+                  letterSpacing: '-0.01em',
+                  lineHeight: 1,
+                }}
+              >
+                {pageInfo.title}
+              </span>
+              <span
+                style={{
+                  fontSize: '10px',
+                  color: '#71717a',
+                  letterSpacing: '0.01em',
+                  lineHeight: 1,
+                }}
+              >
+                {pageInfo.subtitle}
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>

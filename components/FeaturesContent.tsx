@@ -9,7 +9,6 @@ import {
   Move,
 } from 'lucide-react';
 import stylesGlass from '@/styles/glass.module.css';
-import stylesEffect from '@/styles/effect.module.css';
 import type { ViewState, Phase } from './types';
 
 const features = [
@@ -179,44 +178,6 @@ export default function FeaturesContent({ progress, activeView, phase }: Feature
             delay={i}
           />
         ))}
-      </div>
-
-      {/* Center — title, always dead-center of the viewport */}
-      <div
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '12px',
-          transform: `translate(-50%, -50%) translateY(${(1 - slideInFactor) * 30}px)`,
-          opacity: slideInFactor,
-          transition: 'transform 0.7s ease, opacity 0.7s ease',
-          pointerEvents: 'none',
-        }}
-      >
-        <span
-          className={stylesEffect.gradientText}
-          style={{
-            fontSize: '28px',
-            fontWeight: '600',
-            letterSpacing: '-0.02em',
-          }}
-        >
-          核心功能
-        </span>
-        <p
-          style={{
-            fontSize: '13px',
-            color: '#86868B',
-            textAlign: 'center',
-            lineHeight: 1.6,
-          }}
-        >
-          每一个细节都为<br />Windows 用户精心打造
-        </p>
       </div>
 
       {/* Right column — 3 cards stacked */}

@@ -356,30 +356,6 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
           marginTop: '0px',
         }}
       >
-        {/* Title */}
-        <div
-          style={{
-            marginBottom: 'clamp(20px, 4vh, 36px)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '10px',
-            transform: `translateY(${(1 - slideInFactor) * -20}px)`,
-            opacity: slideInFactor,
-            transition: 'transform 0.7s ease, opacity 0.7s ease',
-          }}
-        >
-          <span
-            className={stylesEffect.gradientText}
-            style={{ fontSize: 'clamp(22px, 3.5vw, 32px)', fontWeight: '600', letterSpacing: '-0.02em' }}
-          >
-            关于开发者
-          </span>
-          <p style={{ fontSize: '14px', color: '#86868B', textAlign: 'center', lineHeight: 1.6 }}>
-            Python-island 项目团队
-          </p>
-        </div>
-
         {/* Profile card */}
         <div
           onMouseEnter={() => setCardHovered(true)}
