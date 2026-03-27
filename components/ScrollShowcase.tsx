@@ -286,6 +286,7 @@ export default function ScrollShowcase({ children, initialView = 'hero' }: Scrol
         phase={phaseState.phase}
         currentDev={currentDev}
         onSwitchDev={switchToDeveloper}
+        onBackToBranches={() => navigateTo('branches')}
       />
     </div>
   );

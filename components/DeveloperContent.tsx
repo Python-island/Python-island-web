@@ -149,9 +149,10 @@ interface DeveloperContentProps {
   phase: Phase;
   currentDev: number;
   onSwitchDev: (index: number) => void;
+  onBackToBranches: () => void;
 }
 
-export default function DeveloperContent({ progress, activeView, phase, currentDev, onSwitchDev }: DeveloperContentProps) {
+export default function DeveloperContent({ progress, activeView, phase, currentDev, onSwitchDev, onBackToBranches }: DeveloperContentProps) {
   const isDevelopers = activeView === 'developers';
   const isTransitioning = phase === 'transitioning';
 
@@ -191,6 +192,9 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
   const ITEM_W = 62; // icon width (52) + gap (10)
   const MAX_SCALE = 1.25;
   const NEIGHBOR_SCALE_STEPS = [1.12, 1.06, 1.0];
+
+  /** Tracks hover state for the back-to-branches button, separate from avatar magnify */
+  const backBtnHovered = useRef(false);
 
   const handleDockMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const container = dockContainerRef.current;
@@ -701,6 +705,109 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
             </div>
           );
         })}
+
+        {/* Return to branches button */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '5px',
+            position: 'relative',
+          }}
+        >
+          {/* Name tooltip */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '100%',
+              left: '50%',
+              transform: 'translateX(-50%) translateY(-6px)',
+              background: 'rgba(30,30,30,0.88)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              color: 'rgba(255,255,255,0.95)',
+              fontSize: '11px',
+              fontWeight: '600',
+              padding: '5px 10px',
+              borderRadius: '8px',
+              whiteSpace: 'nowrap',
+              opacity: hoveredIdx.current === dockAvatars.length || backBtnHovered.current ? 1 : 0,
+              pointerEvents: 'none',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+              transition: 'opacity 0.15s ease',
+              letterSpacing: '0.01em',
+            }}
+          >
+            分支界面
+            <div
+              style={{
+                position: 'absolute',
+                top: '100%',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: 0,
+                height: 0,
+                borderLeft: '5px solid transparent',
+                borderRight: '5px solid transparent',
+                borderTop: '5px solid rgba(30,30,30,0.88)',
+              }}
+            />
+          </div>
+
+          {/* Icon button */}
+          <div
+            title="返回分支界面"
+            onClick={onBackToBranches}
+            style={{
+              width: '52px',
+              height: '52px',
+              borderRadius: '12px',
+              overflow: 'hidden',
+              cursor: 'pointer',
+              border: '2px solid rgba(255,255,255,0.15)',
+              boxShadow: '0 3px 10px rgba(0,0,0,0.25)',
+              transform: 'translateY(0px)',
+              transition: 'width 0.18s cubic-bezier(0.34,1.56,0.64,1), height 0.18s cubic-bezier(0.34,1.56,0.64,1), border-radius 0.18s cubic-bezier(0.34,1.56,0.64,1), border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease',
+              background: 'rgba(255,255,255,0.15)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+            }}
+            onMouseEnter={e => {
+              backBtnHovered.current = true;
+              forceUpdate(n => n + 1);
+              const el = e.currentTarget;
+              el.style.borderColor = 'rgba(255,255,255,0.5)';
+              el.style.boxShadow = '0 6px 16px rgba(0,0,0,0.35)';
+              el.style.transform = 'translateY(-3px)';
+            }}
+            onMouseLeave={e => {
+              backBtnHovered.current = false;
+              forceUpdate(n => n + 1);
+              const el = e.currentTarget;
+              el.style.borderColor = 'rgba(255,255,255,0.15)';
+              el.style.boxShadow = '0 3px 10px rgba(0,0,0,0.25)';
+              el.style.transform = 'translateY(0px)';
+            }}
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </div>
+
+          {/* Indicator dot */}
+          <div
+            style={{
+              width: '3px',
+              height: '3px',
+              borderRadius: '50%',
+              background: 'rgba(255,255,255,0.3)',
+            }}
+          />
+        </div>
       </div>
     </div>
   );
