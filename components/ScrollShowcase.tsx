@@ -303,7 +303,6 @@ export default function ScrollShowcase({ children, initialView = 'hero' }: Scrol
         phase={phaseState.phase}
         currentDev={currentDev}
         onSwitchDev={switchToContributor}
-        onBackToDevelop={() => navigateTo('develop')}
         onNavigate={navigateTo}
       />
 

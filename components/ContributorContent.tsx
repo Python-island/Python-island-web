@@ -32,11 +32,10 @@ interface ContributorContentProps {
   phase: Phase;
   currentDev: number;
   onSwitchDev: (index: number) => void;
-  onBackToDevelop: () => void;
   onNavigate: (view: ViewState) => void;
 }
 
-export default function ContributorContent({ progress, activeView, phase, currentDev, onSwitchDev, onBackToDevelop, onNavigate }: ContributorContentProps) {
+export default function ContributorContent({ progress, activeView, phase, currentDev, onSwitchDev, onNavigate }: ContributorContentProps) {
   const isContributors = activeView === 'contributors';
   const isTransitioning = phase === 'transitioning';
 
@@ -94,18 +93,18 @@ export default function ContributorContent({ progress, activeView, phase, curren
         } else {
           onSwitchDev(currentDev + 1);
         }
-      } else {
-        // Scroll up: go to prev contributor, or back to develop at first
-        if (currentDev > 0) {
-          onSwitchDev(currentDev - 1);
         } else {
-          onBackToDevelop();
+          // Scroll up: go to prev contributor, or back to develop at first
+          if (currentDev > 0) {
+            onSwitchDev(currentDev - 1);
+          } else {
+            onNavigate('develop');
+          }
         }
-      }
     };
     window.addEventListener('wheel', handleWheel, { passive: false });
     return () => window.removeEventListener('wheel', handleWheel);
-  }, [isContributors, phase, currentDev, onSwitchDev, onBackToDevelop, onNavigate, contributors.length]);
+  }, [isContributors, phase, currentDev, onSwitchDev, onNavigate, contributors.length]);
 
   // ── Dock magnify effect ──────────────────────────────────────────────────
   const dockContainerRef = useRef<HTMLDivElement>(null);
@@ -123,10 +122,6 @@ export default function ContributorContent({ progress, activeView, phase, curren
       forceUpdate(n => n + 1);
     }
   }, [currentDev]);
-
-  /**
-   * Tracks hover state for the back-to-branches button, separate from avatar magnify */
-  const backBtnHovered = useRef(false);
 
   const handleDockMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const container = dockContainerRef.current;
@@ -516,12 +511,12 @@ export default function ContributorContent({ progress, activeView, phase, curren
           ))}
         </div>
 
-        {/* Page navigation controls */}
+        {/* Page navigation buttons */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '16px',
+            gap: '12px',
             marginTop: '16px',
             opacity: slideInFactor * 0.6,
             transform: `translateY(${(1 - slideInFactor) * 20}px)`,
@@ -529,7 +524,7 @@ export default function ContributorContent({ progress, activeView, phase, curren
           }}
         >
           <button
-            onClick={onBackToDevelop}
+            onClick={() => onNavigate('develop')}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -560,8 +555,39 @@ export default function ContributorContent({ progress, activeView, phase, curren
           </button>
 
           <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.05em' }}>
-            点击 Dock 栏头像或上方圆点切换
+            滚轮切换贡献者
           </span>
+
+          <button
+            onClick={() => onNavigate('download')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '8px 16px',
+              borderRadius: '10px',
+              fontSize: '12px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              border: '1px solid rgba(255,255,255,0.15)',
+              background: 'rgba(255,255,255,0.08)',
+              color: 'rgba(255,255,255,0.7)',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = 'rgba(255,255,255,0.15)';
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
+            }}
+          >
+            下载
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
         </div>
       </div>
 
@@ -704,110 +730,6 @@ export default function ContributorContent({ progress, activeView, phase, curren
             </div>
           );
         })}
-
-        {/* Return to develop button */}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '5px',
-            position: 'relative',
-          }}
-        >
-          {/* Name tooltip */}
-          <div
-            style={{
-              position: 'absolute',
-              right: '100%',
-              top: '50%',
-              transform: 'translateY(-50%) translateX(-6px)',
-              background: 'rgba(30,30,30,0.88)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              color: 'rgba(255,255,255,0.95)',
-              fontSize: '11px',
-              fontWeight: '600',
-              padding: '5px 10px',
-              borderRadius: '8px',
-              whiteSpace: 'nowrap',
-              opacity: hoveredIdx.current === dockAvatars.length || backBtnHovered.current ? 1 : 0,
-              pointerEvents: 'none',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-              transition: 'opacity 0.15s ease',
-              letterSpacing: '0.01em',
-              marginRight: '10px',
-            }}
-          >
-            开发界面
-            <div
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '100%',
-                transform: 'translateY(-50%)',
-                width: 0,
-                height: 0,
-                borderTop: '5px solid transparent',
-                borderBottom: '5px solid transparent',
-                borderLeft: '5px solid rgba(30,30,30,0.88)',
-              }}
-            />
-          </div>
-
-          {/* Icon button */}
-          <div
-            title="返回开发界面"
-            onClick={onBackToDevelop}
-            style={{
-              width: '52px',
-              height: '52px',
-              borderRadius: '12px',
-              overflow: 'hidden',
-              cursor: 'pointer',
-              border: '2px solid rgba(255,255,255,0.15)',
-              boxShadow: '0 3px 10px rgba(0,0,0,0.25)',
-              transform: 'translateX(0px)',
-              transition: 'width 0.18s cubic-bezier(0.34,1.56,0.64,1), height 0.18s cubic-bezier(0.34,1.56,0.64,1), border-radius 0.18s cubic-bezier(0.34,1.56,0.64,1), border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease',
-              background: 'rgba(255,255,255,0.15)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backdropFilter: 'blur(8px)',
-              WebkitBackdropFilter: 'blur(8px)',
-            }}
-            onMouseEnter={e => {
-              backBtnHovered.current = true;
-              forceUpdate(n => n + 1);
-              const el = e.currentTarget;
-              el.style.borderColor = 'rgba(255,255,255,0.5)';
-              el.style.boxShadow = '0 6px 16px rgba(0,0,0,0.35)';
-              el.style.transform = 'translateX(-3px)';
-            }}
-            onMouseLeave={e => {
-              backBtnHovered.current = false;
-              forceUpdate(n => n + 1);
-              const el = e.currentTarget;
-              el.style.borderColor = 'rgba(255,255,255,0.15)';
-              el.style.boxShadow = '0 3px 10px rgba(0,0,0,0.25)';
-              el.style.transform = 'translateX(0px)';
-            }}
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-          </div>
-
-          {/* Indicator dot */}
-          <div
-            style={{
-              width: '3px',
-              height: '3px',
-              borderRadius: '50%',
-              background: 'rgba(255,255,255,0.3)',
-            }}
-          />
-        </div>
       </div>
     </div>
   );
