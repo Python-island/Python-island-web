@@ -178,6 +178,7 @@ export default function DownloadsContent({
   const [branchVisible, setBranchVisible] = useState(true);
   const [copiedLine, setCopiedLine] = useState<number | null>(null);
   const [terminalContentHeight, setTerminalContentHeight] = useState(0);
+  const [cardHovered, setCardHovered] = useState(false);
   const contentMeasuredRef = useRef<HTMLDivElement>(null);
 
   const currentData = downloadData[displayBranch];
@@ -392,16 +393,22 @@ export default function DownloadsContent({
 
         {/* Terminal window */}
         <div
+          onMouseEnter={() => setCardHovered(true)}
+          onMouseLeave={() => setCardHovered(false)}
           style={{
             width: '100%',
             background: 'rgba(20, 20, 20, 0.95)',
             borderRadius: '12px',
-            border: '1px solid rgba(255,255,255,0.10)',
+            border: `1px solid rgba(255,255,255,${cardHovered ? 0.18 : 0.10})`,
             overflow: 'hidden',
-            boxShadow: '0 24px 80px rgba(0,0,0,0.5), 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)',
-            transform: `translateY(${(1 - slideInFactor) * 20}px) scale(${slideInFactor})`,
+            boxShadow: cardHovered
+              ? '0 16px 64px rgba(0,0,0,0.45), 0 6px 20px rgba(0,0,0,0.25)'
+              : '0 24px 80px rgba(0,0,0,0.5), 0 8px 32px rgba(0,0,0,0.3)',
+            transform: cardHovered
+              ? 'translateY(-6px) scale(1.015)'
+              : `translateY(${(1 - slideInFactor) * 20}px) scale(${slideInFactor})`,
             opacity: slideInFactor,
-            transition: 'transform 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, opacity 0.7s ease 0.1s',
+            transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.7s ease 0.1s, box-shadow 0.4s ease, border-color 0.3s ease',
           }}
         >
           {/* Terminal title bar */}
