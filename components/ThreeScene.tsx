@@ -23,7 +23,7 @@ export const ThreeSceneInner = forwardRef<ThreeSceneHandle>(function ThreeSceneI
     setTransition: (progress: number) => {
       transitionRef.current = progress;
     },
-    /** Set the raw multi-view target: 0=hero, 0.5=features, 1=branches */
+    /** Set the raw multi-view target: 0=hero, 0.33=features, 0.55=branches, 0.78=downloads, 1=developers */
     setViewTarget: (target: number) => {
       viewTargetRef.current = target;
     },

@@ -19,7 +19,7 @@ export interface AnimationState {
 
 export interface TransitionState {
   current: number;
-  /** 0 = hero, 0.5 = features, 1 = branches — cumulative smoothed value */
+  /** 0 = hero, 0.33 = features, 0.55 = branches, 0.78 = downloads, 1 = developers */
   multiViewTarget: number;
 }
 
@@ -39,7 +39,7 @@ export interface SceneRefs {
   mouse: { x: number; y: number };
   hoverRef: React.MutableRefObject<boolean>;
   transitionRef: React.MutableRefObject<number>;
-  /** Raw multi-view target: 0=hero, 0.5=features, 1=branches */
+  /** Raw multi-view target: 0=hero, 0.33=features, 0.55=branches, 0.78=downloads, 1=developers */
   viewTargetRef: React.MutableRefObject<number>;
   transitionState: TransitionState;
   hueRef: React.MutableRefObject<number>;
@@ -84,7 +84,7 @@ export function createAnimationLoop(
     );
 
     // Update transition state from ref (smooth lerp for 0→1 transition)
-    refs.transitionState.current += (refs.transitionRef.current - refs.transitionState.current) * 0.08;
+    refs.transitionState.current += (refs.transitionRef.current - refs.transitionState.current) * 0.14;
     const transition = refs.transitionState.current;
 
     // Animate island group
@@ -102,7 +102,7 @@ export function createAnimationLoop(
 
     // Camera animation - move closer during transition
     const targetCameraZ = lerp(initialCameraZ, initialCameraZ * 0.85, transition);
-    camera.position.z += (targetCameraZ - camera.position.z) * 0.08;
+    camera.position.z += (targetCameraZ - camera.position.z) * 0.14;
 
     renderer.render(scene, camera);
   };
@@ -150,35 +150,36 @@ function animateIslandGroup(
   islandGroup.rotation.y += (mouseTiltY - islandGroup.rotation.y) * animation.mouseTiltSmoothing;
 
   // ── Both rotation and scale use transitionState.current.
-  // This is the value smoothly tracked by Three.js (factor=0.08)
-  // from transitionRef (React eased value). Result: each 90° rotation
-  // takes ~0.625s — same as the original Hero→Features speed.
+  // This is the value smoothly tracked by Three.js (factor=0.14)
+  // from transitionRef (React eased value).
   const refValue = refs.transitionState.current;
 
-  // Transition position — third segment moves island up instead of rotating
+  // Transition position — third/fourth segments move island up instead of rotating
   let targetPosY: number;
   if (refValue <= 0.33) {
     targetPosY = 0;
-  } else if (refValue <= 0.67) {
+  } else if (refValue <= 0.55) {
     targetPosY = 0;
-  } else {
-    const t = (refValue - 0.67) / 0.33;
+  } else if (refValue <= 0.78) {
+    const t = (refValue - 0.55) / 0.23;
     targetPosY = lerp(0, 0.6, 1 - Math.pow(1 - t, 3));
+  } else {
+    targetPosY = 0.6;
   }
-  islandGroup.position.y += (targetPosY - islandGroup.position.y) * 0.08;
+  islandGroup.position.y += (targetPosY - islandGroup.position.y) * 0.14;
 
-  // Rotation — third segment stays at -PI/2 (no further rotation)
+  // Rotation — second segment completes -PI/2; third/fourth stay at -PI/2
   let targetRotationZ: number;
   if (refValue <= 0.33) {
     const t = refValue / 0.33;
     targetRotationZ = lerp(Math.PI / 2, 0, 1 - Math.pow(1 - t, 3));
-  } else if (refValue <= 0.67) {
-    const t = (refValue - 0.33) / 0.34;
+  } else if (refValue <= 0.55) {
+    const t = (refValue - 0.33) / 0.22;
     targetRotationZ = lerp(0, -Math.PI / 2, 1 - Math.pow(1 - t, 3));
   } else {
     targetRotationZ = -Math.PI / 2;
   }
-  islandGroup.rotation.z += (targetRotationZ - islandGroup.rotation.z) * 0.08;
+  islandGroup.rotation.z += (targetRotationZ - islandGroup.rotation.z) * 0.14;
 
   // Scale
   const hoverScale = hoverRef.current ? animation.hoverScaleTarget : 1;
@@ -190,12 +191,14 @@ function animateIslandGroup(
   if (refValue <= 0.33) {
     const t = refValue / 0.33;
     transitionScale = lerp(1, 0.64, 1 - Math.pow(1 - t, 3));
-  } else if (refValue <= 0.67) {
-    const t = (refValue - 0.33) / 0.34;
+  } else if (refValue <= 0.55) {
+    const t = (refValue - 0.33) / 0.22;
     transitionScale = lerp(0.64, 0.195, 1 - Math.pow(1 - t, 3));
-  } else {
-    const t = (refValue - 0.67) / 0.33;
+  } else if (refValue <= 0.78) {
+    const t = (refValue - 0.55) / 0.23;
     transitionScale = lerp(0.195, 0.10, 1 - Math.pow(1 - t, 3));
+  } else {
+    transitionScale = 0.10;
   }
 
   pill.scale.setScalar(baseScale * transitionScale);
