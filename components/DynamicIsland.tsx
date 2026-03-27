@@ -145,7 +145,7 @@ export default function DynamicIsland() {
             background: 'transparent',
             boxShadow: '0 0 0 1px rgba(113, 113, 122, 0.12), 0 8px 32px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(0, 0, 0, 0.15)',
             transform: isHovered ? 'scaleX(1.015)' : 'scaleX(1)',
-            transition: 'box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-radius 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+            transition: 'box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-radius 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), min-width 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
             ...(isHovered && {
               boxShadow: '0 0 0 1px rgba(113, 113, 122, 0.18), 0 12px 48px rgba(0, 0, 0, 0.35), 0 4px 16px rgba(0, 0, 0, 0.2)',
             }),
@@ -167,7 +167,7 @@ export default function DynamicIsland() {
             transform: isHovered ? 'scaleX(1.015)' : 'scaleX(1)',
             minWidth: showTitle ? '380px' : '280px',
             transformOrigin: 'top center',
-            transition: 'border-radius 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), min-width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+            transition: 'border-radius 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), min-width 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
           }}
         >
           {/* Nav row */}
@@ -358,7 +358,7 @@ export default function DynamicIsland() {
               maxHeight: showTitle ? '80px' : '0px',
               overflow: 'hidden',
               opacity: showTitle ? 1 : 0,
-              transition: 'max-height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease, border-top 0.35s ease, padding 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              transition: 'max-height 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.25s ease, border-top 0.25s ease, padding 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
