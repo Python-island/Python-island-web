@@ -152,7 +152,7 @@ export default function DynamicIsland() {
           }}
         />
 
-        {/* Island body — height and width transition smoothly between compact and expanded */}
+        {/* Island body — height and width expand simultaneously from the top */}
         <div
           style={{
             position: 'relative',
@@ -161,14 +161,13 @@ export default function DynamicIsland() {
             backdropFilter: 'blur(24px)',
             WebkitBackdropFilter: 'blur(24px)',
             border: '1px solid rgba(255, 255, 255, 0.08)',
-            overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             transform: isHovered ? 'scaleX(1.015)' : 'scaleX(1)',
             minWidth: showTitle ? '380px' : '280px',
             transformOrigin: 'top center',
-            transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-radius 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), min-width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+            transition: 'border-radius 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), min-width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
           }}
         >
           {/* Nav row */}
@@ -359,14 +358,13 @@ export default function DynamicIsland() {
               maxHeight: showTitle ? '80px' : '0px',
               overflow: 'hidden',
               opacity: showTitle ? 1 : 0,
-              transition: 'max-height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease',
+              transition: 'max-height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease, border-top 0.35s ease, padding 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               gap: '4px',
               borderTop: showTitle ? '1px solid rgba(255,255,255,0.06)' : 'none',
               padding: showTitle ? '10px 16px 12px' : '0',
-              transition: 'max-height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease, border-top 0.35s ease, padding 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
             }}
           >
             <span
