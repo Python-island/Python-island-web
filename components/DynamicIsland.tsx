@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef, useLayoutEffect } from 'react';
 import { Github } from 'lucide-react';
+import { downloadData } from '../data/downloadData';
 
 type NavPage = '#hero' | '#features' | '#branches' | '#downloads' | '#developers';
 
@@ -17,6 +18,7 @@ const PAGE_TITLES: Record<Exclude<NavPage, '#hero'>, { title: string; subtitle: 
 export default function DynamicIsland() {
   const [isHovered, setIsHovered] = useState(false);
   const [activePage, setActivePage] = useState<NavPage>('#hero');
+  const [selectedBranch, setSelectedBranch] = useState(0);
   const featuresBtnRef = useRef<HTMLButtonElement>(null);
   const branchesBtnRef = useRef<HTMLButtonElement>(null);
   const downloadsBtnRef = useRef<HTMLButtonElement>(null);
@@ -79,6 +81,15 @@ export default function DynamicIsland() {
     };
   }, [activePage]);
 
+  // Sync selectedBranch with DownloadsContent
+  useEffect(() => {
+    const handleBranchSelect = (e: Event) => {
+      setSelectedBranch((e as CustomEvent<number>).detail);
+    };
+    window.addEventListener('pyisland:branch-select', handleBranchSelect);
+    return () => window.removeEventListener('pyisland:branch-select', handleBranchSelect);
+  }, []);
+
   useLayoutEffect(() => {
     const updateIndicator = () => {
       if (activePage === '#features' && featuresBtnRef.current) {
@@ -117,6 +128,11 @@ export default function DynamicIsland() {
   const showTitle = !isHero;
   const isDownloadsDev = activePage === '#downloads' || activePage === '#developers';
   const islandTop = isDownloadsDev ? '52px' : '24px';
+  const showBranchSwitcher = activePage === '#downloads';
+  const showIslandExpanded = showTitle || showBranchSwitcher;
+  const islandRadius = showIslandExpanded ? '32px' : '28px';
+  const outerRadius = showIslandExpanded ? '36px' : '32px';
+  const islandMinWidth = showIslandExpanded ? '380px' : '280px';
 
   return (
       <div
@@ -143,7 +159,7 @@ export default function DynamicIsland() {
           style={{
             position: 'absolute',
             inset: '-2px',
-            borderRadius: showTitle ? '36px' : '32px',
+            borderRadius: outerRadius,
             background: 'transparent',
             boxShadow: '0 0 0 1px rgba(113, 113, 122, 0.12), 0 8px 32px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(0, 0, 0, 0.15)',
             transform: isHovered ? 'scaleX(1.015)' : 'scaleX(1)',
@@ -158,7 +174,7 @@ export default function DynamicIsland() {
         <div
           style={{
             position: 'relative',
-            borderRadius: showTitle ? '32px' : '28px',
+            borderRadius: islandRadius,
             background: '#000000',
             backdropFilter: 'blur(24px)',
             WebkitBackdropFilter: 'blur(24px)',
@@ -167,7 +183,7 @@ export default function DynamicIsland() {
             flexDirection: 'column',
             alignItems: 'center',
             transform: isHovered ? 'scaleX(1.015)' : 'scaleX(1)',
-            minWidth: showTitle ? '380px' : '280px',
+            minWidth: islandMinWidth,
             transformOrigin: 'top center',
             transition: 'border-radius 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), min-width 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
           }}
@@ -390,6 +406,57 @@ export default function DynamicIsland() {
             >
               {pageInfo?.subtitle ?? ''}
             </span>
+          </div>
+
+          {/* Branch switcher row — only visible on #downloads page */}
+          <div
+            style={{
+              maxHeight: activePage === '#downloads' ? '56px' : '0px',
+              overflow: 'hidden',
+              opacity: activePage === '#downloads' ? 1 : 0,
+              transition: 'max-height 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              borderTop: activePage === '#downloads' ? '1px solid rgba(255,255,255,0.06)' : 'none',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                gap: '6px',
+                padding: '8px 12px',
+                transform: activePage === '#downloads' ? 'translateY(0) scale(1)' : 'translateY(6px) scale(0.95)',
+                opacity: activePage === '#downloads' ? 1 : 0,
+                transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease',
+              }}
+            >
+              {downloadData.map((item, i) => (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    setSelectedBranch(i);
+                    window.dispatchEvent(new CustomEvent('pyisland:branch-select', { detail: i }));
+                  }}
+                  style={{
+                    padding: '5px 12px',
+                    borderRadius: '8px',
+                    fontSize: '11px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    border: 'none',
+                    transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                    background: selectedBranch === i ? 'rgba(255,255,255,0.15)' : 'transparent',
+                    color: selectedBranch === i ? '#ffffff' : 'rgba(255,255,255,0.45)',
+                    boxShadow: selectedBranch === i ? '0 2px 12px rgba(0,0,0,0.3)' : 'none',
+                    transform: selectedBranch === i ? 'translateY(-1px) scale(1.02)' : 'translateY(0) scale(1)',
+                    letterSpacing: '0.01em',
+                  }}
+                >
+                  {item.name}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
