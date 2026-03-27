@@ -32,8 +32,7 @@ const downloadData: DownloadItem[] = [
       {
         title: 'pip 安装',
         commands: [
-          'pip install pyisland-pyside6',
-          'pip install pyisland-pyside6 -i https://pypi.tuna.tsinghua.edu.cn/simple',
+          'pip install pyisland-pyside6'
         ],
       },
       {
@@ -48,7 +47,6 @@ const downloadData: DownloadItem[] = [
         title: '运行',
         commands: [
           'pyisland',
-          'python -m pyisland',
         ],
       },
     ],
@@ -97,7 +95,6 @@ const downloadData: DownloadItem[] = [
       {
         title: '下载预编译包',
         commands: [
-          '# 前往 GitHub Releases 下载最新版本',
           'https://github.com/Python-island/Python-island/releases',
         ],
         note: '支持 Windows x64 安装包',
@@ -114,7 +111,6 @@ const downloadData: DownloadItem[] = [
       {
         title: '安装',
         commands: [
-          '# Windows MSI 安装包',
           'msiexec /i pyisland-tauri-x.x.x.msi',
         ],
       },
@@ -307,6 +303,7 @@ export default function DownloadsContent({
         backgroundSize: '400% 400%',
         animation: 'macBgShift 20s ease infinite',
         overflow: 'hidden',
+        paddingTop: '80px',
       }}
     >
       {/* macOS menu bar */}

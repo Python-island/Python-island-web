@@ -299,6 +299,7 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
         backgroundSize: '400% 400%',
         animation: 'macBgShift 20s ease infinite',
         overflow: 'hidden',
+        paddingTop: '48px',
       }}
     >
       {/* macOS menu bar */}
