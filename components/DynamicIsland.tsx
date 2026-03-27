@@ -81,14 +81,15 @@ export default function DynamicIsland() {
     };
   }, [activePage]);
 
-  // Sync selectedBranch with DownloadsContent
+  // Listen for branch-select from DownloadsContent (wheel scroll) to update island visual state
   useEffect(() => {
     const handleBranchSelect = (e: Event) => {
-      setSelectedBranch((e as CustomEvent<number>).detail);
+      const idx = (e as CustomEvent<number>).detail;
+      if (idx !== selectedBranch) setSelectedBranch(idx);
     };
     window.addEventListener('pyisland:branch-select', handleBranchSelect);
     return () => window.removeEventListener('pyisland:branch-select', handleBranchSelect);
-  }, []);
+  }, [selectedBranch]);
 
   useLayoutEffect(() => {
     const updateIndicator = () => {
@@ -161,6 +162,7 @@ export default function DynamicIsland() {
             inset: '-2px',
             borderRadius: outerRadius,
             background: 'transparent',
+            pointerEvents: 'none',
             boxShadow: '0 0 0 1px rgba(113, 113, 122, 0.12), 0 8px 32px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(0, 0, 0, 0.15)',
             transform: isHovered ? 'scaleX(1.015)' : 'scaleX(1)',
             transition: 'box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-radius 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), min-width 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
@@ -432,17 +434,13 @@ export default function DynamicIsland() {
               }}
             >
               {downloadData.map((item, i) => (
-                <button
+                <div
                   key={item.id}
-                  onClick={() => {
-                    window.dispatchEvent(new CustomEvent('pyisland:branch-select', { detail: i, bubbles: false }));
-                  }}
                   style={{
                     padding: '5px 12px',
                     borderRadius: '8px',
                     fontSize: '11px',
                     fontWeight: '600',
-                    cursor: 'pointer',
                     border: 'none',
                     transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
                     background: selectedBranch === i ? 'rgba(255,255,255,0.15)' : 'transparent',
@@ -450,10 +448,12 @@ export default function DynamicIsland() {
                     boxShadow: selectedBranch === i ? '0 2px 12px rgba(0,0,0,0.3)' : 'none',
                     transform: selectedBranch === i ? 'translateY(-1px) scale(1.02)' : 'translateY(0) scale(1)',
                     letterSpacing: '0.01em',
+                    cursor: 'default',
+                    userSelect: 'none',
                   }}
                 >
                   {item.name}
-                </button>
+                </div>
               ))}
             </div>
           </div>
