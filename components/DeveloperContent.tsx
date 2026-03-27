@@ -205,12 +205,24 @@ export default function DeveloperContent({ progress, activeView, phase, currentD
     const handleWheel = (e: WheelEvent) => {
       if (!isDevelopers || phase !== 'idle') return;
       e.preventDefault();
-      const next = (currentDev + (e.deltaY > 0 ? 1 : -1) + developers.length) % developers.length;
-      onSwitchDev(next);
+
+      if (e.deltaY > 0) {
+        // Scroll down: go to next developer; stop at last
+        if (currentDev < developers.length - 1) {
+          onSwitchDev(currentDev + 1);
+        }
+      } else {
+        // Scroll up: go to prev developer, or back to branches at first
+        if (currentDev > 0) {
+          onSwitchDev(currentDev - 1);
+        } else {
+          onBackToBranches();
+        }
+      }
     };
     window.addEventListener('wheel', handleWheel, { passive: false });
     return () => window.removeEventListener('wheel', handleWheel);
-  }, [isDevelopers, phase, currentDev, onSwitchDev, developers.length]);
+  }, [isDevelopers, phase, currentDev, onSwitchDev, onBackToBranches, developers.length]);
 
   // ── Dock magnify effect ──────────────────────────────────────────────────
   const dockContainerRef = useRef<HTMLDivElement>(null);
