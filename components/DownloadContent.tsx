@@ -566,6 +566,51 @@ export default function DownloadContent({
           </button>
         </div>
       </div>
+
+      {/* Footer — BeiAn + Copyright */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '12px',
+          left: 0,
+          right: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '4px',
+          opacity: slideInFactor * 0.45,
+          transform: `translateY(${(1 - slideInFactor) * 8}px)`,
+          transition: 'transform 0.7s ease 0.25s, opacity 0.7s ease 0.25s',
+          zIndex: 5,
+        }}
+      >
+        <a
+          href="https://beian.miit.gov.cn"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontSize: '11px',
+            color: 'rgba(255,255,255,0.50)',
+            textDecoration: 'none',
+            letterSpacing: '0.03em',
+            fontFamily: "'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+            transition: 'color 0.2s ease',
+            pointerEvents: 'auto',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.75)'; }}
+          onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.50)'; }}
+        >
+          苏ICP备2026009305号-2
+        </a>
+        <span style={{
+          fontSize: '10px',
+          color: 'rgba(255,255,255,0.30)',
+          letterSpacing: '0.04em',
+          fontFamily: "'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+        }}>
+          {"\u00A9"} 2026 - present Python Island. All rights reserved.
+        </span>
+      </div>
     </div>
   );
 }
