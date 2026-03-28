@@ -69,15 +69,18 @@ const APPS: AppIcon[] = [
 
 export default function DesktopIcons({ activeView, onNavigate }: DesktopIconsProps) {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-  const [bouncingIdx, setBouncingIdx] = useState<number | null>(null);
+  const [bouncingId, setBouncingId] = useState<string | null>(null);
+  const [bounceKey, setBounceKey] = useState<number>(0);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleClick = useCallback((app: AppIcon) => {
     if (activeView === app.target) {
-      if (timerRef.current) clearTimeout(timerRef.current);
-      const idx = APPS.findIndex(a => a.id === app.id);
-      setBouncingIdx(idx);
-      timerRef.current = setTimeout(() => setBouncingIdx(null), 600);
+      if (app.id === 'develop') {
+        if (timerRef.current) clearTimeout(timerRef.current);
+        setBouncingId(app.id);
+        setBounceKey(prev => prev + 1);
+        timerRef.current = setTimeout(() => setBouncingId(null), 600);
+      }
     } else {
       onNavigate(app.target);
     }
@@ -100,7 +103,7 @@ export default function DesktopIcons({ activeView, onNavigate }: DesktopIconsPro
       {APPS.map((app, i) => {
         const isActive = activeView === app.target;
         const isHovered = hoveredIdx === i;
-        const isBouncing = bouncingIdx === i;
+        const isBouncing = bouncingId === app.id;
 
         return (
           <div
@@ -121,6 +124,7 @@ export default function DesktopIcons({ activeView, onNavigate }: DesktopIconsPro
           >
             {/* App icon — macOS desktop icon style */}
             <div
+              key={isBouncing ? `bounce-${app.id}-${bounceKey}` : 'idle'}
               className={isBouncing ? styles.bounce : undefined}
               style={{
                 width: '64px',
