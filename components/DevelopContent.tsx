@@ -145,6 +145,18 @@ export default function DevelopContent({
     return () => window.removeEventListener('wheel', handleWheel);
   }, [isDevelop, phase, selectedBranch, onBackToBranches, onForwardToContributors]);
 
+  // Island-initiated switch: clicking pills on the island switcher row
+  useEffect(() => {
+    const handleIslandSwitch = (e: Event) => {
+      const idx = (e as CustomEvent<number>).detail;
+      if (idx !== selectedBranch && idx >= 0 && idx < developData.length) {
+        setSelectedBranch(idx);
+      }
+    };
+    window.addEventListener('pyisland:island-branch-select', handleIslandSwitch);
+    return () => window.removeEventListener('pyisland:island-branch-select', handleIslandSwitch);
+  }, [selectedBranch]);
+
   return (
     <div
       style={{

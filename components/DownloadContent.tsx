@@ -105,6 +105,18 @@ export default function DownloadContent({
     return () => window.removeEventListener('wheel', handleWheel);
   }, [handleWheel]);
 
+  // Island-initiated switch: clicking pills on the island switcher row
+  useEffect(() => {
+    const handleIslandSwitch = (e: Event) => {
+      const idx = (e as CustomEvent<number>).detail;
+      if (idx !== selectedIdx && idx >= 0 && idx < downloadBranches.length) {
+        setSelectedIdx(idx);
+      }
+    };
+    window.addEventListener('pyisland:island-download-select', handleIslandSwitch);
+    return () => window.removeEventListener('pyisland:island-download-select', handleIslandSwitch);
+  }, [selectedIdx]);
+
   if (opacity === 0 && !isDownload) return null;
 
   const branch = downloadBranches[displayIdx];

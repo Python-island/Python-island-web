@@ -105,6 +105,18 @@ export default function DynamicIsland() {
     return () => window.removeEventListener('pyisland:download-select', handleDownloadSelect);
   }, [selectedDownload]);
 
+  // Handle island-initiated branch switch — notify DevelopContent
+  const handleIslandBranchSwitch = useCallback((idx: number) => {
+    if (idx !== selectedBranch) setSelectedBranch(idx);
+    window.dispatchEvent(new CustomEvent('pyisland:island-branch-select', { detail: idx }));
+  }, [selectedBranch]);
+
+  // Handle island-initiated download switch — notify DownloadContent
+  const handleIslandDownloadSwitch = useCallback((idx: number) => {
+    if (idx !== selectedDownload) setSelectedDownload(idx);
+    window.dispatchEvent(new CustomEvent('pyisland:island-download-select', { detail: idx }));
+  }, [selectedDownload]);
+
   useLayoutEffect(() => {
     const updateIndicator = () => {
       if (activePage === '#features' && featuresBtnRef.current) {
@@ -479,7 +491,7 @@ export default function DynamicIsland() {
           {/* Branch switcher row — visible on #develop page */}
           <div
             style={{
-              maxHeight: activePage === '#develop' ? '56px' : '0px',
+              maxHeight: activePage === '#develop' ? '72px' : '0px',
               overflow: 'hidden',
               opacity: activePage === '#develop' ? 1 : 0,
               transition: 'max-height 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease',
@@ -489,19 +501,33 @@ export default function DynamicIsland() {
               borderTop: activePage === '#develop' ? '1px solid rgba(255,255,255,0.06)' : 'none',
             }}
           >
+            {/* Index label */}
+            <div
+              style={{
+                fontSize: '10px',
+                color: 'rgba(255,255,255,0.3)',
+                letterSpacing: '0.04em',
+                paddingTop: '6px',
+                transition: 'opacity 0.3s ease',
+                userSelect: 'none',
+              }}
+            >
+              {selectedBranch + 1} / {developData.length}
+            </div>
             <div
               style={{
                 display: 'flex',
                 gap: '6px',
-                padding: '8px 12px',
+                padding: '4px 12px 8px',
                 transform: activePage === '#develop' ? 'translateY(0) scale(1)' : 'translateY(6px) scale(0.95)',
                 opacity: activePage === '#develop' ? 1 : 0,
                 transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease',
               }}
             >
               {developData.map((item, i) => (
-                <div
+                <button
                   key={item.id}
+                  onClick={() => handleIslandBranchSwitch(i)}
                   style={{
                     padding: '5px 12px',
                     borderRadius: '8px',
@@ -514,12 +540,12 @@ export default function DynamicIsland() {
                     boxShadow: selectedBranch === i ? '0 2px 12px rgba(0,0,0,0.3)' : 'none',
                     transform: selectedBranch === i ? 'translateY(-1px) scale(1.02)' : 'translateY(0) scale(1)',
                     letterSpacing: '0.01em',
-                    cursor: 'default',
+                    cursor: 'pointer',
                     userSelect: 'none',
                   }}
                 >
                   {item.name}
-                </div>
+                </button>
               ))}
             </div>
           </div>
@@ -527,7 +553,7 @@ export default function DynamicIsland() {
           {/* Download branch switcher row — visible on #download page */}
           <div
             style={{
-              maxHeight: activePage === '#download' ? '56px' : '0px',
+              maxHeight: activePage === '#download' ? '72px' : '0px',
               overflow: 'hidden',
               opacity: activePage === '#download' ? 1 : 0,
               transition: 'max-height 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease',
@@ -537,19 +563,33 @@ export default function DynamicIsland() {
               borderTop: activePage === '#download' ? '1px solid rgba(255,255,255,0.06)' : 'none',
             }}
           >
+            {/* Index label */}
+            <div
+              style={{
+                fontSize: '10px',
+                color: 'rgba(255,255,255,0.3)',
+                letterSpacing: '0.04em',
+                paddingTop: '6px',
+                transition: 'opacity 0.3s ease',
+                userSelect: 'none',
+              }}
+            >
+              {selectedDownload + 1} / {downloadBranches.length}
+            </div>
             <div
               style={{
                 display: 'flex',
                 gap: '6px',
-                padding: '8px 12px',
+                padding: '4px 12px 8px',
                 transform: activePage === '#download' ? 'translateY(0) scale(1)' : 'translateY(6px) scale(0.95)',
                 opacity: activePage === '#download' ? 1 : 0,
                 transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease',
               }}
             >
               {downloadBranches.map((item, i) => (
-                <div
+                <button
                   key={item.id}
+                  onClick={() => handleIslandDownloadSwitch(i)}
                   style={{
                     padding: '5px 12px',
                     borderRadius: '8px',
@@ -562,12 +602,12 @@ export default function DynamicIsland() {
                     boxShadow: selectedDownload === i ? '0 2px 12px rgba(0,0,0,0.3)' : 'none',
                     transform: selectedDownload === i ? 'translateY(-1px) scale(1.02)' : 'translateY(0) scale(1)',
                     letterSpacing: '0.01em',
-                    cursor: 'default',
+                    cursor: 'pointer',
                     userSelect: 'none',
                   }}
                 >
                   {item.name}
-                </div>
+                </button>
               ))}
             </div>
           </div>
