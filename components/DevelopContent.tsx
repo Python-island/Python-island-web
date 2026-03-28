@@ -140,7 +140,7 @@ export default function DevelopContent({
     return `${period} ${displayHour}:${m}`;
   };
 
-  // macOS时间状态
+  // macOS 时间状态
   const [macTime, setMacTime] = useState(getMacTime);
 
   // 每秒更新macOS时间
@@ -206,7 +206,7 @@ export default function DevelopContent({
         pointerEvents: isDevelop ? 'auto' : 'none',
         transition: 'opacity 0.3s ease',
         zIndex: 4,
-        // macOS风格的深色渐变背景
+        // macOS 风格的深色渐变背景
         background: 'linear-gradient(160deg, #0a0a0a 0%, #1a1a1a 30%, #2d2d2d 55%, #1a1a1a 75%, #0a0a0a 100%)',
         backgroundSize: '400% 400%',
         animation: 'macBgShift 20s ease infinite',

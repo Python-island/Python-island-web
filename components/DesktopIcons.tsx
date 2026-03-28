@@ -151,7 +151,7 @@ export default function DesktopIcons({ activeView, onNavigate }: DesktopIconsPro
             onMouseLeave={() => setHoveredIdx(null)}
             title={app.label}
           >
-            {/* App icon — macOS desktop icon style */}
+            {/* 应用图标 — macOS 桌面图标风格 */}
             <div
               key={isBouncing ? `bounce-${app.id}-${bounceKey}` : 'idle'}
               className={isBouncing ? styles.bounce : undefined}

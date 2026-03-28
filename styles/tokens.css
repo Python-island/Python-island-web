@@ -44,7 +44,7 @@
     --glow-gray-strong: 0 0 80px rgba(0, 0, 0, 0.08);    /* 强灰色发光 */
   }
 
-  /* 重置所有元素的margin和padding */
+  /* 重置所有元素的 margin 和 padding */
   * {
     margin: 0;
     padding: 0;
