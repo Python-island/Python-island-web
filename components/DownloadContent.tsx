@@ -40,17 +40,23 @@ export default function DownloadContent({
   const [contentVisible, setContentVisible] = useState(true);
   const [windowHovered, setWindowHovered] = useState(false);
 
-  // Two-phase switch: fade out → switch → fade in
+  // Two-phase switch: fade out → switch → fade in; also sync island switcher
   useEffect(() => {
     if (selectedIdx === displayIdx) return;
     setContentVisible(false);
     const t1 = setTimeout(() => {
       setDisplayIdx(selectedIdx);
+      window.dispatchEvent(new CustomEvent('pyisland:download-select', { detail: selectedIdx }));
       const t2 = setTimeout(() => setContentVisible(true), 60);
       return () => clearTimeout(t2);
     }, 180);
     return () => clearTimeout(t1);
   }, [selectedIdx, displayIdx]);
+
+  // Sync island switcher on mount (first card selected)
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('pyisland:download-select', { detail: 0 }));
+  }, []);
 
   const getMacTime = () => {
     const now = new Date();
@@ -69,17 +75,25 @@ export default function DownloadContent({
     return () => clearInterval(id);
   }, []);
 
-  // Wheel: up → contributors, down → next card
+  // Wheel: up → previous card (or contributors if at first), down → next card
   const handleWheel = useCallback((e: WheelEvent) => {
     if (!isDownload || phase !== 'idle') return;
     if (e.deltaY < 0) {
       e.preventDefault();
-      onBackToContributors();
+      if (selectedIdx === 0) {
+        onBackToContributors();
+      } else {
+        const prev = selectedIdx - 1;
+        setSelectedIdx(prev);
+        window.dispatchEvent(new CustomEvent('pyisland:download-select', { detail: prev }));
+      }
     } else {
       e.preventDefault();
-      setSelectedIdx(prev => Math.min(prev + 1, downloadBranches.length - 1));
+      const next = Math.min(selectedIdx + 1, downloadBranches.length - 1);
+      setSelectedIdx(next);
+      window.dispatchEvent(new CustomEvent('pyisland:download-select', { detail: next }));
     }
-  }, [isDownload, phase, onBackToContributors]);
+  }, [isDownload, phase, onBackToContributors, selectedIdx]);
 
   useEffect(() => {
     window.addEventListener('wheel', handleWheel, { passive: false });
@@ -143,38 +157,6 @@ export default function DownloadContent({
         <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.88)', letterSpacing: '0.02em' }}>
           {macTime}
         </span>
-      </div>
-
-      {/* Page title */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '56px',
-          left: '50%',
-          transform: `translateX(-50%) translateY(${(1 - slideInFactor) * 20}px)`,
-          opacity: slideInFactor,
-          transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.05s, opacity 0.8s ease 0.05s',
-          textAlign: 'center',
-          zIndex: 5,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '6px',
-        }}
-      >
-        <h1 style={{
-          fontSize: 'clamp(22px, 4vw, 32px)',
-          fontWeight: '800',
-          color: 'rgba(255,255,255,0.92)',
-          letterSpacing: '-0.03em',
-          margin: 0,
-          fontFamily: "'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-        }}>
-          下载中心
-        </h1>
-        <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.38)', margin: 0, letterSpacing: '0.01em' }}>
-          选择适合你的版本，开启 Python 灵动岛之旅
-        </p>
       </div>
 
       {/* Main content */}
@@ -508,7 +490,7 @@ export default function DownloadContent({
           {downloadBranches.map((b, i) => (
             <button
               key={b.id}
-              onClick={() => setSelectedIdx(i)}
+              onClick={() => { setSelectedIdx(i); window.dispatchEvent(new CustomEvent('pyisland:download-select', { detail: i })); }}
               title={b.name}
               style={{
                 width: i === displayIdx ? '26px' : '8px',

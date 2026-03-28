@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef, useLayoutEffect } from 'react';
 import { Github } from 'lucide-react';
 import { developData } from '../data/developData';
+import { downloadBranches } from '../data/downloadData';
 
 type NavPage = '#hero' | '#features' | '#branches' | '#develop' | '#contributors' | '#download';
 
@@ -20,6 +21,7 @@ export default function DynamicIsland() {
   const [isHovered, setIsHovered] = useState(false);
   const [activePage, setActivePage] = useState<NavPage>('#hero');
   const [selectedBranch, setSelectedBranch] = useState(0);
+  const [selectedDownload, setSelectedDownload] = useState(0);
   const featuresBtnRef = useRef<HTMLButtonElement>(null);
   const branchesBtnRef = useRef<HTMLButtonElement>(null);
   const developBtnRef = useRef<HTMLButtonElement>(null);
@@ -93,6 +95,16 @@ export default function DynamicIsland() {
     return () => window.removeEventListener('pyisland:branch-select', handleBranchSelect);
   }, [selectedBranch]);
 
+  // Listen for download-select from DownloadContent (dot/wheel navigation) to update island visual state
+  useEffect(() => {
+    const handleDownloadSelect = (e: Event) => {
+      const idx = (e as CustomEvent<number>).detail;
+      if (idx !== selectedDownload) setSelectedDownload(idx);
+    };
+    window.addEventListener('pyisland:download-select', handleDownloadSelect);
+    return () => window.removeEventListener('pyisland:download-select', handleDownloadSelect);
+  }, [selectedDownload]);
+
   useLayoutEffect(() => {
     const updateIndicator = () => {
       if (activePage === '#features' && featuresBtnRef.current) {
@@ -135,10 +147,11 @@ export default function DynamicIsland() {
   const isHero = activePage === '#hero';
   const pageInfo = !isHero ? PAGE_TITLES[activePage] : null;
   const showTitle = !isHero;
-  const isDevelopContrib = activePage === '#develop' || activePage === '#contributors';
-  const islandTop = isDevelopContrib ? '52px' : '24px';
+  const isDarkPage = activePage === '#develop' || activePage === '#contributors' || activePage === '#download';
+  const islandTop = isDarkPage ? '52px' : '24px';
   const showBranchSwitcher = activePage === '#develop';
-  const showIslandExpanded = showTitle || showBranchSwitcher;
+  const showDownloadSwitcher = activePage === '#download';
+  const showIslandExpanded = showTitle || showBranchSwitcher || showDownloadSwitcher;
   const islandRadius = showIslandExpanded ? '32px' : '28px';
   const outerRadius = showIslandExpanded ? '36px' : '32px';
   const islandMinWidth = showIslandExpanded ? '380px' : '280px';
@@ -180,7 +193,7 @@ export default function DynamicIsland() {
           }}
         />
 
-        {/* Island body — height and width expand simultaneously from the top */}
+        {/* Island body */}
         <div
           style={{
             position: 'relative',
@@ -398,7 +411,7 @@ export default function DynamicIsland() {
             </a>
           </div>
 
-          {/* Title section — always rendered so CSS transitions actually animate */}
+          {/* Title section */}
           <div
             style={{
               maxHeight: showTitle ? '80px' : '0px',
@@ -436,7 +449,7 @@ export default function DynamicIsland() {
             </span>
           </div>
 
-          {/* Branch switcher row — only visible on #develop page */}
+          {/* Branch switcher row — visible on #develop page */}
           <div
             style={{
               maxHeight: activePage === '#develop' ? '56px' : '0px',
@@ -473,6 +486,54 @@ export default function DynamicIsland() {
                     color: selectedBranch === i ? '#ffffff' : 'rgba(255,255,255,0.45)',
                     boxShadow: selectedBranch === i ? '0 2px 12px rgba(0,0,0,0.3)' : 'none',
                     transform: selectedBranch === i ? 'translateY(-1px) scale(1.02)' : 'translateY(0) scale(1)',
+                    letterSpacing: '0.01em',
+                    cursor: 'default',
+                    userSelect: 'none',
+                  }}
+                >
+                  {item.name}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Download branch switcher row — visible on #download page */}
+          <div
+            style={{
+              maxHeight: activePage === '#download' ? '56px' : '0px',
+              overflow: 'hidden',
+              opacity: activePage === '#download' ? 1 : 0,
+              transition: 'max-height 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              borderTop: activePage === '#download' ? '1px solid rgba(255,255,255,0.06)' : 'none',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                gap: '6px',
+                padding: '8px 12px',
+                transform: activePage === '#download' ? 'translateY(0) scale(1)' : 'translateY(6px) scale(0.95)',
+                opacity: activePage === '#download' ? 1 : 0,
+                transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease',
+              }}
+            >
+              {downloadBranches.map((item, i) => (
+                <div
+                  key={item.id}
+                  style={{
+                    padding: '5px 12px',
+                    borderRadius: '8px',
+                    fontSize: '11px',
+                    fontWeight: '600',
+                    border: 'none',
+                    transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                    background: selectedDownload === i ? 'rgba(255,255,255,0.15)' : 'transparent',
+                    color: selectedDownload === i ? '#ffffff' : 'rgba(255,255,255,0.45)',
+                    boxShadow: selectedDownload === i ? '0 2px 12px rgba(0,0,0,0.3)' : 'none',
+                    transform: selectedDownload === i ? 'translateY(-1px) scale(1.02)' : 'translateY(0) scale(1)',
                     letterSpacing: '0.01em',
                     cursor: 'default',
                     userSelect: 'none',
