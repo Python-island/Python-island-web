@@ -1,17 +1,20 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Monitor, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Monitor } from 'lucide-react';
 
 interface MobileBlockerProps {
   message?: string;
+  videoSrc?: string;
 }
 
 export default function MobileBlocker({
   message = 'Pyisland 是一款专为 Windows 系统打造的桌面应用。在移动端使用会导致严重的功能异常与兼容性问题，请使用电脑访问本网站。',
+  videoSrc = '/dnr.mp4',
 }: MobileBlockerProps) {
   const [isMobile, setIsMobile] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -24,24 +27,31 @@ export default function MobileBlocker({
     };
 
     checkMobile();
-
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  if (!isMobile || dismissed) return null;
+  if (!isMobile) return null;
+
+  if (showVideo) {
+    return (
+      <div className="fixed inset-0 z-[9999] bg-black">
+        <video
+          ref={videoRef}
+          className="h-full w-full object-cover"
+          src={videoSrc}
+          autoPlay
+          playsInline
+          muted={false}
+          onEnded={() => setShowVideo(false)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black">
       <div className="relative flex w-full max-w-sm flex-col items-center gap-6 rounded-3xl border border-white p-8 shadow-2xl">
-        <button
-          onClick={() => setDismissed(true)}
-          className="absolute right-4 top-4 rounded-full p-1.5 text-white/60 transition-colors hover:bg-white/10 hover:text-white"
-          aria-label="关闭"
-        >
-          <X size={18} />
-        </button>
-
         <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white">
           <Monitor size={32} className="text-white" />
         </div>
@@ -67,7 +77,7 @@ export default function MobileBlocker({
         </div>
 
         <button
-          onClick={() => setDismissed(true)}
+          onClick={() => setShowVideo(true)}
           className="w-full rounded-xl border border-white py-2.5 text-sm font-semibold text-white transition-all hover:bg-white hover:text-black"
         >
           仍然继续访问
