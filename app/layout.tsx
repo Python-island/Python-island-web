@@ -8,6 +8,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import DynamicIsland from '@/components/DynamicIsland';
+import MobileBlocker from '@/components/MobileBlocker';
 
 /**
  * 网站元数据配置
@@ -82,6 +83,8 @@ export default function RootLayout({
       <body className="noiseOverlay">
         {/* 顶部动态岛导航 */}
         <DynamicIsland />
+        {/* 移动端访问拦截 */}
+        <MobileBlocker />
         {/* 页面内容 */}
         {children}
       </body>
