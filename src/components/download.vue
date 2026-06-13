@@ -35,7 +35,8 @@ const downloads = [
     tagColor: 'linear-gradient(135deg, #42b883, #35495e)',
     desc: '基于Pyside6+QwebEngineView打造的灵动岛，为pyisland主分支的最新版本。',
     features: ['Pyside6框架', 'QwebEngineView渲染', '轻量化', '学习简单'],
-    video: ''
+    videoIframe: 'https://www.douyin.com/video/7644551661326748963',
+    downloadUrl: 'https://example.com/downloads/PyIsland-1.7.1.zip'
   },
   {
     name: 'Eisland',
@@ -45,7 +46,8 @@ const downloads = [
     tagColor: 'linear-gradient(135deg, #306998, #FFD43B)',
     desc: '采用Electron框架制作的刘海屏，功能丰富，动画流畅，为该系列功能最多版本。',
     features: ['功能最强', '插件丰富', '动画流畅', '长期维护'],
-    video: ''
+    videoIframe: 'https://www.douyin.com/embed/video/7452990000000000002',
+    downloadUrl: 'https://example.com/downloads/Eisland-26.6.zip'
   },
   {
     name: 'Cisland',
@@ -55,7 +57,8 @@ const downloads = [
     tagColor: 'linear-gradient(135deg, #ffc131, #24c8db)',
     desc: '基于 Tauri 的轻量桌面版，体积更小、启动更快，原生系统集成更紧密。',
     features: ['超小体积', '启动飞快', '原生系统 API', '低内存占用'],
-    video: ''
+    videoIframe: 'https://www.douyin.com/embed/video/7452990000000000003',
+    downloadUrl: 'https://example.com/downloads/Cisland-0.1.zip'
   },
   {
     name: 'PyCapsule速记胶囊',
@@ -65,7 +68,8 @@ const downloads = [
     tagColor: 'linear-gradient(135deg, #5ee7df, #b490ca)',
     desc: 'PyIsland 的衍生项目，主打高效记录+文件中转，极低占用+离线语音',
     features: ['衍生项目', '胶囊设计', '文件中转', '离线语音'],
-    video: ''
+    videoIframe: 'https://www.douyin.com/embed/video/7452990000000000004',
+    downloadUrl: 'https://example.com/downloads/PyCapsule-1.0.zip'
   },
   {
     name: 'PyBall悬浮球',
@@ -75,7 +79,8 @@ const downloads = [
     tagColor: 'linear-gradient(135deg, #f093fb, #f5576c)',
     desc: 'PyIsland 的衍生项目，专为大屏幕，无键鼠，远程桌面设计，提供快捷的按钮操作。',
     features: ['衍生项目', '悬浮球体', '自动隐藏', '展开设计'],
-    video: ''
+    videoIframe: 'https://www.douyin.com/embed/video/7452990000000000005',
+    downloadUrl: 'https://example.com/downloads/PyBall-1.0.zip'
   },
   {
     name: 'Macisland',
@@ -85,7 +90,8 @@ const downloads = [
     tagColor: 'linear-gradient(135deg, #ff9966, #ff5e62)',
     desc: 'MacOS 专用版本，提供更优化的性能和用户体验。',
     features: ['MacOS专用', '全新赛道', '优秀动画', '持续开发'],
-    video: ''
+    videoIframe: 'https://www.douyin.com/embed/video/7452990000000000006',
+    downloadUrl: 'https://example.com/downloads/Macisland-1.1.zip'
   }
 ]
 
@@ -194,8 +200,9 @@ const currentGradient = gradients[Math.floor(Math.random() * gradients.length)]
 
               <a
                 class="modal-download-btn"
-                href="#"
-                @click.prevent="alert('替换为真实下载链接')"
+                :href="activeItem?.downloadUrl"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 立即下载
               </a>
@@ -204,21 +211,67 @@ const currentGradient = gradients[Math.floor(Math.random() * gradients.length)]
             <!-- 右侧：视频 -->
             <div class="modal-right">
               <div class="video-wrapper">
-                <template v-if="activeItem?.video">
-                  <video
-                    class="video-player"
-                    :src="activeItem.video"
-                    controls
-                    autoplay
-                    muted
-                    playsinline
-                  ></video>
-                </template>
-                <div v-else class="video-placeholder">
-                  <div class="placeholder-icon">🎬</div>
-                  <div class="placeholder-text">视频介绍</div>
-                  <div class="placeholder-sub">在 downloads 数据中填入 video 链接即可替换为真实视频</div>
-                </div>
+                <!-- PyIsland -->
+                <iframe
+                  v-if="activeItem?.name === 'PyIsland'"
+                  class="video-player"
+                  src="https://open.douyin.com/player/video?vid=7644551661326748963&amp;autoplay=0"
+                  referrerpolicy="unsafe-url"
+                  allowfullscreen>
+                </iframe>
+
+                <!-- Eisland -->
+                <iframe
+                  v-else-if="activeItem?.name === 'Eisland'"
+                  class="video-player"
+                  src="https://open.douyin.com/player/video?vid=7649399438473022758&amp;autoplay=0"
+                  referrerpolicy="unsafe-url"
+                  allowfullscreen>
+
+                </iframe>
+
+                <!-- Cisland -->
+                <iframe
+                  v-else-if="activeItem?.name === 'Cisland'"
+                  class="video-player"
+                  src="https://open.douyin.com/player/video?vid=7636440278383004970&amp;autoplay=0"
+                  referrerpolicy="unsafe-url"
+                  allowfullscreen>
+                </iframe>
+
+                <!-- PyCapsule -->
+                <iframe
+                  v-else-if="activeItem?.name === 'PyCapsule速记胶囊'"
+                  class="video-player"
+                  src="https://open.douyin.com/player/video?vid=7630483374364200244&amp;autoplay=0"
+                  referrerpolicy="unsafe-url"
+                  allowfullscreen>
+                </iframe>
+
+                <!-- PyBall -->
+                <iframe
+                  v-else-if="activeItem?.name === 'PyBall悬浮球'"
+                  class="video-player"
+                  src="https://open.douyin.com/player/video?vid=7627043738216385801&amp;autoplay=0"
+                  referrerpolicy="unsafe-url"
+                  allowfullscreen>
+                </iframe>
+
+                <!-- Macisland -->
+                <iframe
+                  v-else-if="activeItem?.name === 'Macisland'"
+                  class="video-player"
+                  src="https://open.douyin.com/player/video?vid=7623324521977695515&amp;autoplay=0"
+                  referrerpolicy="unsafe-url"
+                  allowfullscreen>
+                </iframe>
+
+                <!-- 没有匹配时的占位 -->
+<!--                <div v-else class="video-placeholder">-->
+<!--                  <div class="placeholder-icon">🎬</div>-->
+<!--                  <div class="placeholder-text">视频介绍</div>-->
+<!--                  <div class="placeholder-sub">请在上面的 iframe 标签中填入你的抖音嵌入链接</div>-->
+<!--                </div>-->
               </div>
             </div>
           </div>
@@ -447,9 +500,9 @@ const currentGradient = gradients[Math.floor(Math.random() * gradients.length)]
 .modal-content {
   position: relative;
   width: 100%;
-  max-width: 960px;
-  height: 80vh;
-  max-height: 620px;
+  max-width: 820px;
+  height: 90vh;
+  max-height: 720px;
   display: flex;
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(20px);
@@ -487,8 +540,8 @@ const currentGradient = gradients[Math.floor(Math.random() * gradients.length)]
 
 /* ---- 左侧介绍 ---- */
 .modal-left {
-  width: 45%;
-  padding: 36px 32px;
+  width: 42%;
+  padding: 36px 28px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -585,30 +638,29 @@ const currentGradient = gradients[Math.floor(Math.random() * gradients.length)]
 
 /* ---- 右侧视频 ---- */
 .modal-right {
-  width: 55%;
-  padding: 24px;
+  width: 58%;
+  padding: 20px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.25);
 }
 
 .video-wrapper {
   width: 100%;
-  height: 100%;
+  max-width: 360px;
+  aspect-ratio: 9 / 16;
   border-radius: 18px;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: black;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
 }
 
 .video-player {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  border: none;
   background: black;
 }
 
