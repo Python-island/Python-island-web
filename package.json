@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@icon-park/vue-next": "^1.4.2",
     "animejs": "^4.4.1",
+    "axios": "^1.18.0",
     "magic.css": "^1.4.8",
     "swiper": "^12.2.0",
     "vue": "^3.5.32"

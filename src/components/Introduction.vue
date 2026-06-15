@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
-
+import { Github, Tiktok, Tv, Like } from '@icon-park/vue-next'
 // 接收父组件传入的激活状态
 const props = defineProps({
   isActive: {
@@ -67,6 +67,34 @@ watch(
       <div :class="['header-section', playAnimations ? 'magictime vanishIn' : '']">
         <h1 class="introduction-title">PyIsland</h1>
         <p class="introduction-subtitle">Pyisland / Cisland / Eisland</p>
+      </div>
+
+      <!-- 社交按钮区域：仅在激活时播放动画 -->
+      <div :class="['social-buttons', playAnimations ? 'magictime vanishIn' : '']" :style="playAnimations ? 'animation-delay: 0.5s;' : ''">
+        <a href="https://github.com/Python-island/Python-island" target="_blank" rel="noopener noreferrer" class="social-button github-btn">
+          <Github theme="outline" size="24" fill="#333"/>
+          <span class="button-text">Pyisland / Cisland</span>
+        </a>
+        <a href="https://github.com/JNTMTMTM/eIsland" target="_blank" rel="noopener noreferrer" class="social-button github-btn">
+          <Github theme="outline" size="24" fill="#333"/>
+          <span class="button-text">Eisland</span>
+        </a>
+        <a href="https://www.douyin.com/video/7644551661326748963" target="_blank" rel="noopener noreferrer" class="social-button douyin-btn">
+          <Tiktok theme="outline" size="24" fill="#333"/>
+          <span class="button-text">抖音</span>
+        </a>
+        <a href="https://www.bilibili.com/video/BV1QEE36eEWJ/#reply116715266508450" target="_blank" rel="noopener noreferrer" class="social-button bilibili-btn">
+          <Tv theme="outline" size="24" fill="#333"/>
+          <span class="button-text">B站</span>
+        </a>
+        <a href="https://pyisland.com" target="_blank" rel="noopener noreferrer" class="social-button bilibili-btn">
+          <like theme="outline" size="24" fill="#333"/>
+          <span class="button-text">Pyisland官网（鸡哥友情链接）</span>
+        </a>
+        <a href="https://docs.pyisland.com" target="_blank" rel="noopener noreferrer" class="social-button bilibili-btn">
+          <like theme="outline" size="24" fill="#333"/>
+          <span class="button-text">Pyisland文档站</span>
+        </a>
       </div>
 
       <!-- 2x2 四宫格卡片：仅在激活时播放动画，渐进延迟 -->
@@ -229,6 +257,52 @@ watch(
   margin-top: 0.4rem;
   letter-spacing: 0.02em;
 }
+
+/* 社交按钮区域 */
+.social-buttons {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  animation-duration: 1s;
+}
+
+/* 社交按钮样式 */
+.social-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 0.8rem 1.2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: white;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.social-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+}
+
+.button-icon {
+  font-size: 1.2rem;
+}
+
+.button-text {
+  white-space: nowrap;
+}
+
+/* 按钮主题色 */
+.github-btn { background: rgba(75, 139, 190, 0.25); }
+.douyin-btn { background: rgba(255, 107, 107, 0.25); }
+.bilibili-btn { background: rgba(255, 230, 109, 0.25); }
 
 /* 2x2 四宫格卡片布局 */
 .feature-grid {

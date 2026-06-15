@@ -1,17 +1,11 @@
 <script setup>
-/**
- * download.vue - 下载页面
- * 6 个下载卡片网格；点击卡片弹出详细弹窗（左介绍 / 右视频）
- */
+import { ref, watch, computed, onMounted } from 'vue'
+import axios from 'axios'
 
-import { ref, watch } from 'vue'
-
-// 接收父组件传来的 isActive，用来控制进入动画
 const props = defineProps({
   isActive: { type: Boolean, default: false }
 })
 
-// 是否播放进入动画
 const playAnimations = ref(false)
 watch(
   () => props.isActive,
@@ -21,44 +15,59 @@ watch(
   { immediate: true }
 )
 
-/**
- * 6 个下载项
- * - name / version / size / desc / features / video
- * - video 可以是任何浏览器支持的 URL（mp4 / webm / 在线链接）
- */
-const downloads = [
+// 1. 存放接口原始数组
+const versionList = ref([])
+
+// 2. 接口请求函数（只保留一个，删掉第二个冲突的onMounted请求）
+const getVersionData = async () => {
+  try {
+    const res = await axios.get('https://server.pyisland.com/api/v1/version/list')
+    versionList.value = res.data.data
+    console.log('接口返回版本数据', versionList.value)
+  } catch (err) {
+    console.error('接口请求失败', err)
+  }
+}
+
+// 3. 计算属性实时筛选三个软件（数据一变自动更新）
+const eisland = computed(() => versionList.value.find(item => item.appName === 'eisland'))
+const tauri = computed(() => versionList.value.find(item => item.appName === 'tauri'))
+const pyisland = computed(() => versionList.value.find(item => item.appName === 'pyisland'))
+
+// ========== 关键修复：用 computed 生成下载列表，自动同步链接 ==========
+const downloads = computed(() => [
   {
-    name: 'PyIsland',
-    version: '1.7.1',
+    name: 'pyisland',
+    version: pyisland.value?.version || '1.7.2', // 修复不存在的versionInfo
     size: '2 MB',
     icon: 'P',
     tagColor: 'linear-gradient(135deg, #42b883, #35495e)',
     desc: '基于Pyside6+QwebEngineView打造的灵动岛，为pyisland主分支的最新版本。',
     features: ['Pyside6框架', 'QwebEngineView渲染', '轻量化', '学习简单'],
-    videoIframe: 'https://www.douyin.com/video/7644551661326748963',
-    downloadUrl: 'https://example.com/downloads/PyIsland-1.7.1.zip'
+    videoIframe: '',
+    downloadUrl: pyisland.value?.downloadUrl || '' // 自动响应接口数据
   },
   {
-    name: 'Eisland',
-    version: '26.6',
+    name: 'eisland',
+    version: eisland.value?.version || '26.6',
     size: '1024GB',
     icon: 'E',
     tagColor: 'linear-gradient(135deg, #306998, #FFD43B)',
     desc: '采用Electron框架制作的刘海屏，功能丰富，动画流畅，为该系列功能最多版本。',
     features: ['功能最强', '插件丰富', '动画流畅', '长期维护'],
-    videoIframe: 'https://www.douyin.com/embed/video/7452990000000000002',
-    downloadUrl: 'https://example.com/downloads/Eisland-26.6.zip'
+    videoIframe: '',
+    downloadUrl: eisland.value?.downloadUrl || ''
   },
   {
-    name: 'Cisland',
-    version: '0.1',
+    name: 'tauri',
+    version: tauri.value?.version || '0.1',
     size: '999 MB',
     icon: 'C',
     tagColor: 'linear-gradient(135deg, #ffc131, #24c8db)',
     desc: '基于 Tauri 的轻量桌面版，体积更小、启动更快，原生系统集成更紧密。',
     features: ['超小体积', '启动飞快', '原生系统 API', '低内存占用'],
-    videoIframe: 'https://www.douyin.com/embed/video/7452990000000000003',
-    downloadUrl: 'https://example.com/downloads/Cisland-0.1.zip'
+    videoIframe: '',
+    downloadUrl: tauri.value?.downloadUrl || ''
   },
   {
     name: 'PyCapsule速记胶囊',
@@ -68,8 +77,8 @@ const downloads = [
     tagColor: 'linear-gradient(135deg, #5ee7df, #b490ca)',
     desc: 'PyIsland 的衍生项目，主打高效记录+文件中转，极低占用+离线语音',
     features: ['衍生项目', '胶囊设计', '文件中转', '离线语音'],
-    videoIframe: 'https://www.douyin.com/embed/video/7452990000000000004',
-    downloadUrl: 'https://example.com/downloads/PyCapsule-1.0.zip'
+    videoIframe: '',
+    downloadUrl: ''
   },
   {
     name: 'PyBall悬浮球',
@@ -79,8 +88,8 @@ const downloads = [
     tagColor: 'linear-gradient(135deg, #f093fb, #f5576c)',
     desc: 'PyIsland 的衍生项目，专为大屏幕，无键鼠，远程桌面设计，提供快捷的按钮操作。',
     features: ['衍生项目', '悬浮球体', '自动隐藏', '展开设计'],
-    videoIframe: 'https://www.douyin.com/embed/video/7452990000000000005',
-    downloadUrl: 'https://example.com/downloads/PyBall-1.0.zip'
+    videoIframe: '',
+    downloadUrl: ''
   },
   {
     name: 'Macisland',
@@ -90,26 +99,27 @@ const downloads = [
     tagColor: 'linear-gradient(135deg, #ff9966, #ff5e62)',
     desc: 'MacOS 专用版本，提供更优化的性能和用户体验。',
     features: ['MacOS专用', '全新赛道', '优秀动画', '持续开发'],
-    videoIframe: 'https://www.douyin.com/embed/video/7452990000000000006',
-    downloadUrl: 'https://example.com/downloads/Macisland-1.1.zip'
+    videoIframe: '',
+    downloadUrl: ''
   }
-]
+])
 
-// ============ 弹窗状态 ============
+// 弹窗逻辑不变
 const modalOpen = ref(false)
 const activeItem = ref(null)
-
 function openModal(item) {
   activeItem.value = item
   modalOpen.value = true
 }
-
 function closeModal() {
   modalOpen.value = false
   activeItem.value = null
 }
+const tipDeveloping = () => {
+  alert('功能正在开发中，敬请期待~')
+}
 
-// 5 种预设渐变背景（与其他页面保持一致的随机风格）
+// 渐变不变
 const gradients = [
   'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
   'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
@@ -118,6 +128,9 @@ const gradients = [
   'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
 ]
 const currentGradient = gradients[Math.floor(Math.random() * gradients.length)]
+
+// 只保留一个onMounted，删掉你原来第二个重复请求下载链接的onMounted
+onMounted(getVersionData)
 </script>
 
 <template>
@@ -153,8 +166,8 @@ const currentGradient = gradients[Math.floor(Math.random() * gradients.length)]
           <h3 class="card-name">{{ item.name }}</h3>
           <div class="card-meta">
             <span>v{{ item.version }}</span>
-            <span class="dot">·</span>
-            <span>{{ item.size }}</span>
+<!--            <span class="dot">·</span>-->
+<!--            <span>{{ item.size }}</span>-->
           </div>
           <p class="card-desc">{{ item.desc }}</p>
           <div class="card-action">
@@ -186,8 +199,8 @@ const currentGradient = gradients[Math.floor(Math.random() * gradients.length)]
               <h2 class="modal-title">{{ activeItem?.name }}</h2>
               <div class="modal-meta">
                 <span>版本 v{{ activeItem?.version }}</span>
-                <span class="dot">·</span>
-                <span>大小 {{ activeItem?.size }}</span>
+                <!-- <span class="dot">·</span> -->
+                <!-- <span>大小 {{ activeItem?.size }}</span> -->
               </div>
               <p class="modal-desc">{{ activeItem?.desc }}</p>
 
@@ -199,12 +212,23 @@ const currentGradient = gradients[Math.floor(Math.random() * gradients.length)]
               </ul>
 
               <a
+                v-if="activeItem?.name !== 'Macisland'"
                 class="modal-download-btn"
                 :href="activeItem?.downloadUrl"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 立即下载
+              </a>
+              <a 
+                v-else
+                class="modal-download-btn"
+                :href="activeItem?.downloadUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                @click.prevent="tipDeveloping"
+              >
+                正在开发
               </a>
             </div>
 
@@ -213,28 +237,27 @@ const currentGradient = gradients[Math.floor(Math.random() * gradients.length)]
               <div class="video-wrapper">
                 <!-- PyIsland -->
                 <iframe
-                  v-if="activeItem?.name === 'PyIsland'"
+                  v-if="activeItem?.name === 'pyisland'"
                   class="video-player"
-                  src="https://open.douyin.com/player/video?vid=7644551661326748963&amp;autoplay=0"
+                  width="720" height="1280" frameborder="0" src="https://open.douyin.com/player/video?vid=7625625564702887187&amp;autoplay=0"
                   referrerpolicy="unsafe-url"
                   allowfullscreen>
                 </iframe>
 
                 <!-- Eisland -->
                 <iframe
-                  v-else-if="activeItem?.name === 'Eisland'"
+                  v-else-if="activeItem?.name === 'eisland'"
                   class="video-player"
-                  src="https://open.douyin.com/player/video?vid=7649399438473022758&amp;autoplay=0"
+                  width="720" height="1280" frameborder="0" src="https://open.douyin.com/player/video?vid=7649399438473022758&amp;autoplay=0"
                   referrerpolicy="unsafe-url"
                   allowfullscreen>
-
                 </iframe>
 
                 <!-- Cisland -->
                 <iframe
-                  v-else-if="activeItem?.name === 'Cisland'"
+                  v-else-if="activeItem?.name === 'tauri'"
                   class="video-player"
-                  src="https://open.douyin.com/player/video?vid=7636440278383004970&amp;autoplay=0"
+                  width="720" height="1280" frameborder="0" src="https://open.douyin.com/player/video?vid=7636440278383004970&amp;autoplay=0"
                   referrerpolicy="unsafe-url"
                   allowfullscreen>
                 </iframe>
@@ -243,7 +266,7 @@ const currentGradient = gradients[Math.floor(Math.random() * gradients.length)]
                 <iframe
                   v-else-if="activeItem?.name === 'PyCapsule速记胶囊'"
                   class="video-player"
-                  src="https://open.douyin.com/player/video?vid=7630483374364200244&amp;autoplay=0"
+                  width="720" height="1280" frameborder="0" src="https://open.douyin.com/player/video?vid=7630483374364200244&amp;autoplay=0"
                   referrerpolicy="unsafe-url"
                   allowfullscreen>
                 </iframe>
@@ -252,7 +275,7 @@ const currentGradient = gradients[Math.floor(Math.random() * gradients.length)]
                 <iframe
                   v-else-if="activeItem?.name === 'PyBall悬浮球'"
                   class="video-player"
-                  src="https://open.douyin.com/player/video?vid=7627043738216385801&amp;autoplay=0"
+                  width="720" height="1280" frameborder="0" src="https://open.douyin.com/player/video?vid=7627043738216385801&amp;autoplay=0"
                   referrerpolicy="unsafe-url"
                   allowfullscreen>
                 </iframe>
@@ -261,7 +284,7 @@ const currentGradient = gradients[Math.floor(Math.random() * gradients.length)]
                 <iframe
                   v-else-if="activeItem?.name === 'Macisland'"
                   class="video-player"
-                  src="https://open.douyin.com/player/video?vid=7623324521977695515&amp;autoplay=0"
+                  width="720" height="1280" frameborder="0" src="https://open.douyin.com/player/video?vid=7623324521977695515&amp;autoplay=0"
                   referrerpolicy="unsafe-url"
                   allowfullscreen>
                 </iframe>
