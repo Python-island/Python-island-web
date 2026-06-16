@@ -24,6 +24,7 @@ const getVersionData = async () => {
     const res = await axios.get('https://server.pyisland.com/api/v1/version/list')
     versionList.value = res.data.data
     // console.log('接口返回版本数据', versionList.value)
+    console.log(eisland.value.downloadUrl)
   } catch (err) {
     // console.error('接口请求失败', err)
   }
@@ -38,6 +39,7 @@ const pyball = computed(() => versionList.value.find(item => item.appName === 'p
 const macisland = computed(() => versionList.value.find(item => item.appName === 'macisland'))
 
 
+
 // ========== 关键修复：用 computed 生成下载列表，自动同步链接 ==========
 const downloads = computed(() => [
   {
@@ -49,7 +51,7 @@ const downloads = computed(() => [
     desc: '基于Pyside6+QwebEngineView打造的灵动岛，为pyisland主分支的最新版本。',
     features: ['Pyside6框架', 'QwebEngineView渲染', '轻量化', '学习简单'],
     videoIframe: '',
-    downloadUrl: pyisland.value?.downloadUrl || 'https://www.pyisland.com' // 自动响应接口数据
+    downloadUrl: pyisland.value?.downloadUrl
   },
   {
     name: 'eisland',
@@ -60,7 +62,7 @@ const downloads = computed(() => [
     desc: '采用Electron框架制作的刘海屏，功能丰富，动画流畅，为该系列功能最多版本。',
     features: ['功能最强', '插件丰富', '动画流畅', '长期维护'],
     videoIframe: '',
-    downloadUrl: eisland.value?.downloadUrl || 'https://www.pyisland.com'
+    downloadUrl: eisland.value?.downloadUrl
   },
   {
     name: 'tauri',
@@ -71,7 +73,7 @@ const downloads = computed(() => [
     desc: '基于 Tauri 的轻量桌面版，体积更小、启动更快，原生系统集成更紧密。',
     features: ['超小体积', '启动飞快', '原生系统 API', '低内存占用'],
     videoIframe: '',
-    downloadUrl: tauri.value?.downloadUrl || 'https://www.pyisland.com'
+    downloadUrl: tauri.value?.downloadUrl
   },
   {
     name: 'pycapsule',
@@ -82,7 +84,7 @@ const downloads = computed(() => [
     desc: 'PyIsland 的衍生项目，主打高效记录+文件中转，极低占用+离线语音',
     features: ['衍生项目', '胶囊设计', '文件中转', '离线语音'],
     videoIframe: '',
-    downloadUrl: pycapsule.value?.downloadUrl || 'https://www.pyisland.com'
+    downloadUrl: pycapsule.value?.downloadUrl
   },
   {
     name: 'pyball',
@@ -93,7 +95,7 @@ const downloads = computed(() => [
     desc: 'PyIsland 的衍生项目，专为大屏幕，无键鼠，远程桌面设计，提供快捷的按钮操作。',
     features: ['衍生项目', '悬浮球体', '自动隐藏', '展开设计'],
     videoIframe: '',
-    downloadUrl: pyball.value?.downloadUrl || 'https://www.pyisland.com'
+    downloadUrl: pyball.value?.downloadUrl
   },
   {
     name: 'macisland',
@@ -104,7 +106,7 @@ const downloads = computed(() => [
     desc: 'MacOS 专用版本，提供更优化的性能和用户体验。',
     features: ['MacOS专用', '全新赛道', '优秀动画', '持续开发'],
     videoIframe: '',
-    downloadUrl: macisland.value?.downloadUrl || 'https://www.pyisland.com'
+    downloadUrl: macisland.value?.downloadUrl
   }
 ])
 
@@ -216,7 +218,7 @@ onMounted(getVersionData)
               </ul>
 
               <a
-                v-if="activeItem?.name !== 'macisland'"
+                v-if="activeItem.downloadUrl !== undefined"
                 class="modal-download-btn"
                 :href="activeItem?.downloadUrl"
                 target="_blank"
@@ -225,23 +227,14 @@ onMounted(getVersionData)
                 立即下载
               </a>
               <a 
-                v-else-if="activeItem?.name === 'macisland'"
+                v-if="activeItem.downloadUrl === undefined"
                 class="modal-download-btn"
                 :href="activeItem?.downloadUrl"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                正在开发，将跳转到主站点
-              </a>
-              <a 
-                v-else-if="activeItem?.downloadUrl === 'https://www.pyisland.com'"
-                class="modal-download-btn"
-                :href="activeItem?.downloadUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                正在维护，将跳转到主站点
-              </a>
+                正在维护
+                </a>
             </div>
 
             <!-- 右侧：视频 -->
