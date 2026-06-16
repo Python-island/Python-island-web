@@ -23,9 +23,9 @@ const getVersionData = async () => {
   try {
     const res = await axios.get('https://server.pyisland.com/api/v1/version/list')
     versionList.value = res.data.data
-    console.log('接口返回版本数据', versionList.value)
+    // console.log('接口返回版本数据', versionList.value)
   } catch (err) {
-    console.error('接口请求失败', err)
+    // console.error('接口请求失败', err)
   }
 }
 
@@ -33,6 +33,10 @@ const getVersionData = async () => {
 const eisland = computed(() => versionList.value.find(item => item.appName === 'eisland'))
 const tauri = computed(() => versionList.value.find(item => item.appName === 'tauri'))
 const pyisland = computed(() => versionList.value.find(item => item.appName === 'pyisland'))
+const pycapsule = computed(() => versionList.value.find(item => item.appName === 'pycapsule'))
+const pyball = computed(() => versionList.value.find(item => item.appName === 'pyball'))
+const macisland = computed(() => versionList.value.find(item => item.appName === 'macisland'))
+
 
 // ========== 关键修复：用 computed 生成下载列表，自动同步链接 ==========
 const downloads = computed(() => [
@@ -45,7 +49,7 @@ const downloads = computed(() => [
     desc: '基于Pyside6+QwebEngineView打造的灵动岛，为pyisland主分支的最新版本。',
     features: ['Pyside6框架', 'QwebEngineView渲染', '轻量化', '学习简单'],
     videoIframe: '',
-    downloadUrl: pyisland.value?.downloadUrl || '' // 自动响应接口数据
+    downloadUrl: pyisland.value?.downloadUrl || 'https://www.pyisland.com' // 自动响应接口数据
   },
   {
     name: 'eisland',
@@ -56,7 +60,7 @@ const downloads = computed(() => [
     desc: '采用Electron框架制作的刘海屏，功能丰富，动画流畅，为该系列功能最多版本。',
     features: ['功能最强', '插件丰富', '动画流畅', '长期维护'],
     videoIframe: '',
-    downloadUrl: eisland.value?.downloadUrl || ''
+    downloadUrl: eisland.value?.downloadUrl || 'https://www.pyisland.com'
   },
   {
     name: 'tauri',
@@ -67,40 +71,40 @@ const downloads = computed(() => [
     desc: '基于 Tauri 的轻量桌面版，体积更小、启动更快，原生系统集成更紧密。',
     features: ['超小体积', '启动飞快', '原生系统 API', '低内存占用'],
     videoIframe: '',
-    downloadUrl: tauri.value?.downloadUrl || ''
+    downloadUrl: tauri.value?.downloadUrl || 'https://www.pyisland.com'
   },
   {
-    name: 'PyCapsule速记胶囊',
-    version: '1.0',
+    name: 'pycapsule',
+    version: pycapsule.value?.version || '1.0',
     size: '2 MB',
     icon: '💊',
     tagColor: 'linear-gradient(135deg, #5ee7df, #b490ca)',
     desc: 'PyIsland 的衍生项目，主打高效记录+文件中转，极低占用+离线语音',
     features: ['衍生项目', '胶囊设计', '文件中转', '离线语音'],
     videoIframe: '',
-    downloadUrl: ''
+    downloadUrl: pycapsule.value?.downloadUrl || 'https://www.pyisland.com'
   },
   {
-    name: 'PyBall悬浮球',
-    version: '1.0',
+    name: 'pyball',
+    version: pyball.value?.version || '1.0',
     size: '2 MB',
     icon: '🟣',
     tagColor: 'linear-gradient(135deg, #f093fb, #f5576c)',
     desc: 'PyIsland 的衍生项目，专为大屏幕，无键鼠，远程桌面设计，提供快捷的按钮操作。',
     features: ['衍生项目', '悬浮球体', '自动隐藏', '展开设计'],
     videoIframe: '',
-    downloadUrl: ''
+    downloadUrl: pyball.value?.downloadUrl || 'https://www.pyisland.com'
   },
   {
-    name: 'Macisland',
-    version: '1.1',
+    name: 'macisland',
+    version: macisland.value?.version || '1.1',
     size: '52 MB',
     icon: '🍎',
     tagColor: 'linear-gradient(135deg, #ff9966, #ff5e62)',
     desc: 'MacOS 专用版本，提供更优化的性能和用户体验。',
     features: ['MacOS专用', '全新赛道', '优秀动画', '持续开发'],
     videoIframe: '',
-    downloadUrl: ''
+    downloadUrl: macisland.value?.downloadUrl || 'https://www.pyisland.com'
   }
 ])
 
@@ -212,7 +216,7 @@ onMounted(getVersionData)
               </ul>
 
               <a
-                v-if="activeItem?.name !== 'Macisland'"
+                v-if="activeItem?.name !== 'macisland'"
                 class="modal-download-btn"
                 :href="activeItem?.downloadUrl"
                 target="_blank"
@@ -221,14 +225,22 @@ onMounted(getVersionData)
                 立即下载
               </a>
               <a 
-                v-else
+                v-else-if="activeItem?.name === 'macisland'"
                 class="modal-download-btn"
                 :href="activeItem?.downloadUrl"
                 target="_blank"
                 rel="noopener noreferrer"
-                @click.prevent="tipDeveloping"
               >
-                正在开发
+                正在开发，将跳转到主站点
+              </a>
+              <a 
+                v-else-if="activeItem?.downloadUrl === 'https://www.pyisland.com'"
+                class="modal-download-btn"
+                :href="activeItem?.downloadUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                正在维护，将跳转到主站点
               </a>
             </div>
 
@@ -264,7 +276,7 @@ onMounted(getVersionData)
 
                 <!-- PyCapsule -->
                 <iframe
-                  v-else-if="activeItem?.name === 'PyCapsule速记胶囊'"
+                  v-else-if="activeItem?.name === 'pycapsule'"
                   class="video-player"
                   width="720" height="1280" frameborder="0" src="https://open.douyin.com/player/video?vid=7630483374364200244&amp;autoplay=0"
                   referrerpolicy="unsafe-url"
@@ -273,7 +285,7 @@ onMounted(getVersionData)
 
                 <!-- PyBall -->
                 <iframe
-                  v-else-if="activeItem?.name === 'PyBall悬浮球'"
+                  v-else-if="activeItem?.name === 'pyball'"
                   class="video-player"
                   width="720" height="1280" frameborder="0" src="https://open.douyin.com/player/video?vid=7627043738216385801&amp;autoplay=0"
                   referrerpolicy="unsafe-url"
@@ -282,7 +294,7 @@ onMounted(getVersionData)
 
                 <!-- Macisland -->
                 <iframe
-                  v-else-if="activeItem?.name === 'Macisland'"
+                  v-else-if="activeItem?.name === 'macisland'"
                   class="video-player"
                   width="720" height="1280" frameborder="0" src="https://open.douyin.com/player/video?vid=7623324521977695515&amp;autoplay=0"
                   referrerpolicy="unsafe-url"
