@@ -24,7 +24,7 @@ const getVersionData = async () => {
     const res = await axios.get('https://server.pyisland.com/api/v1/version/list')
     versionList.value = res.data.data
     // console.log('接口返回版本数据', versionList.value)
-    console.log(eisland.value.downloadUrl)
+    // console.log(eisland.value.downloadUrl)
   } catch (err) {
     // console.error('接口请求失败', err)
   }
