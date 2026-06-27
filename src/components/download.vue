@@ -43,15 +43,15 @@ const macisland = computed(() => versionList.value.find(item => item.appName ===
 // ========== 关键修复：用 computed 生成下载列表，自动同步链接 ==========
 const downloads = computed(() => [
   {
-    name: 'pyisland',
-    version: pyisland.value?.version || '1.7.2', // 修复不存在的versionInfo
-    size: '2 MB',
+    name: 'pyisland_sideV',
+    version: '1.2B' || pyisland.value?.version, // 修复不存在的versionInfo
+    size: '170 MB',
     icon: 'P',
     tagColor: 'linear-gradient(135deg, #42b883, #35495e)',
-    desc: '基于Pyside6+QwebEngineView打造的灵动岛，为pyisland主分支的最新版本。',
+    desc: '基于Pyside6+QwebEngineView打造的侧边栏，为pyisland主分支的最新版本。',
     features: ['Pyside6框架', 'QwebEngineView渲染', '轻量化', '学习简单'],
     videoIframe: '',
-    downloadUrl: pyisland.value?.downloadUrl
+    downloadUrl: pyisland.value?.downloadUrl || 'https://release-assets.githubusercontent.com/github-production-release-asset/1170363031/7190413c-b36f-41dc-a41b-cad63e670db2?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-06-27T15%3A01%3A06Z&rscd=attachment%3B+filename%3DPyisland_sideV.dist1.2B.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-06-27T14%3A00%3A08Z&ske=2026-06-27T15%3A01%3A06Z&sks=b&skv=2018-11-09&sig=kKdJKMApKldkTTxrFNfx9O0ekd18XM8oxj3p9j3Zz14%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc4MjU3MjYxMiwibmJmIjoxNzgyNTY5MDEyLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.qvy3O5RWr4PUw-UhRISTY0j_LTyc3PvZTLFK3r0Scww&response-content-disposition=attachment%3B%20filename%3DPyisland_sideV.dist1.2B.zip&response-content-type=application%2Foctet-stream'
   },
   {
     name: 'eisland',
@@ -218,23 +218,33 @@ onMounted(getVersionData)
               </ul>
 
               <a
-                v-if="activeItem.downloadUrl !== undefined"
+                v-if="activeItem.downloadUrl !== undefined && activeItem.name !== 'pyisland_sideV'"
                 class="modal-download-btn"
                 :href="activeItem?.downloadUrl"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 立即下载
-              </a>
+              </a>          
               <a 
-                v-if="activeItem.downloadUrl === undefined"
+                v-else
                 class="modal-download-btn"
                 :href="activeItem?.downloadUrl"
                 target="_blank"
                 rel="noopener noreferrer"
               >
+                前往Github下载
+                </a>
+              <a 
+                v-if="activeItem.downloadUrl === undefined"
+                class="modal-download-btn"
+                :href="activeItem?.downloadUrl"ran
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 正在维护
                 </a>
+
             </div>
 
             <!-- 右侧：视频 -->
@@ -242,9 +252,9 @@ onMounted(getVersionData)
               <div class="video-wrapper">
                 <!-- PyIsland -->
                 <iframe
-                  v-if="activeItem?.name === 'pyisland'"
+                  v-if="activeItem?.name === 'pyisland_sideV'"
                   class="video-player"
-                  width="720" height="1280" frameborder="0" src="https://open.douyin.com/player/video?vid=7625625564702887187&amp;autoplay=0"
+                  width="720" height="1280" frameborder="0" src="https://open.douyin.com/player/video?vid=7653817032713981220&amp;autoplay=0"
                   referrerpolicy="unsafe-url"
                   allowfullscreen>
                 </iframe>

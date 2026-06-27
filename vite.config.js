@@ -1,19 +1,20 @@
-import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
+import seoPrerender from 'vite-plugin-seo-prerender'
+import { fileURLToPath, URL } from 'node:url'
+import { routes } from './src/router/routes'
 
-// https://vite.dev/config/
+const resolvePath = (dir) => fileURLToPath(new URL(dir, import.meta.url))
+
 export default defineConfig({
-  base: '/', // 网站部署在域名根目录（xxx.com），固定写这个
+  resolve: {
+    alias: { '@': resolvePath('./src') }
+  },
   plugins: [
     vue(),
-    vueDevTools(),
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    },
-  },
+    seoPrerender({
+      hostname: 'https://www.silenthim.top',
+      routes: routes.map(route => route.path)
+    })
+  ]
 })
