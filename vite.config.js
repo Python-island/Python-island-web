@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import seoPrerender from 'vite-plugin-seo-prerender'
+import sitemap from 'vite-plugin-sitemap'
 import { fileURLToPath, URL } from 'node:url'
-import { routes } from './src/router/routes'
+import { routesPaths } from './src/router/routes-paths'
 
 const resolvePath = (dir) => fileURLToPath(new URL(dir, import.meta.url))
 
@@ -12,9 +12,9 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    seoPrerender({
+    sitemap({
       hostname: 'https://www.silenthim.top',
-      routes: routes.map(route => route.path)
+      dynamicRoutes: routesPaths
     })
   ]
 })

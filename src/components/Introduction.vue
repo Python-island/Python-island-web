@@ -1,13 +1,6 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { Github, Tiktok, Tv, Like } from '@icon-park/vue-next'
-// 接收父组件传入的激活状态
-const props = defineProps({
-  isActive: {
-    type: Boolean,
-    default: false
-  }
-})
 
 // 定义渐变色组合数组
 const gradientColors = [
@@ -20,35 +13,17 @@ const gradientColors = [
 
 // 随机选择一个渐变色
 const currentGradient = ref('')
-// 是否播放卡片动画（默认不播放，等页面激活时才播放）
+// 是否播放卡片动画
 const playAnimations = ref(false)
 
 onMounted(() => {
   const randomIndex = Math.floor(Math.random() * gradientColors.length)
   currentGradient.value = gradientColors[randomIndex]
-  // 如果页面初始化时就是激活状态，则立即播放动画
-  if (props.isActive) {
+  // 页面挂载后播放动画
+  setTimeout(() => {
     playAnimations.value = true
-  }
+  }, 100)
 })
-
-// 监听激活状态变化：当页面变为激活时播放动画，变为非激活时重置
-watch(
-  () => props.isActive,
-  (active) => {
-    if (active) {
-      // 先重置，再开启 —— 确保每次进入都能重新播放
-      playAnimations.value = false
-      // 等 DOM 更新后再开启，保证动画从 0 开始播放
-      setTimeout(() => {
-        playAnimations.value = true
-      }, 50)
-    } else {
-      // 离开页面时重置，下次进入再播
-      playAnimations.value = false
-    }
-  }
-)
 </script>
 
 <template>
@@ -151,7 +126,7 @@ watch(
 .introduction-container {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -164,8 +139,8 @@ watch(
 /* 背景装饰动画 */
 .background-decoration {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   top: 0;
   left: 0;
   pointer-events: none;

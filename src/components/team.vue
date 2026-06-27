@@ -4,16 +4,8 @@
  * 风格与 Welcome/Introduction 保持一致：渐变背景 + 浮动装饰 + 居中内容
  */
 
-import { ref, watch, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import Group from './group.vue'
-
-// 接收父组件传入的激活状态（控制内部动画播放时机）
-const props = defineProps({
-  isActive: {
-    type: Boolean,
-    default: false
-  }
-})
 
 // 渐变色组合（与 Introduction 保持类似风格）
 const gradientColors = [
@@ -26,31 +18,17 @@ const gradientColors = [
 
 // 随机选择一个渐变色
 const currentGradient = ref('')
-// 是否播放进入动画（默认不播放，等到页面激活时才播）
+// 是否播放进入动画
 const playAnimations = ref(false)
 
 onMounted(() => {
   const randomIndex = Math.floor(Math.random() * gradientColors.length)
   currentGradient.value = gradientColors[randomIndex]
-  // 如果页面初始就是激活状态，立即播动画
-  if (props.isActive) {
+  // 页面挂载后播放动画
+  setTimeout(() => {
     playAnimations.value = true
-  }
+  }, 100)
 })
-
-watch(
-  () => props.isActive,
-  (active) => {
-    if (active) {
-      playAnimations.value = false
-      setTimeout(() => {
-        playAnimations.value = true
-      }, 50)
-    } else {
-      playAnimations.value = false
-    }
-  }
-)
 </script>
 
 <template>
@@ -83,7 +61,7 @@ watch(
 .team-container {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -97,8 +75,8 @@ watch(
 /* 背景装饰动画（与其它页面一致） */
 .background-decoration {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   top: 0;
   left: 0;
   pointer-events: none;

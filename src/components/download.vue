@@ -1,19 +1,15 @@
 <script setup>
-import { ref, watch, computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 
-const props = defineProps({
-  isActive: { type: Boolean, default: false }
-})
-
 const playAnimations = ref(false)
-watch(
-  () => props.isActive,
-  (val) => {
-    if (val) playAnimations.value = true
-  },
-  { immediate: true }
-)
+
+onMounted(() => {
+  // 页面挂载后播放动画
+  setTimeout(() => {
+    playAnimations.value = true
+  }, 100)
+})
 
 // 1. 存放接口原始数组
 const versionList = ref([])
@@ -326,7 +322,7 @@ onMounted(getVersionData)
 .download-container {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -339,8 +335,8 @@ onMounted(getVersionData)
 
 .background-decoration {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   top: 0;
   left: 0;
   pointer-events: none;
