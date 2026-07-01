@@ -40,8 +40,8 @@ onMounted(() => {
     <div class="introduction-content">
       <!-- 标题区：仅在激活时播放动画 -->
       <div :class="['header-section', playAnimations ? 'magictime vanishIn' : '']">
-        <h1 class="introduction-title">PyIsland</h1>
-        <p class="introduction-subtitle">Pyisland / Cisland / Eisland</p>
+        <h1 class="introduction-title">PyIsland开源项目平台介绍</h1>
+        <p class="introduction-subtitle">Pyisland / Cisland / Eisland - 一站式开源项目分享平台</p>
       </div>
 
       <!-- 社交按钮区域：仅在激活时播放动画 -->

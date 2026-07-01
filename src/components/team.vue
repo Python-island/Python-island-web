@@ -45,8 +45,8 @@ onMounted(() => {
     <div class="team-content">
       <!-- 标题区 -->
       <div :class="['header-section', playAnimations ? 'magictime vanishIn' : '']">
-        <h1 class="team-title">开发团队</h1>
-        <p class="team-subtitle">认识每一位贡献者</p>
+        <h1 class="team-title">PyIsland开发团队介绍</h1>
+        <p class="team-subtitle">认识每一位为开源项目做出贡献的核心成员</p>
       </div>
 
       <!-- 团队卡片 Swiper 组件 -->

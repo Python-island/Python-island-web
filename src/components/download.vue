@@ -40,14 +40,14 @@ const macisland = computed(() => versionList.value.find(item => item.appName ===
 const downloads = computed(() => [
   {
     name: 'pyisland_sideV',
-    version: '1.2B' || pyisland.value?.version, // 修复不存在的versionInfo
-    size: '170 MB',
+    version: '1.3B' || pyisland.value?.version, // 修复不存在的versionInfo
+    size: '120 MB',
     icon: 'P',
     tagColor: 'linear-gradient(135deg, #42b883, #35495e)',
     desc: '基于Pyside6+QwebEngineView打造的侧边栏，为pyisland主分支的最新版本。',
     features: ['Pyside6框架', 'QwebEngineView渲染', '轻量化', '学习简单'],
     videoIframe: '',
-    downloadUrl: pyisland.value?.downloadUrl || 'https://release-assets.githubusercontent.com/github-production-release-asset/1170363031/7190413c-b36f-41dc-a41b-cad63e670db2?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-06-27T15%3A01%3A06Z&rscd=attachment%3B+filename%3DPyisland_sideV.dist1.2B.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-06-27T14%3A00%3A08Z&ske=2026-06-27T15%3A01%3A06Z&sks=b&skv=2018-11-09&sig=kKdJKMApKldkTTxrFNfx9O0ekd18XM8oxj3p9j3Zz14%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc4MjU3MjYxMiwibmJmIjoxNzgyNTY5MDEyLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.qvy3O5RWr4PUw-UhRISTY0j_LTyc3PvZTLFK3r0Scww&response-content-disposition=attachment%3B%20filename%3DPyisland_sideV.dist1.2B.zip&response-content-type=application%2Foctet-stream'
+    downloadUrl: 'https://github.com/Python-island/Python-island/releases/tag/1.3B'
   },
   {
     name: 'eisland',
@@ -149,8 +149,8 @@ onMounted(getVersionData)
     <div class="download-content">
       <!-- 标题区 -->
       <div :class="['header-section', playAnimations ? 'magictime swashIn' : '']">
-        <h1 class="download-title">下载中心</h1>
-        <p class="download-subtitle">选择适合你的 PyIsland 版本</p>
+        <h1 class="download-title">PyIsland项目下载中心</h1>
+        <p class="download-subtitle">选择适合你的PyIsland版本，获取所有开源项目的最新安装包</p>
       </div>
 
       <!-- 卡片网格 -->

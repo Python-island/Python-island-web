@@ -39,8 +39,8 @@ onMounted(() => {
     
     <!-- 欢迎文字区域 -->
     <div class="welcome-content">
-      <h1 class="welcome-title magictime vanishIn">欢迎来到PyIsland</h1>
-      <p class="welcome-subtitle magictime vanishIn" style="animation-delay: 0.3s;">Pyisland + Cisland + Eisland</p>
+      <h1 class="welcome-title magictime vanishIn">欢迎来到PyIsland开源项目平台</h1>
+      <p class="welcome-subtitle magictime vanishIn" style="animation-delay: 0.3s;">探索Pyisland、Cisland、Eisland、PyCapsule、Pyball、Macisland等优质开源项目</p>
     </div>
   </div>
 </template>
