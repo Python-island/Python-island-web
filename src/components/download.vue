@@ -30,7 +30,7 @@ const getVersionData = async () => {
 const eisland = computed(() => versionList.value.find(item => item.appName === 'eisland'))
 const tauri = computed(() => versionList.value.find(item => item.appName === 'tauri'))
 const pyisland = computed(() => versionList.value.find(item => item.appName === 'pyisland'))
-const pycapsule = computed(() => versionList.value.find(item => item.appName === 'pycapsule'))
+const flashcapsule = computed(() => versionList.value.find(item => item.appName === 'flashcapsule'))
 const pyball = computed(() => versionList.value.find(item => item.appName === 'pyball'))
 const macisland = computed(() => versionList.value.find(item => item.appName === 'macisland'))
 
@@ -73,14 +73,14 @@ const downloads = computed(() => [
   },
   {
     name: 'pycapsule',
-    version: pycapsule.value?.version || '1.0',
+    version: flashcapsule.value?.version || '1.0',
     size: '2 MB',
     icon: '💊',
     tagColor: 'linear-gradient(135deg, #5ee7df, #b490ca)',
     desc: 'PyIsland 的衍生项目，主打高效记录+文件中转，极低占用+离线语音',
     features: ['衍生项目', '胶囊设计', '文件中转', '离线语音'],
     videoIframe: '',
-    downloadUrl: pycapsule.value?.downloadUrl
+    downloadUrl: flashcapsule.value?.downloadUrl
   },
   {
     name: 'pyball',
@@ -102,7 +102,7 @@ const downloads = computed(() => [
     desc: 'MacOS 专用版本，提供更优化的性能和用户体验。',
     features: ['MacOS专用', '全新赛道', '优秀动画', '持续开发'],
     videoIframe: '',
-    downloadUrl: macisland.value?.downloadUrl
+    downloadUrl: ''
   }
 ])
 
@@ -214,7 +214,7 @@ onMounted(getVersionData)
               </ul>
 
               <a
-                v-if="activeItem.downloadUrl !== undefined && activeItem.name !== 'pyisland_sideV'"
+                v-if="activeItem.downloadUrl !== undefined && activeItem.name !== 'pyisland_sideV' && activeItem.name !== 'macisland'"
                 class="modal-download-btn"
                 :href="activeItem?.downloadUrl"
                 target="_blank"
@@ -223,7 +223,7 @@ onMounted(getVersionData)
                 立即下载
               </a>          
               <a 
-                v-else
+                v-if="activeItem.name !== 'macisland'"
                 class="modal-download-btn"
                 :href="activeItem?.downloadUrl"
                 target="_blank"
@@ -232,9 +232,9 @@ onMounted(getVersionData)
                 前往Github下载
                 </a>
               <a 
-                v-if="activeItem.downloadUrl === undefined"
+                v-if="activeItem.downloadUrl === ''"
                 class="modal-download-btn"
-                :href="activeItem?.downloadUrl"ran
+                :href="activeItem?.downloadUrl"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -250,7 +250,7 @@ onMounted(getVersionData)
                 <iframe
                   v-if="activeItem?.name === 'pyisland_sideV'"
                   class="video-player"
-                  width="720" height="1280" frameborder="0" src="https://open.douyin.com/player/video?vid=7653817032713981220&amp;autoplay=0"
+                  width="720" height="1280" frameborder="0" src="https://open.douyin.com/player/video?vid=7656389132905696531&amp;autoplay=0"
                   referrerpolicy="unsafe-url"
                   allowfullscreen>
                 </iframe>
@@ -259,7 +259,7 @@ onMounted(getVersionData)
                 <iframe
                   v-else-if="activeItem?.name === 'eisland'"
                   class="video-player"
-                  width="720" height="1280" frameborder="0" src="https://open.douyin.com/player/video?vid=7649399438473022758&amp;autoplay=0"
+                  width="720" height="1280" frameborder="0" src="https://open.douyin.com/player/video?vid=7636304537766202643&amp;autoplay=0"
                   referrerpolicy="unsafe-url"
                   allowfullscreen>
                 </iframe>
