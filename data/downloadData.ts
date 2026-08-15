@@ -84,7 +84,7 @@ export const downloadBranches: DownloadBranch[] = [
   },
   {
     id: 'tauri-island',
-    name: 'tauri-island',
+    name: 'Cisland',
     tagline: '高性能',
     description: '基于 Tauri 2 + Rust 的全新实现',
     features: [
@@ -103,45 +103,45 @@ export const downloadBranches: DownloadBranch[] = [
     label: 'T2',
   },
   {
-    id: 'pyislandqt',
-    name: 'pyislandQT',
-    tagline: '轻量版',
-    description: '基于 Python + PyQt5 构建的轻量灵动岛',
-    features: [
-      '事件驱动架构，模块解耦',
-      '资源占用极低，内存 < 24MB',
-      '网络 / 蓝牙状态监控通知',
-      '支持守护进程后台运行',
-    ],
-    audience: '追求轻量化和低资源占用的用户',
-    downloadUrl: '',
-    downloadLabel: '即将推出',
-    badge: '轻量版',
-    accentColor: '#D97706',
-    accentBg: 'rgba(217, 119, 6, 0.08)',
-    accentBorder: 'rgba(217, 119, 6, 0.25)',
-    label: 'Q5',
+  id: 'pyisland_sideV',
+  name: 'pyisland_sideV',
+  tagline: '稳定版',
+  description: '基于 Vue3 + PySide6 构建的成熟稳定版本',
+  features: [
+    '基于Pyside6+Vue3打造',
+    '适合日常使用场景',
+    '易于自定义和二次开发',
+    '推荐学习使用',
+  ],
+  audience: '学习Pyside6，Vue3的用户',
+  downloadUrl: 'https://github.com/Python-island/Python-island/releases/tag/1.3B',
+  downloadLabel: '立即下载',
+  badge: '稳定版',
+  accentColor: '#FFFFFF',
+  accentBg: 'rgba(255, 255, 255, 0.08)',
+  accentBorder: 'rgba(255, 255, 255, 0.20)',
+  label: 'S6',
   },
-  {
-    id: 'pyislandpyside6',
-    name: 'pyislandPyside6',
-    tagline: '稳定版',
-    description: '基于 Python + PySide6 构建的成熟稳定版本',
-    features: [
-      '功能完整，经过充分测试验证',
-      '适合日常使用场景',
-      '易于自定义和二次开发',
-      '社区支持完善，文档齐全',
-    ],
-    audience: '追求稳定可靠的用户',
-    downloadUrl: '',
-    downloadLabel: '立即下载',
-    badge: '稳定版',
-    accentColor: '#FFFFFF',
-    accentBg: 'rgba(255, 255, 255, 0.08)',
-    accentBorder: 'rgba(255, 255, 255, 0.20)',
-    label: 'S6',
-  },
+{
+  id: 'Macisland',
+  name: 'Macisland',
+  tagline: 'MacOS特供',
+  description: '为MacOS用户设计的轻量灵动岛',
+  features: [
+    '停靠在屏幕顶部刘海区域',
+    '根据交互在多种形态间平滑切换',
+    '集成多种功能',
+    '支持守护进程后台运行',
+  ],
+  audience: 'MacOS用户',
+  downloadUrl: 'https://github.com/MacIsland/MacIsland/releases/download/v2.5.1/MacIsland_v2.5.1.dmg',
+  downloadLabel: '立即下载',
+  badge: 'MacOS特供',
+  accentColor: '#D97706',
+  accentBg: 'rgba(217, 119, 6, 0.08)',
+  accentBorder: 'rgba(217, 119, 6, 0.25)',
+  label: 'Q5',
+},
   {
     id: 'pyisland-wanku',
     name: 'pyisland-wanku',
@@ -155,7 +155,7 @@ export const downloadBranches: DownloadBranch[] = [
     ],
     audience: '追求高颜值和丰富功能的用户',
     downloadUrl: '',
-    downloadLabel: '即将推出',
+    downloadLabel: '暂停下载',
     badge: '美化版',
     accentColor: '#FACC15',
     accentBg: 'rgba(250, 204, 21, 0.08)',
@@ -175,7 +175,9 @@ const APP_NAME_ALIASES: Record<string, string[]> = {
   'tauri-island': ['tauri-island', 'tauri'],
   pyislandqt: ['pyislandqt'],
   pyislandpyside6: ['pyislandpyside6', 'pyisland'],
+  pyisland_sideV: ['pyisland_sideV', 'pyislandsidev', 'pyisland_sidev'],
   'pyisland-wanku': ['pyisland-wanku'],
+  Macisland: ['Macisland'],
 };
 
 let cachedDynamicBranches: DownloadBranch[] | null = null;
@@ -247,6 +249,7 @@ async function fetchVersionList(): Promise<VersionItem[]> {
  * 合并静态分支与动态下载地址
  * @param versionList 版本接口返回列表
  * @returns 合并后的下载分支
+ * @description 优先级：API 动态链接 > 静态手动填写的链接；两者都没有时才显示"暂停下载"
  */
 function mergeDownloadBranches(versionList: VersionItem[]): DownloadBranch[] {
   const versionMap = new Map(versionList.map(item => [item.appName.trim().toLowerCase(), item.downloadUrl ?? '']));
@@ -258,11 +261,17 @@ function mergeDownloadBranches(versionList: VersionItem[]): DownloadBranch[] {
       .find(url => url.trim().length > 0);
 
     const hasDynamicUrl = Boolean(matchedUrl);
+    const hasStaticUrl = branch.downloadUrl.trim().length > 0;
+
+    // 优先使用 API 动态链接，其次使用静态手动填写的链接
+    const finalUrl = hasDynamicUrl ? matchedUrl! : (hasStaticUrl ? branch.downloadUrl : '');
+    // 只要有任一链接（动态或静态），就显示"立即下载"
+    const finalLabel = hasDynamicUrl || hasStaticUrl ? '立即下载' : branch.downloadLabel;
 
     return {
       ...branch,
-      downloadUrl: hasDynamicUrl ? matchedUrl! : '',
-      downloadLabel: hasDynamicUrl ? '立即下载' : '即将推出',
+      downloadUrl: finalUrl,
+      downloadLabel: finalLabel,
     };
   });
 }

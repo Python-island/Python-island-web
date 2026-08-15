@@ -7,6 +7,8 @@
 
 'use client';
 
+
+
 import { useState, useEffect, useCallback, useRef, useLayoutEffect } from 'react';
 import { Github } from 'lucide-react';
 import { developData } from '../data/developData';
@@ -404,7 +406,7 @@ export default function DynamicIsland() {
               }}
               aria-label="Pyisland 首页"
             >
-              <img src="/island_w.svg" alt="" style={{ width: '20px', height: '20px', flexShrink: 0 }} />
+              <img src="/eisland.svg" alt="" style={{ width: '20px', height: '20px', flexShrink: 0 }} />
               <span
                 style={{
                   fontSize: '14px',

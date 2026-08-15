@@ -235,7 +235,7 @@ export default function DevelopContent({
         }}
       >
         {/* 应用图标 */}
-        <img src="/island_w.svg" alt="" style={{ width: '14px', height: '14px', flexShrink: 0, opacity: 0.95 }} />
+        <img src="/eisland.svg" alt="" style={{ width: '14px', height: '14px', flexShrink: 0, opacity: 0.95 }} />
         {/* 应用名称 */}
         <span style={{ fontSize: '12px', fontWeight: '600', color: 'white', letterSpacing: '0.01em' }}>
           Terminal
