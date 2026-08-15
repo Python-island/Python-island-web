@@ -248,7 +248,7 @@ export default function ContributorContent({ progress, activeView, phase, curren
           borderBottom: '1px solid rgba(255,255,255,0.06)',
         }}
       >
-        <img src="/island_w.svg" alt="" style={{ width: '14px', height: '14px', flexShrink: 0, opacity: 0.95 }} />
+        <img src="/eisland.svg" alt="" style={{ width: '14px', height: '14px', flexShrink: 0, opacity: 0.95 }} />
         <span style={{ fontSize: '12px', fontWeight: '600', color: 'white', letterSpacing: '0.01em' }}>
           Finder
         </span>

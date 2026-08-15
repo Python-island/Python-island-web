@@ -104,7 +104,7 @@ export default function HeroContent({ threeRef, progress, activeView, phase }: H
             opacity: isHero ? undefined : 0,
           }}
         >
-          Eisland与tauri分支现已全面接入AI
+          Eisland现已全面接入AI
         </p>
 
         {/* 操作按钮 */}
@@ -131,13 +131,13 @@ export default function HeroContent({ threeRef, progress, activeView, phase }: H
           </a>
           {/* 文档按钮 */}
           <a
-            href="https://docs.pyisland.com"
+            href="https://dev.electronisland.com"
             className={stylesButton.btnPrimary}
             onMouseEnter={() => threeRef.current?.setHover(true)}
             onMouseLeave={() => threeRef.current?.setHover(false)}
           >
             <Github size={16} />
-            开发文档
+            Eisland开发文档
           </a>
         </div>
       </div>

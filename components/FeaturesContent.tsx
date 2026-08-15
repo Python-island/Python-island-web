@@ -14,7 +14,7 @@ import {
   Brain,
   Activity,
   Clipboard,
-  Sprout,
+  AudioLines,
 } from 'lucide-react';
 import stylesGlass from '@/styles/glass.module.css';
 import type { ViewState } from '@/data/viewState';
@@ -53,9 +53,9 @@ const features = [
     accent: '#1D1D1F',
   },
   {
-    icon: Sprout,
-    title: '优秀性能',
-    description: '开发以性能表现与稳定性为目标 — 确保在各种场景下都能提供流畅的体验。',
+    icon: AudioLines,
+    title: '语音助手',
+    description: 'Eisland提供了强大了AI语音助手服务，更强大的语音识别功能，提升效率和便利性。',
     accent: '#1D1D1F',
   },
 ];
