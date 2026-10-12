@@ -70,7 +70,7 @@ export default function RootLayout({
     <html lang="zh">
       <head>
         {/* 网站图标 */}
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/eisland.svg" type="image/svg+xml" />
         {/* Google Fonts 预连接 */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
